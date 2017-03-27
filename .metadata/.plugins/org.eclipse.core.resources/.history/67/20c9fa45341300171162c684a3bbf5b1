@@ -1,0 +1,5 @@
+package model;
+
+public class SettingsMgr {
+	private static String settingFileName = "settings.ini";
+}

@@ -1,0 +1,19 @@
+package model;
+
+import java.io.File;
+
+public class SettingsMgr {
+	private static String settingsFileName = "settings.ini";
+
+	public SettingsMgr() {
+		File file = null;
+		try {
+			file = new File(settingsFileName);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
