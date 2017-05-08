@@ -18,10 +18,17 @@
 		</list>
 	</section>
 	<section name="GitCommitMessageComponent">
+		<list key="C:\Users\Kévin\Documents\GitHub\farm-manager\.git">
+			<item value="false"/>
+			<item value="Xanderux &lt;kmignot@hotmail.fr&gt;"/>
+			<item value="# WARNING: head commit changed in the meantime&#x0D;&#x0A;&#x0D;&#x0A;interfaces"/>
+			<item value="Xanderux &lt;kmignot@hotmail.fr&gt;"/>
+			<item value="80c3dde6fbe9c2edf3480223f458733bf92c877f"/>
+		</list>
 	</section>
 	<section name="org.eclipse.egit.ui.internal.staging.StagingView">
-		<item value="200,200" key="STAGING_SASH_FORM_WEIGHT"/>
+		<item value="500,500" key="STAGING_SASH_FORM_WEIGHT"/>
 		<item value="false" key="sortItemState"/>
-		<item value="200,200" key="HORIZONTAL_SASH_FORM_WEIGHT"/>
+		<item value="500,500" key="HORIZONTAL_SASH_FORM_WEIGHT"/>
 	</section>
 </section>
