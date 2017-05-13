@@ -63,11 +63,11 @@
    <top>
       <ButtonBar buttonOrder="L_E+U+FBXI_YNOCAH_R" prefHeight="40.0" prefWidth="737.0" BorderPane.alignment="CENTER">
         <buttons>
+          <Button fx:id="btnacc" alignment="CENTER" mnemonicParsing="false" text="Accueil" />
             <Button fx:id="champs" mnemonicParsing="false" text="Champs" />
             <Button fx:id="btnclients" mnemonicParsing="false" text="Clients" />
             <Button fx:id="btnpmach" mnemonicParsing="false" text="Machines" />
             <Button fx:id="btnpla" mnemonicParsing="false" text="Planning" />
-          <Button fx:id="btnacc" alignment="CENTER" mnemonicParsing="false" text="Accueil" />
         </buttons>
          <BorderPane.margin>
             <Insets right="20.0" />
