@@ -4,9 +4,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="576.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="576.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ClientsController">
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="clientsTable" editable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columns>
             <TableColumn prefWidth="75.0" text="Nom" />
             <TableColumn prefWidth="75.0" text="Prénom" />

@@ -1,13 +1,16 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import model.DbMgr;
 
 public class MenuController {
-	
+	//BorderPane
 	private BorderPane listeChamps;
 	private BorderPane listeClients;
 	private BorderPane listeMachines;
@@ -17,8 +20,12 @@ public class MenuController {
 	@FXML
 	private BorderPane rootPane;
 	
+	//Controllers
+	private ClientsController clients;
+	
+	private DbMgr db;
+	
 	public MenuController() {
-		
 	}
 	
 	public void initialize() throws IOException{
@@ -39,8 +46,12 @@ public class MenuController {
 		rootPane.setCenter(listeChamps);
 	}
 	@FXML
-	public void listeClientsOnAction(){
+	public void listeClientsOnAction() throws SQLException{ 
 		rootPane.setCenter(listeClients);
+		clients = new ClientsController();
+		
+		java.sql.ResultSet rs = db.getClientsList();
+		clients.initClients(rs);
 	}
 	@FXML
 	public void listeMachinesOnAction(){
@@ -53,5 +64,13 @@ public class MenuController {
 	@FXML
 	public void selecMachinesOnAction(){
 		rootPane.setCenter(SelecMachines);
+	}
+
+	public DbMgr getDb() {
+		return db;
+	}
+
+	public void setDb(DbMgr db) {
+		this.db = db;
 	}
 }
