@@ -35,11 +35,11 @@ public class MenuController {
 		rootPane.setCenter(accueil);
 	}
 	@FXML
-	public void listChampsOnAction(){
+	public void listeChampsOnAction(){
 		rootPane.setCenter(listeChamps);
 	}
 	@FXML
-	public void listClientsOnAction(){
+	public void listeClientsOnAction(){
 		rootPane.setCenter(listeClients);
 	}
 	@FXML
