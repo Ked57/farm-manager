@@ -13,12 +13,14 @@ public class Client {
 	public Client(String nom, String prenom, String numero,String adresse){
 		
 		this.nom = new SimpleStringProperty(nom);
+		System.out.println("nom:"+this.nom.get());
 		
 		this.prenom = new SimpleStringProperty(prenom);
 		
 		this.numero = new SimpleStringProperty(numero);
 		
 		this.adresse = new SimpleStringProperty(adresse);
+		
 	}
 
 	public String getNom() {

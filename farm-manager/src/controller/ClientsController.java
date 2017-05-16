@@ -25,19 +25,14 @@ public class ClientsController {
 	
 	public ClientsController() {
 		 
-		
 	}
 	
 	public void initialize() {
+		
 	}
 	
 	public void initClients(ObservableList<Client> clientList) throws SQLException {
-		
 		this.clientList = clientList;
-		System.out.println(""+this.clientList.get(0).getAdresse());
-
 		clientsTable.setItems(this.clientList);
-
-		clientsTable.refresh();
 	}
 }
