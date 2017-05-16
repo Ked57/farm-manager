@@ -3,10 +3,13 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import model.Client;
 import model.DbMgr;
 
 public class MenuController {
@@ -32,10 +35,17 @@ public class MenuController {
 		
 		listeChamps = FXMLLoader.load(getClass().getResource("/view/ListeChamps.fxml"));
 		accueil = FXMLLoader.load(getClass().getResource("/view/Accueil.fxml"));
-		listeClients = FXMLLoader.load(getClass().getResource("/view/ListeClients.fxml"));
+		//On charge le rootLayout et on récupère le controller
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ListeClients.fxml"));	
+    	listeClients = loader.load();
+    	clients = loader.getController();
+		
+		
 		listeMachines = FXMLLoader.load(getClass().getResource("/view/ListeMachines.fxml"));
 		planning = FXMLLoader.load(getClass().getResource("/view/Planning.fxml"));
 		SelecMachines = FXMLLoader.load(getClass().getResource("/view/SelecMachines.fxml"));
+		
+		
 	}
 	@FXML
 	public void accueilOnAction(){
@@ -48,10 +58,13 @@ public class MenuController {
 	@FXML
 	public void listeClientsOnAction() throws SQLException{ 
 		rootPane.setCenter(listeClients);
-		clients = new ClientsController();
 		
 		java.sql.ResultSet rs = db.getClientsList();
-		clients.initClients(rs);
+		ObservableList<Client> clientList = FXCollections.observableArrayList();
+		while(rs.next()){
+			clientList.add(new Client(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)));
+		}
+		clients.initClients(clientList);
 	}
 	@FXML
 	public void listeMachinesOnAction(){
