@@ -14,30 +14,45 @@ public class PlanningController {
 	@FXML
 	ChoiceBox<String> clients;
 	@FXML
-	ChoiceBox<Champs> champs;
+	ChoiceBox<String> champs;
 	@FXML
 	ChoiceBox<String> CH;
 
 	public void initialize() {
-		//remplissage de la choicebox bottelage
+		// remplissage de la choicebox bottelage
 		ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
 		bottelage.setValue("Ronde");
 		bottelage.setItems(listBott);
-		
+
 		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
 		CH.setValue("Matin");
 		CH.setItems(listCr);
 	}
-	
-	
+
 	// remplissage de la choiceBox de clients
-	public void setClients(ObservableList<Client> clientList){
+	public void setClients(ObservableList<Client> clientList) {
 		ObservableList<String> clientStrings = FXCollections.observableArrayList();
-		for(int i = 0; i < clientList.size(); ++i){
-			clientStrings.add(clientList.get(i).getNom()+" "+clientList.get(i).getPrenom());
+		for (int i = 0; i < clientList.size(); ++i) {
+			clientStrings.add(clientList.get(i).getNom() + " " + clientList.get(i).getPrenom());
 		}
 		clients.setItems(clientStrings);
-		clients.setValue(clientList.get(0).getNom()+" "+clientList.get(0).getPrenom());
-	}	
+		clients.setValue(clientList.get(0).getNom() + " " + clientList.get(0).getPrenom());
+	}
+
+	public void setChamps(ObservableList<Champs> champsList) {
+		if (champsList.size() > 0) {
+			ObservableList<String> adresseStrings = FXCollections.observableArrayList();
+			for (int i = 0; i < champsList.size(); ++i) {
+				adresseStrings.add(champsList.get(i).getAdresse());
+			}
+			champs.setItems(adresseStrings);
+			champs.setValue(champsList.get(0).getAdresse());
+		} else {
+			ObservableList<String> adresseStrings = FXCollections.observableArrayList();
+			adresseStrings.add("Aucun champs");
+			champs.setItems(adresseStrings);
+			champs.setValue("Aucun champs");
+		}
+	}
 
 }
