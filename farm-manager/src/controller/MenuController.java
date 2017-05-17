@@ -63,7 +63,7 @@ public class MenuController {
     	selecMachines = loader.load();
     	selecMachinesController = loader.getController();
 		
-		
+		rootPane.setCenter(accueil);
 	}
 	@FXML
 	public void accueilOnAction(){
@@ -85,6 +85,8 @@ public class MenuController {
 	@FXML
 	public void listeMachinesOnAction(){
 		rootPane.setCenter(listeMachines);
+		
+		
 	}
 	@FXML
 	public void planningOnAction(){

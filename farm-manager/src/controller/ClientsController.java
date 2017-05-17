@@ -45,6 +45,7 @@ public class ClientsController {
 	public void initClients(ObservableList<Client> clientList){
 		this.clientList = clientList;
 		clientsTable.setItems(this.clientList);
+		clientsTable.getColumns().clear();
 		clientsTable.getColumns().addAll(nomCol,prenomCol,numeroCol,adresseCol);
 	}
 }

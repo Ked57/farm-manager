@@ -48,6 +48,7 @@ public class ChampsController {
 		typeCultCol.setPrefWidth(300);
 		typeCultCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("typeCulture"));
 		
+		champsTable.getColumns().clear();
 		champsTable.getColumns().addAll(proprietaireCol,adresseCol,surfaceCol,typeCultCol);
 	}
 }

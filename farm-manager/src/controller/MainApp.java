@@ -32,9 +32,7 @@ public class MainApp extends Application {
     	rootLayout = loader.load();
     	MenuController menu = loader.getController();
 		menu.setDb(db);
-  
-    	centerLayout = FXMLLoader.load(getClass().getResource("/view/Accueil.fxml"));
-		rootLayout.setCenter(centerLayout);
+ 
     	Scene scene = new Scene(rootLayout,800,600);
     	
         primaryStage = Stage;

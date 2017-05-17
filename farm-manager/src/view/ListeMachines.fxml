@@ -31,7 +31,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TableView prefHeight="301.0" prefWidth="565.0">
+                              <TableView fx:id="moissoneusesTable" prefHeight="301.0" prefWidth="565.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Marque" />
                                     <TableColumn prefWidth="75.0" text="Modèle" />
@@ -64,7 +64,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TableView prefHeight="301.0" prefWidth="565.0">
+                              <TableView fx:id="tracteursTable" prefHeight="301.0" prefWidth="565.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Marque" />
                                   <TableColumn prefWidth="75.0" text="Modèle" />
@@ -89,7 +89,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TableView prefHeight="301.0" prefWidth="565.0">
+                              <TableView fx:id="botteleusesTable" prefHeight="301.0" prefWidth="565.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Marque" />
                                   <TableColumn prefWidth="75.0" text="Modèle" />
