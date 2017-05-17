@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import model.Champs;
 import model.Client;
-import model.DbMgr;
 
 public class PlanningController {
 

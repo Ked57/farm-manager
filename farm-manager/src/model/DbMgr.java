@@ -66,6 +66,20 @@ public class DbMgr {
 		}
 		return champsList;
 	}
+	
+	public ObservableList<Moissonneuse> getMoissonneuseList() throws SQLException {
+		if(Connected){
+			String request = "SELECT Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
+					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq;";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
+		while(rs.next()){
+			moissonneuseList.add(new Moissonneuse(rs.getString(0),rs.getString(1),rs.getFloat(2),rs.getFloat(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),
+					rs.getFloat(8),rs.getFloat(9),rs.getInt(10)));
+		}
+		return moissonneuseList;
+	}
 
 	public boolean isConnected() {
 		return Connected;

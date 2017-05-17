@@ -32,20 +32,6 @@
                           </rowConstraints>
                            <children>
                               <TableView fx:id="moissoneusesTable" prefHeight="301.0" prefWidth="565.0">
-                                <columns>
-                                  <TableColumn prefWidth="75.0" text="Marque" />
-                                    <TableColumn prefWidth="75.0" text="Modèle" />
-                                    <TableColumn prefWidth="75.0" text="largeur coupe" />
-                                    <TableColumn prefWidth="75.0" text="conso heure sur route" />
-                                    <TableColumn prefWidth="75.0" text="conso/heure en fonctionnement" />
-                                    <TableColumn prefWidth="75.0" text="taille réservoir" />
-                                    <TableColumn prefWidth="75.0" text="taille trémis" />
-                                    <TableColumn prefWidth="75.0" text="largeur route" />
-                                    <TableColumn prefWidth="75.0" text="hauteur" />
-                                    <TableColumn prefWidth="75.0" text="poids" />
-                                    <TableColumn prefWidth="75.0" text="Etat" />
-                                    <TableColumn prefWidth="75.0" text="vitesse moisson" />
-                                </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>

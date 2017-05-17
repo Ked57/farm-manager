@@ -1,6 +1,6 @@
 package model;
 
-public class Moissoneuse extends Machine{
+public class Moissonneuse extends Machine{
 	private float largCoupe;
 	private float consoRoute;
 	private float consoFonct;
@@ -11,8 +11,8 @@ public class Moissoneuse extends Machine{
 	private float poids;
 	private boolean etat;
 	
-	public Moissoneuse(String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
-			float hauteur, float poids, boolean etat) {
+	public Moissonneuse(String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
+			float hauteur, float poids, int etat) {
 		super(marque,modele);
 		this.largCoupe = largCoupe;
 		this.consoRoute = consoRoute;
@@ -22,7 +22,9 @@ public class Moissoneuse extends Machine{
 		this.largRoute = largRoute;
 		this.hauteur = hauteur;
 		this.poids = poids;
-		this.etat = etat;
+		if(etat <= 0)
+			this.etat = false;
+		else this.etat = true;
 	}
 	public float getLargCoupe() {
 		return largCoupe;

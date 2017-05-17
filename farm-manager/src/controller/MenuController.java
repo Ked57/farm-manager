@@ -84,8 +84,9 @@ public class MenuController {
 		clientsController.initClients(db.getClientsList());
 	}
 	@FXML
-	public void listeMachinesOnAction(){
+	public void listeMachinesOnAction() throws SQLException{
 		rootPane.setCenter(listeMachines);
+		machinesController.setMoissonneuse(db.getMoissonneuseList());
 		
 		
 	}
