@@ -90,8 +90,9 @@ public class MenuController {
 		
 	}
 	@FXML
-	public void planningOnAction(){
+	public void planningOnAction() throws SQLException{
 		rootPane.setCenter(planning);
+		planningController.setClients(db.getClientsList());
 	}
 	@FXML
 	public void selecMachinesOnAction(){

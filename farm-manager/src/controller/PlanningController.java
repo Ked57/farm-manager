@@ -4,19 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import model.Champs;
 import model.Client;
 import model.DbMgr;
 
 public class PlanningController {
 
 	@FXML
-	ChoiceBox bottelage;
+	ChoiceBox<String> bottelage;
 	@FXML
-	ChoiceBox clients;
+	ChoiceBox<String> clients;
 	@FXML
-	ChoiceBox champs;
+	ChoiceBox<Champs> champs;
 	@FXML
-	ChoiceBox CH;
+	ChoiceBox<String> CH;
 
 	public void initialize() {
 		//remplissage de la choicebox bottelage
@@ -27,17 +28,17 @@ public class PlanningController {
 		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
 		CH.setValue("Midi");
 		CH.setItems(listCr);
-
-		// remplissage de la choiceBox de clients
-		
-//		ObservableList<String> listCli = FXCollections.observableArrayList();
-//		for (Client cli : ClientsController.clientList) {
-//			listCli.add(cli.getNom());
-//
-//		}
-//		clients.setItems(listCli);
-		
-		
 	}
+	
+	
+	// remplissage de la choiceBox de clients
+	public void setClients(ObservableList<Client> clientList){
+		ObservableList<String> clientStrings = FXCollections.observableArrayList();
+		for(int i = 0; i < clientList.size(); ++i){
+			clientStrings.add(clientList.get(i).getNom()+" "+clientList.get(i).getPrenom());
+		}
+		clients.setItems(clientStrings);
+		clients.setValue(clientList.get(0).getNom()+" "+clientList.get(0).getPrenom());
+	}	
 
 }
