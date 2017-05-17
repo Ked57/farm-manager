@@ -4,22 +4,35 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <BorderPane prefHeight="576.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MachinesController">
    <center>
-      <AnchorPane>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <TabPane layoutX="14.0" layoutY="61.0" prefHeight="329.0" prefWidth="561.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <TabPane prefHeight="329.0" prefWidth="561.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Moissonneuses">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <content>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <TableView layoutX="3.0" layoutY="14.0" prefHeight="301.0" prefWidth="565.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView prefHeight="301.0" prefWidth="565.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Identifiant" />
                                   <TableColumn prefWidth="75.0" text="Marque" />
                                     <TableColumn prefWidth="75.0" text="Modèle" />
                                     <TableColumn prefWidth="75.0" text="largeur coupe" />
@@ -38,14 +51,20 @@
                                  </columnResizePolicy>
                               </TableView>
                            </children>
-                        </AnchorPane>
-                  </content>
+                        </GridPane>
+                     </content>
                 </Tab>
                 <Tab text="Tracteurs">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <content>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <TableView layoutX="41.0" layoutY="14.0" prefHeight="301.0" prefWidth="565.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView prefHeight="301.0" prefWidth="565.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Marque" />
                                   <TableColumn prefWidth="75.0" text="Modèle" />
@@ -57,14 +76,20 @@
                                  </columnResizePolicy>
                               </TableView>
                            </children>
-                        </AnchorPane>
-                  </content>
+                        </GridPane>
+                     </content>
                 </Tab>
                   <Tab text="Botteleuses">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <TableView layoutX="63.0" layoutY="33.0" prefHeight="301.0" prefWidth="565.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView prefHeight="301.0" prefWidth="565.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Marque" />
                                   <TableColumn prefWidth="75.0" text="Modèle" />
@@ -76,12 +101,12 @@
                                  </columnResizePolicy>
                               </TableView>
                            </children>
-                        </AnchorPane>
+                        </GridPane>
                      </content>
                   </Tab>
               </tabs>
             </TabPane>
          </children>
-      </AnchorPane>
+      </GridPane>
    </center>
 </BorderPane>
