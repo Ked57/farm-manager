@@ -18,13 +18,18 @@ public class MenuController {
 	private BorderPane listeClients;
 	private BorderPane listeMachines;
 	private BorderPane planning;
-	private BorderPane SelecMachines;
+	private BorderPane selecMachines;
 	private BorderPane accueil;
 	@FXML
 	private BorderPane rootPane;
 	
 	//Controllers
-	private ClientsController clients;
+	private ClientsController clientsController;
+	private ChampsController champsController;
+	private AccueilController accueilController;
+	private MachinesController machinesController;
+	private PlanningController planningController;
+	private SelecMachinesController selecMachinesController;
 	
 	private DbMgr db;
 	
@@ -32,18 +37,31 @@ public class MenuController {
 	}
 	
 	public void initialize() throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ListeChamps.fxml"));
+		listeChamps = loader.load();
+		champsController = loader.getController();
 		
-		listeChamps = FXMLLoader.load(getClass().getResource("/view/ListeChamps.fxml"));
-		accueil = FXMLLoader.load(getClass().getResource("/view/Accueil.fxml"));
-		//On charge le rootLayout et on récupère le controller
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ListeClients.fxml"));	
+		loader = new FXMLLoader(getClass().getResource("/view/Accueil.fxml"));
+		accueil = loader.load();
+		accueilController = loader.getController();
+		
+    	loader = new FXMLLoader(getClass().getResource("/view/ListeClients.fxml"));	
     	listeClients = loader.load();
-    	clients = loader.getController();
+    	clientsController = loader.getController();
 		
 		
-		listeMachines = FXMLLoader.load(getClass().getResource("/view/ListeMachines.fxml"));
-		planning = FXMLLoader.load(getClass().getResource("/view/Planning.fxml"));
-		SelecMachines = FXMLLoader.load(getClass().getResource("/view/SelecMachines.fxml"));
+    	loader = new FXMLLoader(getClass().getResource("/view/ListeMachines.fxml"));
+    	listeMachines = loader.load();
+    	machinesController = loader.getController();
+    	
+    	loader = new FXMLLoader(getClass().getResource("/view/Planning.fxml"));
+    	planning = loader.load();
+    	planningController = loader.getController();
+    	
+    	
+    	loader = new FXMLLoader(getClass().getResource("/view/SelecMachines.fxml"));
+    	selecMachines = loader.load();
+    	selecMachinesController = loader.getController();
 		
 		
 	}
@@ -52,19 +70,17 @@ public class MenuController {
 		rootPane.setCenter(accueil);
 	}
 	@FXML
-	public void listeChampsOnAction(){
+	public void listeChampsOnAction() throws SQLException{
 		rootPane.setCenter(listeChamps);
+		
+		champsController.initChamps(db.getChampsList());
 	}
 	@FXML
 	public void listeClientsOnAction() throws SQLException{ 
 		rootPane.setCenter(listeClients);
 		
-		java.sql.ResultSet rs = db.getClientsList();
-		ObservableList<Client> clientList = FXCollections.observableArrayList();
-		while(rs.next()){
-			clientList.add(new Client(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)));
-		}
-		clients.initClients(clientList);
+		
+		clientsController.initClients(db.getClientsList());
 	}
 	@FXML
 	public void listeMachinesOnAction(){
@@ -76,7 +92,7 @@ public class MenuController {
 	}
 	@FXML
 	public void selecMachinesOnAction(){
-		rootPane.setCenter(SelecMachines);
+		rootPane.setCenter(selecMachines);
 	}
 
 	public DbMgr getDb() {

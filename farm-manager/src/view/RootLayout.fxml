@@ -10,7 +10,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#accueilOnAction" prefHeight="25.0" prefWidth="94.0" text="Accueil" />
             <Button mnemonicParsing="false" onAction="#planningOnAction" prefHeight="25.0" prefWidth="98.0" text="Planning" />
-            <Button mnemonicParsing="false" onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="92.0" text="Machines" />
+            <Button mnemonicParsing="false" onAction="#listeMachinesOnAction" prefHeight="25.0" prefWidth="92.0" text="Machines" />
             <Button mnemonicParsing="false" onAction="#listeClientsOnAction" prefHeight="25.0" prefWidth="94.0" text="Clients" />
             <Button mnemonicParsing="false" onAction="#listeChampsOnAction" prefHeight="25.0" prefWidth="99.0" text="Champs" />
          </children>
