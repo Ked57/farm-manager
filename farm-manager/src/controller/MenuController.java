@@ -63,12 +63,13 @@ public class MenuController {
     	selecMachines = loader.load();
     	selecMachinesController = loader.getController();
 		
+    	
 		rootPane.setCenter(accueil);
 	}
 	@FXML
-	public void accueilOnAction(){
+	public void accueilOnAction() throws SQLException{
 		rootPane.setCenter(accueil);
-		accueilController.initMap();
+		accueilController.initAccueil(db.getClientsList());
 	}
 	@FXML
 	public void listeChampsOnAction() throws SQLException{

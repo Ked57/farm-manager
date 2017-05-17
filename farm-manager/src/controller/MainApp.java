@@ -32,6 +32,7 @@ public class MainApp extends Application {
     	rootLayout = loader.load();
     	MenuController menu = loader.getController();
 		menu.setDb(db);
+		menu.accueilOnAction();
  
     	Scene scene = new Scene(rootLayout,800,600);
     	
