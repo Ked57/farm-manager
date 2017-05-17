@@ -1,60 +1,55 @@
 package model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class Client {
 	
-	private StringProperty nom;
-	private StringProperty prenom;
-	private StringProperty numero;
-	private StringProperty adresse;
+	private String nom;
+	private String prenom;
+	private String numero;
+	private String adresse;
 	
 	public Client(String nom, String prenom, String numero,String adresse){
 		
-		this.nom = new SimpleStringProperty(nom);
-		System.out.println("nom:"+this.nom.get());
+		this.nom = nom;
 		
-		this.prenom = new SimpleStringProperty(prenom);
+		this.prenom = prenom;
 		
-		this.numero = new SimpleStringProperty(numero);
+		this.numero = numero;
 		
-		this.adresse = new SimpleStringProperty(adresse);
+		this.adresse = adresse;
 		
 	}
 
 	public String getNom() {
-		return nom.get();
+		return nom;
 	}
 
 	public void setNom(String nom) {
-		this.nom.set(nom);
+		this.nom = nom;
 	}
 
 	public String getPrenom() {
-		return prenom.get();
+		return prenom;
 	}
 
 	public void setPrenom(String prenom) {
-		this.prenom.set(prenom);
+		this.prenom = prenom;
 	}
 
-	
 	public String getNumero() {
-		return numero.get();
+		return numero;
 	}
 
 	public void setNumero(String numero) {
-		this.numero.set(numero);
+		this.numero = numero;
 	}
-	
+
 	public String getAdresse() {
-		return adresse.get();
+		return adresse;
 	}
 
 	public void setAdresse(String adresse) {
-		this.adresse.set(adresse);
+		this.adresse = adresse;
 	}
-	
 	
 }
