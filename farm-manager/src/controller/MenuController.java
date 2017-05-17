@@ -68,6 +68,7 @@ public class MenuController {
 	@FXML
 	public void accueilOnAction(){
 		rootPane.setCenter(accueil);
+		accueilController.initMap();
 	}
 	@FXML
 	public void listeChampsOnAction() throws SQLException{

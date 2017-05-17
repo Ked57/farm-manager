@@ -8,14 +8,13 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <BorderPane prefHeight="576.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AccueilController">
    <center>
       <SplitPane dividerPositions="0.5" BorderPane.alignment="CENTER">
          <items>
-            <Pane />
+            <BorderPane fx:id="mapPane" prefHeight="200.0" prefWidth="200.0" />
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="340.0" prefWidth="361.0">
                <children>
                   <Button layoutX="72.0" layoutY="52.0" mnemonicParsing="false" text="Récoltes Journalières" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0" />
