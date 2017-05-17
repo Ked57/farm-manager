@@ -31,6 +31,10 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
 	private GoogleMap map;
 	private DirectionsPane directions;
 	
+	public void initialize() {
+		initMap();
+	}
+	
 	public void initMap(){
 		mapComponent = new GoogleMapView();
         mapComponent.addMapInializedListener(this);
