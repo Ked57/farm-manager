@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashSet;
 
 public class Client {
 	
@@ -7,6 +8,8 @@ public class Client {
 	private String prenom;
 	private String numero;
 	private String adresse;
+	//liste qui devait me permettre de remplir mes choiceBox
+	public static HashSet<Client> listeClients = new HashSet<Client>();
 	
 	public Client(String nom, String prenom, String numero,String adresse){
 		
@@ -17,6 +20,7 @@ public class Client {
 		this.numero = numero;
 		
 		this.adresse = adresse;
+		listeClients.add(this);
 		
 	}
 

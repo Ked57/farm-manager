@@ -23,9 +23,9 @@
                         <Button layoutX="175.0" layoutY="365.0" mnemonicParsing="false" text="Sélection machines" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
                         <Button layoutX="175.0" layoutY="407.0" mnemonicParsing="false" text="Valider" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
                         <DatePicker layoutX="170.0" layoutY="302.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-                        <ChoiceBox layoutX="50.0" layoutY="109.0" prefWidth="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-                        <ChoiceBox layoutX="50.0" layoutY="163.0" prefWidth="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
-                        <ChoiceBox layoutX="50.0" layoutY="214.0" prefWidth="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+                        <ChoiceBox fx:id="clients" layoutX="50.0" layoutY="109.0" prefWidth="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+                        <ChoiceBox fx:id="champs" layoutX="50.0" layoutY="163.0" prefWidth="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+                        <ChoiceBox fx:id="bottelage" layoutX="50.0" layoutY="214.0" prefWidth="150.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
                      </children>
                   </AnchorPane>
                </center>
