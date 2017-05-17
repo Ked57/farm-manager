@@ -15,12 +15,18 @@ public class PlanningController {
 	ChoiceBox clients;
 	@FXML
 	ChoiceBox champs;
+	@FXML
+	ChoiceBox CH;
 
 	public void initialize() {
 		//remplissage de la choicebox bottelage
-		ObservableList<String> listBott = FXCollections.observableArrayList("ronde", "carré");
-		bottelage.setValue("ronde");
+		ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
+		bottelage.setValue("Ronde");
 		bottelage.setItems(listBott);
+		
+		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
+		CH.setValue("Midi");
+		CH.setItems(listCr);
 
 		// remplissage de la choiceBox de clients
 		
