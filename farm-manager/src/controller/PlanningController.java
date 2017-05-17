@@ -26,7 +26,7 @@ public class PlanningController {
 		bottelage.setItems(listBott);
 		
 		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
-		CH.setValue("Midi");
+		CH.setValue("Matin");
 		CH.setItems(listCr);
 	}
 	
