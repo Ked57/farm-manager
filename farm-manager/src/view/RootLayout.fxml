@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -8,11 +8,11 @@
    <top>
       <HBox prefHeight="28.0" prefWidth="858.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#accueilOnAction" prefHeight="25.0" prefWidth="94.0" text="Accueil" />
-            <Button mnemonicParsing="false" onAction="#planningOnAction" prefHeight="25.0" prefWidth="98.0" text="Planning" />
-            <Button mnemonicParsing="false" onAction="#listeMachinesOnAction" prefHeight="25.0" prefWidth="92.0" text="Machines" />
-            <Button mnemonicParsing="false" onAction="#listeClientsOnAction" prefHeight="25.0" prefWidth="94.0" text="Clients" />
-            <Button mnemonicParsing="false" onAction="#listeChampsOnAction" prefHeight="25.0" prefWidth="99.0" text="Champs" />
+            <JFXButton onAction="#accueilOnAction" text="Accueil" />
+            <JFXButton onAction="#planningOnAction" text="Planning" />
+            <JFXButton onAction="#listeMachinesOnAction" text="Machines" />
+            <JFXButton onAction="#listeClientsOnAction" text="Clients" />
+            <JFXButton onAction="#listeChampsOnAction" text="Champs" />
          </children>
       </HBox>
    </top>
