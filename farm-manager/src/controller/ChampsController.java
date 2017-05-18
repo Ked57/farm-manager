@@ -12,10 +12,13 @@ public class ChampsController {
 	
 	@FXML
 	private TableView<Champs> champsTable;
-	
+	@FXML
 	private TableColumn<Champs,String> proprietaireCol;	
+	@FXML
 	private TableColumn<Champs,String> adresseCol;
+	@FXML
 	private TableColumn<Champs,Integer> surfaceCol;
+	@FXML
 	private TableColumn<Champs,String> typeCultCol;
 	
 	private ObservableList<Champs> champsListe;
@@ -32,20 +35,9 @@ public class ChampsController {
 		this.champsListe = champsListe;
 		champsTable.setItems(this.champsListe);
 		
-		proprietaireCol = new TableColumn<>("Propriétaire");
-		proprietaireCol.setPrefWidth(300);
 		proprietaireCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("proprietaire"));
-		
-		adresseCol = new TableColumn<>("Adresse");
-		adresseCol.setPrefWidth(300);
 		adresseCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("adresse"));
-		
-		surfaceCol = new TableColumn<>("Surface");
-		surfaceCol.setPrefWidth(300);
 		surfaceCol.setCellValueFactory(new PropertyValueFactory<Champs,Integer>("surface"));
-		
-		typeCultCol = new TableColumn<>("Type de culture");
-		typeCultCol.setPrefWidth(300);
 		typeCultCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("typeCulture"));
 		
 		champsTable.getColumns().clear();

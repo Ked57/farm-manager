@@ -87,7 +87,9 @@ public class MenuController {
 	@FXML
 	public void listeMachinesOnAction() throws SQLException{
 		rootPane.setCenter(listeMachines);
-		machinesController.setMoissonneuse(db.getMoissonneuseList());
+		machinesController.setMoissonneuses(db.getMoissonneuseList());
+		machinesController.setTracteurs(db.getTracteurList());
+		machinesController.setBotteleuses(db.getBotteleuseList());
 		
 		
 	}

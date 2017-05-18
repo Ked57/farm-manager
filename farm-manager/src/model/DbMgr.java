@@ -80,6 +80,32 @@ public class DbMgr {
 		}
 		return moissonneuseList;
 	}
+	
+	public ObservableList<Tracteur> getTracteurList() throws SQLException {
+		if(Connected){
+			String request = "SELECT Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract FROM Tracteur JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract JOIN"
+					+ " Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq;";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Tracteur> tracteurList = FXCollections.observableArrayList();
+		while(rs.next()){
+			tracteurList.add(new Tracteur(rs.getString(0),rs.getString(1),rs.getFloat(2),rs.getInt(3)));
+		}
+		return tracteurList;
+	}
+	
+	public ObservableList<Botteleuse> getBotteleuseList() throws SQLException {
+		if(Connected){
+			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
+					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq;";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
+		while(rs.next()){
+			botteleuseList.add(new Botteleuse(rs.getString(0),rs.getString(1),rs.getString(2),rs.getInt(3)));
+		}
+		return botteleuseList;
+	}
 
 	public boolean isConnected() {
 		return Connected;

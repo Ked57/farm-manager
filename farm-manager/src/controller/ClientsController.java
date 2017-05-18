@@ -10,10 +10,13 @@ import model.Client;
 public class ClientsController {
 	@FXML
 	private TableView<Client> clientsTable;
-
+	@FXML
 	private TableColumn<Client, String> nomCol;
+	@FXML
 	private TableColumn<Client, String> prenomCol;
+	@FXML
 	private TableColumn<Client, String> numeroCol;
+	@FXML
 	private TableColumn<Client, String> adresseCol;
 
 	ObservableList<Client> clientList;
@@ -23,20 +26,10 @@ public class ClientsController {
 	}
 
 	public void initialize() {
-		nomCol = new TableColumn<>("Nom");
-		nomCol.setPrefWidth(300);
+		
 		nomCol.setCellValueFactory(new PropertyValueFactory<Client, String>("nom"));
-
-		prenomCol = new TableColumn<>("Prénom");
-		prenomCol.setPrefWidth(300);
 		prenomCol.setCellValueFactory(new PropertyValueFactory<Client, String>("prenom"));
-
-		numeroCol = new TableColumn<>("Numéro de Téléphone");
-		numeroCol.setPrefWidth(300);
 		numeroCol.setCellValueFactory(new PropertyValueFactory<Client, String>("numero"));
-
-		adresseCol = new TableColumn<>("adresseCol");
-		adresseCol.setPrefWidth(300);
 		adresseCol.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
 	}
 

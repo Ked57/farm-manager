@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChampsController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChampsController">
    <center>
       <GridPane>
          <columnConstraints>
@@ -20,6 +21,12 @@
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
+               <columns>
+                  <TableColumn fx:id="proprietaireCol" prefWidth="75.0" text="Propriétaire" />
+                  <TableColumn fx:id="adresseCol" prefWidth="75.0" text="Adresse" />
+                  <TableColumn fx:id="surfaceCol" prefWidth="75.0" text="Surface" />
+                  <TableColumn fx:id="typeCultCol" prefWidth="75.0" text="Type de culture" />
+               </columns>
             </TableView>
          </children>
       </GridPane>

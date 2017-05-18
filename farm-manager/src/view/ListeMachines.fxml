@@ -35,6 +35,19 @@
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
+                                 <columns>
+                                    <TableColumn fx:id="marqueCol" prefWidth="75.0" text="Marque" />
+                                    <TableColumn fx:id="modeleCol" prefWidth="75.0" text="Modèle" />
+                                    <TableColumn fx:id="largCoupeCol" prefWidth="75.0" text="Largeur de coupe" />
+                                    <TableColumn fx:id="consoHeureRouteCol" prefWidth="75.0" text="Conso/h sur route" />
+                                    <TableColumn fx:id="consoHeureFoncCol" prefWidth="75.0" text="Conso/h en fonctionnement" />
+                                    <TableColumn fx:id="capaResCol" prefWidth="75.0" text="Capacité du réservoir" />
+                                    <TableColumn fx:id="tailleTremCol" prefWidth="75.0" text="Taille du trémis" />
+                                    <TableColumn fx:id="largRouteCol" prefWidth="75.0" text="Largeur sur route" />
+                                    <TableColumn fx:id="hauteurCol" prefWidth="75.0" text="Hauteur" />
+                                    <TableColumn fx:id="poidsCol" prefWidth="75.0" text="Poids" />
+                                    <TableColumn fx:id="etatCol" prefWidth="75.0" text="Etat" />
+                                 </columns>
                               </TableView>
                            </children>
                         </GridPane>
@@ -52,10 +65,10 @@
                            <children>
                               <TableView fx:id="tracteursTable" prefHeight="301.0" prefWidth="565.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Marque" />
-                                  <TableColumn prefWidth="75.0" text="Modèle" />
-                                    <TableColumn prefWidth="75.0" text="Capacité" />
-                                    <TableColumn prefWidth="75.0" text="Etat" />
+                                  <TableColumn fx:id="marqueTractCol" prefWidth="75.0" text="Marque" />
+                                  <TableColumn fx:id="modeleTractCol" prefWidth="75.0" text="Modèle" />
+                                    <TableColumn fx:id="capaTractCol" prefWidth="75.0" text="Capacité" />
+                                    <TableColumn fx:id="etatTractCol" prefWidth="75.0" text="Etat" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -77,10 +90,10 @@
                            <children>
                               <TableView fx:id="botteleusesTable" prefHeight="301.0" prefWidth="565.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Marque" />
-                                  <TableColumn prefWidth="75.0" text="Modèle" />
-                                    <TableColumn prefWidth="75.0" text="Type de botte" />
-                                    <TableColumn prefWidth="75.0" text="Etat" />
+                                  <TableColumn fx:id="marqueBotCol" prefWidth="75.0" text="Marque" />
+                                  <TableColumn fx:id="modeleBotCol" prefWidth="75.0" text="Modèle" />
+                                    <TableColumn fx:id="typeBotCol" prefWidth="75.0" text="Type de botte" />
+                                    <TableColumn fx:id="etatBotCol" prefWidth="75.0" text="Etat" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
