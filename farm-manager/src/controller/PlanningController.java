@@ -1,9 +1,15 @@
 package controller;
 
+import java.io.IOException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import model.Champs;
 import model.Client;
 
@@ -17,6 +23,8 @@ public class PlanningController {
 	ChoiceBox<String> champs;
 	@FXML
 	ChoiceBox<String> CH;
+	
+	
 
 	public void initialize() {
 		// remplissage de la choicebox bottelage
@@ -27,6 +35,8 @@ public class PlanningController {
 		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
 		CH.setValue("Matin");
 		CH.setItems(listCr);
+		
+		
 	}
 
 	// remplissage de la choiceBox de clients
@@ -53,6 +63,15 @@ public class PlanningController {
 			champs.setItems(adresseStrings);
 			champs.setValue("Aucun champs");
 		}
+	}
+	
+	public void selecMachinesOnAction() throws IOException{
+		BorderPane dialog = FXMLLoader.load(getClass().getResource("/view/SelecMachines.fxml"));
+		Scene scene = new Scene(dialog,400,400);
+    	Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Sélection des machines");
+        stage.show();
 	}
 
 }

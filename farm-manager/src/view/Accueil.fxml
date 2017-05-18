@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -17,7 +17,6 @@
             <BorderPane fx:id="mapPane" prefHeight="200.0" prefWidth="200.0" />
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="340.0" prefWidth="361.0">
                <children>
-                  <Button layoutX="72.0" layoutY="52.0" mnemonicParsing="false" text="Récoltes Journalières" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0" />
                   <ChoiceBox fx:id="clientChoice" layoutX="5.0" layoutY="8.0" prefWidth="150.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                   <GridPane layoutX="7.0" layoutY="79.0" prefHeight="88.0" prefWidth="200.0">
                     <columnConstraints>
@@ -30,9 +29,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Propriétaire" />
-                        <Label text="Culture" GridPane.rowIndex="1" />
-                        <Label text="Surface" GridPane.rowIndex="2" />
+                        <Label text="Propriétaire:" />
+                        <Label text="Culture:" GridPane.rowIndex="1" />
+                        <Label text="Surface:" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <GridPane layoutX="7.0" layoutY="234.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="200.0">
@@ -46,12 +45,13 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Heures dans les champs" />
-                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Tracteurs nécessaires" GridPane.rowIndex="1" />
-                        <Label text="Tonnes récoltées" GridPane.rowIndex="2" />
+                        <Label text="Heures dans les champs:" />
+                        <Label GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Tracteurs nécessaire:s" GridPane.rowIndex="1" />
+                        <Label text="Tonnes récoltées:" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
+                  <JFXButton layoutX="14.0" layoutY="41.0" text="Récoltes Journalières" />
                </children>
             </AnchorPane>
          </items>
