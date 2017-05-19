@@ -4,24 +4,27 @@ import java.util.HashSet;
 
 public class Client {
 	
+	private int id;
 	private String nom;
 	private String prenom;
 	private String numero;
 	private String adresse;
-	//liste qui devait me permettre de remplir mes choiceBox
-	public static HashSet<Client> listeClients = new HashSet<Client>();
 	
-	public Client(String nom, String prenom, String numero,String adresse){
-		
+	public Client(int id,String nom, String prenom, String numero,String adresse){
+		this.id = id;
 		this.nom = nom;
-		
 		this.prenom = prenom;
-		
 		this.numero = numero;
-		
 		this.adresse = adresse;
-		listeClients.add(this);
 		
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNom() {

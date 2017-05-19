@@ -1,16 +1,34 @@
 package model;
 
+import com.lynden.gmapsfx.javascript.object.MVCArray;
+import com.lynden.gmapsfx.shapes.Polygon;
+
+import javafx.collections.ObservableList;
+
 public class Champs {
+	private int id;
 	private String proprietaire;
 	private String adresse;
 	private int surface;
 	private String typeCulture;
+	private ObservableList<Point> points;
+	private Polygon poly;
 	
-	public Champs(String proprietaire, String adresse, int surface, String typeCulture){
+	public Champs(int id, String proprietaire, String adresse, int surface, String typeCulture,ObservableList<Point> points){
+		this.id = id;
 		this.proprietaire = proprietaire;
 		this.adresse = adresse;
 		this.surface = surface;
 		this.typeCulture = typeCulture;
+		this.points = points;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getProprietaire() {
@@ -44,6 +62,23 @@ public class Champs {
 	public void setTypeCulture(String typeCulture) {
 		this.typeCulture = typeCulture;
 	}
-	
+
+	public ObservableList<Point> getPoints() {
+		return points;
+	}
+
+	public void setPoints(ObservableList<Point> points) {
+		this.points = points;
+	}
+
+	public Polygon getPoly() {
+		return poly;
+	}
+
+	public void setPoly(Polygon poly) {
+		this.poly = poly;
+	}
+
+
 	
 }

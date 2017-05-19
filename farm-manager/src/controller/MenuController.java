@@ -67,25 +67,25 @@ public class MenuController {
 		rootPane.setCenter(accueil);
 	}
 	@FXML
-	public void accueilOnAction() throws SQLException{
+	public void accueilOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(accueil);
-		accueilController.initAccueil(db.getClientsList());
+		accueilController.initAccueil(db.getClientsList(),db);
 	}
 	@FXML
-	public void listeChampsOnAction() throws SQLException{
+	public void listeChampsOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(listeChamps);
 		
 		champsController.initChamps(db.getChampsList());
 	}
 	@FXML
-	public void listeClientsOnAction() throws SQLException{ 
+	public void listeClientsOnAction() throws SQLException, ClassNotFoundException{ 
 		rootPane.setCenter(listeClients);
 		
 		
 		clientsController.initClients(db.getClientsList());
 	}
 	@FXML
-	public void listeMachinesOnAction() throws SQLException{
+	public void listeMachinesOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(listeMachines);
 		machinesController.setMoissonneuses(db.getMoissonneuseList());
 		machinesController.setTracteurs(db.getTracteurList());
@@ -94,7 +94,7 @@ public class MenuController {
 		
 	}
 	@FXML
-	public void planningOnAction() throws SQLException{
+	public void planningOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(planning);
 		planningController.setClients(db.getClientsList());
 		planningController.setChamps(db.getChampsList());

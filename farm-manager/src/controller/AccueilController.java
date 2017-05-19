@@ -1,5 +1,7 @@
 package controller;
 
+import java.sql.SQLException;
+
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
@@ -38,6 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Champs;
 import model.Client;
+import model.DbMgr;
 import netscape.javascript.JSObject;
 
 public class AccueilController implements MapComponentInitializedListener, ElevationServiceCallback,
@@ -60,13 +63,16 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	@FXML
 	private Label nbTonnes;
 	
-	
+	private MapOptions options;
+	private LatLong center;
 	private GoogleMapView mapComponent;
 	private GoogleMap map;
 	private DirectionsPane directions;
+	
 	private ObservableList<Client> clientList;
 	private ObservableList<Champs> champsList;
 	private Client clientChoosed;
+	private DbMgr db;
 
 	public void initialize() {
 		initMap();
@@ -79,7 +85,8 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		mapPane.setCenter(mapComponent);
 	}
 
-	public void initAccueil(ObservableList<Client> clientList) {
+	public void initAccueil(ObservableList<Client> clientList, DbMgr db) throws ClassNotFoundException, SQLException {
+		this.db = db;
 		//Récupération de la liste des clients
 		this.clientList = clientList;
 		if (clientList.size() >= 0) {
@@ -91,6 +98,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 			clientChoice.setItems(clientStrings);
 			clientChoice.setValue(clientStrings.get(0));
 			clientChoosed = clientList.get(0);
+			champsList = db.getChampsList(clientChoosed.getId());
 			setProperties();
 			
 		}
@@ -104,6 +112,11 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 					if((clientList.get(i).getNom()+ " "+clientList.get(i).getPrenom()).equals(newValue)){
 						clientChoosed = clientList.get(i);
 						setProperties();
+						try {
+							initChamps();
+						} catch (ClassNotFoundException | SQLException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -142,20 +155,20 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		t.start();
 		// Once the map has been loaded by the Webview, initialize the map
 		// details.
-		LatLong center = new LatLong(47.969139, -1.446333);
+		center = new LatLong(47.969139, -1.446333);
 		mapComponent.addMapReadyListener(() -> {
 			// This call will fail unless the map is completely ready.
 			checkCenter(center);
 		});
 
-		MapOptions options = new MapOptions();
+		options = new MapOptions();
 		options.center(center).zoom(10).overviewMapControl(false).panControl(false).rotateControl(false)
 				.scaleControl(false).streetViewControl(false).zoomControl(true).mapType(MapTypeIdEnum.TERRAIN);
 
 		map = mapComponent.createMap(options);
 		
 		//Dessin d'un polygone (J'ai fais un polygone random)
-				LatLong poly1 = new LatLong(47.969139, -1.446333);
+		/*		LatLong poly1 = new LatLong(47.969139, -1.446333);
 		        LatLong poly2 = new LatLong(47.969139, -1.456333);
 		        LatLong poly3 = new LatLong(47.869139, -1.446333);
 		        LatLong poly4 = new LatLong(47.769139, -1.546333);
@@ -182,7 +195,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		        map.addUIEventHandler(arc, UIEventType.click, (JSObject obj) -> {
 		            arc.setEditable(!arc.getEditable());
 		            window.open(map);
-		        });
+		        });*/
 
 		map.setHeading(123.2);
 
@@ -198,7 +211,53 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	
 	private void setProperties(){
 		proprietaire.setText(clientChoosed.getNom()+" "+clientChoosed.getPrenom());
-		// TODO: les infos du champs
+		
+	}
+	
+	private void initChamps() throws ClassNotFoundException, SQLException{
+		clearShapes();
+		champsList = db.getChampsList(clientChoosed.getId());
+		for(int i = 0; i < champsList.size() ; ++i){
+			
+	        Champs currChamps = champsList.get(i);
+	        LatLong[] pAry = new LatLong[currChamps.getPoints().size()];
+	        for(int j = 0; j < currChamps.getPoints().size(); ++j){
+	        	pAry[j] = new LatLong(currChamps.getPoints().get(j).getLatitude(),currChamps.getPoints().get(j).getLongitude());
+	        }
+	        
+	        MVCArray pmvc = new MVCArray(pAry);
+
+	        currChamps.setPoly(new Polygon(new PolygonOptions()
+	                .paths(pmvc)
+	                .strokeColor("blue")
+	                .fillColor("lightBlue")
+	                .fillOpacity(0.1)
+	                .strokeWeight(2)
+	                .editable(false)));
+
+	        map.addMapShape(currChamps.getPoly());
+	        
+	        // Cr�ation d'une popup
+	        InfoWindowOptions infoOptions = new InfoWindowOptions();
+	        infoOptions.content("Propriétaire: "+currChamps.getProprietaire()+"\n"
+	        		+"Adresse: "+currChamps.getAdresse()+"\n"
+	        		+"Surface: "+currChamps.getSurface()+"\n"
+	        		+"Type de culture: "+currChamps.getTypeCulture())
+	                .position(center);
+
+	        InfoWindow window = new InfoWindow(infoOptions);
+	        // Onclick polygon
+	        map.addUIEventHandler(currChamps.getPoly(), UIEventType.click, (JSObject obj) -> {
+	            window.open(map);
+	        });
+		}
+	}
+	
+	public void clearShapes(){
+		for(int i = 0; i < champsList.size(); ++i){
+			map.removeMapShape(champsList.get(i).getPoly());
+			
+		}
 	}
 
 }
