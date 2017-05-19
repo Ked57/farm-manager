@@ -1,6 +1,7 @@
 package model;
 
 import com.lynden.gmapsfx.shapes.Polygon;
+import com.lynden.gmapsfx.shapes.PolygonOptions;
 
 import javafx.collections.ObservableList;
 

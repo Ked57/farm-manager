@@ -2,10 +2,10 @@ package model;
 
 public class Botteleuse extends Machine{
 	
-	private String type;
+	private String type; // pour plus tard
 	private boolean etat;
 	
-	public Botteleuse(String marque, String modele, String type, int etat){
+	public Botteleuse(String marque, String modele, int etat){
 		super(marque,modele);
 		this.type = type;
 		if(etat <= 0)

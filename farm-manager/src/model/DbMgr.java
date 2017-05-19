@@ -143,7 +143,7 @@ public class DbMgr {
 		}
 		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
 		while(rs.next()){
-			botteleuseList.add(new Botteleuse(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4)));
+			botteleuseList.add(new Botteleuse(rs.getString(1),rs.getString(2),rs.getInt(3)));
 		}
 		return botteleuseList;
 	}
