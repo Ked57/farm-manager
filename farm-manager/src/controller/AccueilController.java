@@ -171,14 +171,15 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		map = mapComponent.createMap(options);
 
 		map.setHeading(123.2);
+
+		initialized = true;
+		
 		try {
 			initChamps();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		initialized = true;
 	}
 
 	private void checkCenter(LatLong center) {
@@ -200,7 +201,6 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 	private void initChamps() throws ClassNotFoundException, SQLException {
 		if (initialized) {
-			clearShapes();
 			champsList = db.getChampsList(clientChoosed.getId());
 			for (int i = 0; i < champsList.size(); ++i) {
 
@@ -220,7 +220,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 				// CrÔøΩation d'une popup
 				InfoWindowOptions infoOptions = new InfoWindowOptions();
-				infoOptions.content("PropriÈtaire: " + currChamps.getProprietaire() + "<br>" + "Adresse: "
+				infoOptions.content("Propri√©taire: " + currChamps.getProprietaire() + "<br>" + "Adresse: "
 						+ currChamps.getAdresse() + "<br>" + "Surface: " + currChamps.getSurface() + "<br>"
 						+ "Type de culture: " + currChamps.getTypeCulture()).position(center);
 
@@ -237,8 +237,9 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	public void clearShapes() {
 		if (initialized) {
 			for (int i = 0; i < champsList.size(); ++i) {
-				if (!champsList.get(i).getPoints().isEmpty())
+				if (!champsList.get(i).getPoints().isEmpty()){
 					map.removeMapShape(champsList.get(i).getPoly());
+				}
 
 			}
 		}
