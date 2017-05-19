@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SelecMachinesController">
    <center>
@@ -12,50 +11,17 @@
          <tabs>
             <Tab text="Moissonneuses">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <CheckBox layoutX="32.0" layoutY="10.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="New-holland CR 9080" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="10.0" />
-                        <CheckBox layoutX="32.0" layoutY="231.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="New-holland CX 8050" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="100.0" />
-                        <CheckBox layoutX="32.0" layoutY="51.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="New-holland CSX 7060" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="40.0" />
-                        <CheckBox layoutX="32.0" layoutY="113.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="New-holland CX 720" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="70.0" />
-                        <CheckBox layoutX="32.0" layoutY="135.0" mnemonicParsing="false" text="New-holland CX 8070" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="130.0" />
-                        <CheckBox layoutX="32.0" layoutY="176.0" mnemonicParsing="false" text="New-holland CX 5090" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="160.0" />
-                        <CheckBox layoutX="32.0" layoutY="217.0" mnemonicParsing="false" text="New-holland TC 5050" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="190.0" />
-                        <CheckBox layoutX="32.0" layoutY="224.0" mnemonicParsing="false" text="New-holland TX 68 SL" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="220.0" />
-                        <CheckBox layoutX="32.0" layoutY="254.0" mnemonicParsing="false" text="New-holland TX 64 SL" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="250.0" />
-                     </children>
-                  </AnchorPane>
+                  <VBox prefHeight="200.0" prefWidth="100.0" fx:id="moissVBox"/>
                </content>
             </Tab>
             <Tab text="Tracteurs">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 311" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="10.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 313" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="40.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 411" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="70.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 414" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="100.0" />
-                        <CheckBox mnemonicParsing="false" text="FENDT 512" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="130.0" />
-                        <CheckBox mnemonicParsing="false" text="FENDT 712" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="160.0" />
-                        <CheckBox mnemonicParsing="false" text="FENDT 714" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="190.0" />
-                        <CheckBox mnemonicParsing="false" text="FENDT 718" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="220.0" />
-                        <CheckBox mnemonicParsing="false" text="FENDT 720" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="250.0" />
-                        <CheckBox layoutX="36.0" layoutY="278.0" mnemonicParsing="false" text="FENDT 722" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="280.0" />
-                        <CheckBox layoutX="36.0" layoutY="308.0" mnemonicParsing="false" text="FENDT 815" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="310.0" />
-                     </children>
-                  </AnchorPane>
+                  <VBox prefHeight="200.0" prefWidth="100.0" fx:id="tractVBox"/>
                </content>
             </Tab>
             <Tab text="Botteleuses">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 311" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="10.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 313" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="40.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 411" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="70.0" />
-                        <CheckBox mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="FENDT 414" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="100.0" />
-                     </children>
-                  </AnchorPane>
+                  <VBox prefHeight="200.0" prefWidth="100.0" fx:id="bottVBox"/>
                </content>
             </Tab>
          </tabs>

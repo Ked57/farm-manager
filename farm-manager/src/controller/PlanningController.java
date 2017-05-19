@@ -38,37 +38,37 @@ public class PlanningController {
 	private JFXDatePicker date;
 	
 	private DbMgr db;
+	private SelecMachinesController selecMachinesController;
 	private Client currClient;
 	private ObservableList<Client> clientList;
 	
 
 	public void initialize() {
-		
+		// remplissage de la choicebox bottelage
+				ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
+				bottelage.setValue("Ronde");
+				bottelage.setItems(listBott);
+				
+
+				ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
+				CH.setValue("Matin");
+				CH.setItems(listCr);
 		
 	}
 	
-	public void init(DbMgr db) throws ClassNotFoundException, SQLException{
+	public void init(DbMgr db,SelecMachinesController selecMachinesController) throws ClassNotFoundException, SQLException{
 		this.db = db;
+		this.selecMachinesController = selecMachinesController;
 		this.clientList = db.getClientsList();
 		setClients();
+		setChamps(db.getChampsList(currClient.getId()));
 		
 		//Initialisation de la date
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate d = LocalDate.now();
 		String text = d.format(formatter);
 		LocalDate parsedDate = LocalDate.parse(text, formatter);
-		date.setValue(parsedDate);;
-		
-		
-		// remplissage de la choicebox bottelage
-		ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
-		bottelage.setValue("Ronde");
-		bottelage.setItems(listBott);
-		
-
-		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
-		CH.setValue("Matin");
-		CH.setItems(listCr);
+		date.setValue(parsedDate);
 		
 		
 		//Events
@@ -119,13 +119,14 @@ public class PlanningController {
 		}
 	}
 	
-	public void selecMachinesOnAction() throws IOException{
+	public void selecMachinesOnAction() throws IOException, ClassNotFoundException, SQLException{
 		BorderPane dialog = FXMLLoader.load(getClass().getResource("/view/SelecMachines.fxml"));
 		Scene scene = new Scene(dialog,400,400);
     	Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Sélection des machines");
         stage.show();
+        selecMachinesController.initSelecMachines(db);
 	}
 
 }
