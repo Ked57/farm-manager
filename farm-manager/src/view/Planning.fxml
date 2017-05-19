@@ -36,7 +36,7 @@
                               <Label layoutX="50.0" layoutY="197.0" text="Bottelage" />
                               <ChoiceBox fx:id="clients" layoutX="53.0" layoutY="60.0" minWidth="50.0" prefHeight="25.0" prefWidth="373.0" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="86.0" />
                               <Label layoutX="50.0" layoutY="43.0" text="Client" />
-                              <JFXDatePicker layoutX="50.0" layoutY="305.0" prefHeight="28.0" prefWidth="163.0" />
+                              <JFXDatePicker fx:id="date" layoutX="50.0" layoutY="305.0" prefHeight="28.0" prefWidth="163.0" />
                               <JFXButton layoutX="50.0" layoutY="365.0" onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="158.0" text="Sélection machines" />
                               <JFXButton layoutX="50.0" layoutY="407.0" prefHeight="25.0" prefWidth="164.0" text="Valider" />
                            </children>

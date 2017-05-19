@@ -99,7 +99,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 			clientChoice.setValue(clientStrings.get(0));
 			clientChoosed = clientList.get(0);
 			champsList = db.getChampsList(clientChoosed.getId());
-			setProperties();
+			setClientProperties();
 			
 		}
 		//Events
@@ -111,7 +111,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 					//Si le nom et le prenom concordent avec la nouvelle valeur
 					if((clientList.get(i).getNom()+ " "+clientList.get(i).getPrenom()).equals(newValue)){
 						clientChoosed = clientList.get(i);
-						setProperties();
+						setClientProperties();
 						try {
 							initChamps();
 						} catch (ClassNotFoundException | SQLException e) {
@@ -166,36 +166,6 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				.scaleControl(false).streetViewControl(false).zoomControl(true).mapType(MapTypeIdEnum.TERRAIN);
 
 		map = mapComponent.createMap(options);
-		
-		//Dessin d'un polygone (J'ai fais un polygone random)
-		/*		LatLong poly1 = new LatLong(47.969139, -1.446333);
-		        LatLong poly2 = new LatLong(47.969139, -1.456333);
-		        LatLong poly3 = new LatLong(47.869139, -1.446333);
-		        LatLong poly4 = new LatLong(47.769139, -1.546333);
-		        LatLong[] pAry = new LatLong[]{poly1, poly2, poly3, poly4};
-		        MVCArray pmvc = new MVCArray(pAry);
-
-		        Polygon arc = new Polygon(new PolygonOptions()
-		                .paths(pmvc)
-		                .strokeColor("blue")
-		                .fillColor("lightBlue")
-		                .fillOpacity(0.1)
-		                .strokeWeight(2)
-		                .editable(false));
-
-		        map.addMapShape(arc);
-		        
-		        // Cr�ation d'une popup
-		        InfoWindowOptions infoOptions = new InfoWindowOptions();
-		        infoOptions.content("You clicked !")
-		                .position(center);
-
-		        InfoWindow window = new InfoWindow(infoOptions);
-		        // Onclick polygon
-		        map.addUIEventHandler(arc, UIEventType.click, (JSObject obj) -> {
-		            arc.setEditable(!arc.getEditable());
-		            window.open(map);
-		        });*/
 
 		map.setHeading(123.2);
 
@@ -209,9 +179,12 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		// mapComponent.getWidth()/2 + ", " + mapComponent.getHeight()/2);
 	}
 	
-	private void setProperties(){
+	private void setClientProperties(){
 		proprietaire.setText(clientChoosed.getNom()+" "+clientChoosed.getPrenom());
-		
+	}
+	private void setChampsProperties(Champs champs){
+		culture.setText(champs.getTypeCulture());
+		surface.setText(""+champs.getSurface());
 	}
 	
 	private void initChamps() throws ClassNotFoundException, SQLException{
@@ -248,6 +221,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	        InfoWindow window = new InfoWindow(infoOptions);
 	        // Onclick polygon
 	        map.addUIEventHandler(currChamps.getPoly(), UIEventType.click, (JSObject obj) -> {
+	        	setChampsProperties(currChamps);
 	            window.open(map);
 	        });
 		}

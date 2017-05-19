@@ -58,7 +58,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Heures dans les champs:">
+                        <Label text="Heures dans le champs:">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Label>

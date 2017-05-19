@@ -1,7 +1,17 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
+import com.jfoenix.controls.JFXDatePicker;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,21 +22,44 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Champs;
 import model.Client;
+import model.DbMgr;
 
 public class PlanningController {
 
 	@FXML
-	ChoiceBox<String> bottelage;
+	private ChoiceBox<String> bottelage;
 	@FXML
-	ChoiceBox<String> clients;
+	private ChoiceBox<String> clients;
 	@FXML
-	ChoiceBox<String> champs;
+	private ChoiceBox<String> champs;
 	@FXML
-	ChoiceBox<String> CH;
+	private ChoiceBox<String> CH;
+	@FXML
+	private JFXDatePicker date;
 	
+	private DbMgr db;
+	private Client currClient;
+	private ObservableList<Client> clientList;
 	
 
 	public void initialize() {
+		
+		
+	}
+	
+	public void init(DbMgr db) throws ClassNotFoundException, SQLException{
+		this.db = db;
+		this.clientList = db.getClientsList();
+		setClients();
+		
+		//Initialisation de la date
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDate d = LocalDate.now();
+		String text = d.format(formatter);
+		LocalDate parsedDate = LocalDate.parse(text, formatter);
+		date.setValue(parsedDate);;
+		
+		
 		// remplissage de la choicebox bottelage
 		ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
 		bottelage.setValue("Ronde");
@@ -38,16 +71,36 @@ public class PlanningController {
 		CH.setItems(listCr);
 		
 		
+		//Events
+		clients.valueProperty().addListener(new ChangeListener<String>(){
+			@Override
+			public void changed(ObservableValue<? extends String> list,String lastValue, String newValue){
+				//Mise a jour du client sélectionné
+				for(int i = 0; i < clientList.size(); ++i){
+					//Si le nom et le prenom concordent avec la nouvelle valeur
+					if((clientList.get(i).getNom()+ " "+clientList.get(i).getPrenom()).equals(newValue)){
+						currClient = clientList.get(i);
+						try {
+							setChamps(db.getChampsList(currClient.getId()));
+						} catch (ClassNotFoundException | SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 	}
 
 	// remplissage de la choiceBox de clients
-	public void setClients(ObservableList<Client> clientList) {
+	public void setClients() {
+
 		ObservableList<String> clientStrings = FXCollections.observableArrayList();
 		for (int i = 0; i < clientList.size(); ++i) {
 			clientStrings.add(clientList.get(i).getNom() + " " + clientList.get(i).getPrenom());
 		}
 		clients.setItems(clientStrings);
 		clients.setValue(clientList.get(0).getNom() + " " + clientList.get(0).getPrenom());
+		currClient = clientList.get(0);
 	}
 
 	public void setChamps(ObservableList<Champs> champsList) {

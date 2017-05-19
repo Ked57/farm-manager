@@ -96,8 +96,7 @@ public class MenuController {
 	@FXML
 	public void planningOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(planning);
-		planningController.setClients(db.getClientsList());
-		planningController.setChamps(db.getChampsList());
+		planningController.init(db);
 	}
 	@FXML
 	public void selecMachinesOnAction(){
