@@ -116,6 +116,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 						clientChoosed = clientList.get(i);
 						setClientProperties();
 						try {
+							clearShapes();
 							initChamps();
 						} catch (ClassNotFoundException | SQLException e) {
 							e.printStackTrace();
