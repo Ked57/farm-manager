@@ -31,6 +31,7 @@ public class PlanningController {
 		ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
 		bottelage.setValue("Ronde");
 		bottelage.setItems(listBott);
+		
 
 		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
 		CH.setValue("Matin");
