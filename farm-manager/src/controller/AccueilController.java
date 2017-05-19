@@ -24,6 +24,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -36,6 +37,20 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private BorderPane mapPane;
 	@FXML
 	private ChoiceBox<String> clientChoice;
+	@FXML
+	private Label proprietaire;
+	@FXML
+	private Label culture;
+	@FXML
+	private Label surface;
+	@FXML
+	private Label nbHeures;
+	@FXML
+	private Label nbTracteurs;
+	@FXML
+	private Label nbTonnes;
+	
+	
 	private GoogleMapView mapComponent;
 	private GoogleMap map;
 	private DirectionsPane directions;
@@ -107,13 +122,6 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				.scaleControl(false).streetViewControl(false).zoomControl(true).mapType(MapTypeIdEnum.TERRAIN);
 
 		map = mapComponent.createMap(options);
-		//ajout d'un cercle
-		
-		 CircleOptions COpts = new CircleOptions();
-		 COpts.strokeColor("blue").fillColor("blue").center(center).visible(true).radius(20000).clickable(false).draggable(false);
-		//taille en mètres : 20km= 20000m
-		 Circle cir = new Circle(COpts);
-		map.addMapShape(cir);
 		
 
 		map.setHeading(123.2);
