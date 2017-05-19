@@ -212,9 +212,9 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	        
 	        // Crï¿½ation d'une popup
 	        InfoWindowOptions infoOptions = new InfoWindowOptions();
-	        infoOptions.content("PropriÃ©taire: "+currChamps.getProprietaire()+"\n"
-	        		+"Adresse: "+currChamps.getAdresse()+"\n"
-	        		+"Surface: "+currChamps.getSurface()+"\n"
+	        infoOptions.content("Propriétaire: "+currChamps.getProprietaire()+"<br>"
+	        		+"Adresse: "+currChamps.getAdresse()+"<br>"
+	        		+"Surface: "+currChamps.getSurface()+"<br>"
 	        		+"Type de culture: "+currChamps.getTypeCulture())
 	                .position(center);
 

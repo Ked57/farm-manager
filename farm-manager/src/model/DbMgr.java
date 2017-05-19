@@ -73,7 +73,7 @@ public class DbMgr {
 		}
 		ObservableList<Champs> champsList = FXCollections.observableArrayList();
 		while(rs.next()){
-			champsList.add(new Champs(rs.getInt(1),rs.getString(2)+rs.getString(3),rs.getString(4),rs.getInt(5),rs.getString(6),getPointsListForAChamps(rs.getInt(1))));
+			champsList.add(new Champs(rs.getInt(1),rs.getString(2)+" "+rs.getString(3),rs.getString(4),rs.getInt(5),rs.getString(6),getPointsListForAChamps(rs.getInt(1))));
 		}
 		return champsList;
 	}
@@ -87,7 +87,7 @@ public class DbMgr {
 		}
 		ObservableList<Champs> champsList = FXCollections.observableArrayList();
 		while(rs.next()){
-			champsList.add(new Champs(rs.getInt(1),rs.getString(2)+rs.getString(3),rs.getString(4),rs.getInt(5),rs.getString(6),getPointsListForAChamps(rs.getInt(1))));
+			champsList.add(new Champs(rs.getInt(1),rs.getString(2)+" "+rs.getString(3),rs.getString(4),rs.getInt(5),rs.getString(6),getPointsListForAChamps(rs.getInt(1))));
 		}
 		return champsList;
 	}
@@ -114,8 +114,8 @@ public class DbMgr {
 		}
 		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
 		while(rs.next()){
-			moissonneuseList.add(new Moissonneuse(rs.getString(0),rs.getString(1),rs.getFloat(2),rs.getFloat(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),
-					rs.getFloat(8),rs.getFloat(9),rs.getInt(10)));
+			moissonneuseList.add(new Moissonneuse(rs.getString(1),rs.getString(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getInt(7),rs.getInt(8),
+					rs.getFloat(8),rs.getFloat(9),rs.getInt(9)));
 		}
 		return moissonneuseList;
 	}
@@ -129,7 +129,7 @@ public class DbMgr {
 		}
 		ObservableList<Tracteur> tracteurList = FXCollections.observableArrayList();
 		while(rs.next()){
-			tracteurList.add(new Tracteur(rs.getString(0),rs.getString(1),rs.getFloat(2),rs.getInt(3)));
+			tracteurList.add(new Tracteur(rs.getString(1),rs.getString(2),rs.getFloat(3),rs.getInt(4)));
 		}
 		return tracteurList;
 	}
@@ -143,7 +143,7 @@ public class DbMgr {
 		}
 		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
 		while(rs.next()){
-			botteleuseList.add(new Botteleuse(rs.getString(0),rs.getString(1),rs.getString(2),rs.getInt(3)));
+			botteleuseList.add(new Botteleuse(rs.getString(1),rs.getString(2),rs.getString(3),rs.getInt(4)));
 		}
 		return botteleuseList;
 	}

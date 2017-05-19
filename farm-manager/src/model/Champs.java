@@ -1,6 +1,5 @@
 package model;
 
-import com.lynden.gmapsfx.javascript.object.MVCArray;
 import com.lynden.gmapsfx.shapes.Polygon;
 
 import javafx.collections.ObservableList;
