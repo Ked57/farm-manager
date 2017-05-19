@@ -7,7 +7,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Botteleuse;
 import model.Client;
-import model.Machine;
 import model.Moissonneuse;
 import model.Tracteur;
 

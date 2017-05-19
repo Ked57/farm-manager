@@ -1,6 +1,8 @@
 package model;
 
-public class Moissonneuse extends Machine{
+public class Moissonneuse{
+	private String marque;
+	private String modele;
 	private float largCoupe;
 	private float consoRoute;
 	private float consoFonct;
@@ -9,11 +11,12 @@ public class Moissonneuse extends Machine{
 	private int largRoute;
 	private float hauteur;
 	private float poids;
-	private boolean etat;
+	private String etat;
 	
 	public Moissonneuse(String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
 			float hauteur, float poids, int etat) {
-		super(marque,modele);
+		this.marque = marque;
+		this.modele = modele;
 		this.largCoupe = largCoupe;
 		this.consoRoute = consoRoute;
 		this.consoFonct = consoFonct;
@@ -23,9 +26,26 @@ public class Moissonneuse extends Machine{
 		this.hauteur = hauteur;
 		this.poids = poids;
 		if(etat <= 0)
-			this.etat = false;
-		else this.etat = true;
+			this.etat = "Non disponible";
+		else this.etat = "Disponible";
 	}
+	
+	public String getMarque() {
+		return marque;
+	}
+
+	public void setMarque(String marque) {
+		this.marque = marque;
+	}
+
+	public String getModele() {
+		return modele;
+	}
+
+	public void setModele(String modele) {
+		this.modele = modele;
+	}
+
 	public float getLargCoupe() {
 		return largCoupe;
 	}
@@ -74,12 +94,14 @@ public class Moissonneuse extends Machine{
 	public void setPoids(float poids) {
 		this.poids = poids;
 	}
-	public boolean isEtat() {
+
+	public String getEtat() {
 		return etat;
 	}
-	public void setEtat(boolean etat) {
+
+	public void setEtat(String etat) {
 		this.etat = etat;
 	}
-	
+
 	
 }
