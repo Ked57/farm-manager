@@ -10,6 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.Botteleuse;
 import model.DbMgr;
@@ -18,19 +22,16 @@ import model.Tracteur;
 
 public class SelecMachinesController {
 
-	@FXML private VBox moissVBox;
-	@FXML private VBox tractVBox;
-	@FXML private VBox bottVBox;
+	@FXML private TableView<Moissonneuse> moissTable;
+	
+	@FXML private TableColumn<Moissonneuse,String> moissModeleColumn;
+	@FXML private TableColumn<Moissonneuse,Boolean> moissChoixColumn;
 
 	private DbMgr db;
 
-	private ObservableList<JFXCheckBox> moissCheckBoxList;
-	private ObservableList<JFXCheckBox> tractCheckBoxList;
-	private ObservableList<JFXCheckBox> bottCheckBoxList;
-
 	private ObservableList<Moissonneuse> moissList;
-	private ObservableList<Tracteur> tractList;
-	private ObservableList<Botteleuse> bottList;
+	
+	private ObservableList<Integer> moissDispList;
 
 	public SelecMachinesController() {
 
@@ -40,36 +41,17 @@ public class SelecMachinesController {
 		
 	}
 
-	public void initSelecMachines(DbMgr db) throws ClassNotFoundException, SQLException {
+	public void initSelecMachines(DbMgr db, String today) throws ClassNotFoundException, SQLException {
 		this.db = db;
 		
-		
-		
-		moissList = db.getMoissonneuseList();
-		tractList = db.getTracteurList();
-		bottList = db.getBotteleuseList();
-		//initialisation des ObservableList
-		moissCheckBoxList = FXCollections.observableArrayList();
-		tractCheckBoxList = FXCollections.observableArrayList();
-		bottCheckBoxList = FXCollections.observableArrayList();
-		
-		for (int i = 0; i < moissList.size(); ++i) {
-			if (moissList.get(i).getEtat().equals("Disponible"))
-				moissCheckBoxList.add(new JFXCheckBox(moissList.get(i).getModele()));
-		}
-
-		for (int i = 0; i < tractList.size(); ++i) {
-			if (tractList.get(i).getEtat().equals("Disponible"))
-				tractCheckBoxList.add(new JFXCheckBox(tractList.get(i).getModele()));
-		}
-
-		for (int i = 0; i < bottList.size(); ++i) {
-			if (bottList.get(i).getEtat().equals("Disponible"))
-				bottCheckBoxList.add(new JFXCheckBox(bottList.get(i).getModele()));
-		}
-		moissVBox.getChildren().addAll(moissCheckBoxList);
-		tractVBox.getChildren().addAll(tractCheckBoxList);
-		bottVBox.getChildren().addAll(bottCheckBoxList);
-		System.out.println(moissVBox.getChildren().toString());
+		moissDispList = db.getMoissonneuseForDay(today);
+		moissList = db.getMoissonneuseList(moissDispList);
+		moissModeleColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("modele"));
+		moissChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(moissChoixColumn));
+		moissChoixColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,Boolean>( "choosed" ) );
+		moissTable.setItems(moissList);
+		System.out.println(moissList.size());
+		moissTable.getColumns().clear();
+		moissTable.getColumns().addAll(moissModeleColumn);
 	}
 }

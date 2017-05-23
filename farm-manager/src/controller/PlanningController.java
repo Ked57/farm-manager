@@ -45,8 +45,8 @@ public class PlanningController {
 
 	public void initialize() {
 		// remplissage de la choicebox bottelage
-				ObservableList<String> listBott = FXCollections.observableArrayList("Ronde", "Carré");
-				bottelage.setValue("Ronde");
+				ObservableList<String> listBott = FXCollections.observableArrayList("Rond", "Carré");
+				bottelage.setValue("Rond");
 				bottelage.setItems(listBott);
 				
 
@@ -126,7 +126,7 @@ public class PlanningController {
         stage.setScene(scene);
         stage.setTitle("Sélection des machines");
         stage.show();
-        selecMachinesController.initSelecMachines(db);
+        selecMachinesController.initSelecMachines(db,date.getValue().toString());
 	}
 
 }

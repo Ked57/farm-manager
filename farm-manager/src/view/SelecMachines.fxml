@@ -2,8 +2,12 @@
 
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <BorderPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SelecMachinesController">
    <center>
@@ -11,19 +15,26 @@
          <tabs>
             <Tab text="Moissonneuses">
                <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" fx:id="moissVBox"/>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TableView fx:id="moissTable" prefHeight="200.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="moissModeleColumn" prefWidth="75.0" text="Modele" />
+                            <TableColumn fx:id="moissChoixColumn" prefWidth="75.0" text="Choix" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </GridPane>
                </content>
             </Tab>
-            <Tab text="Tracteurs">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" fx:id="tractVBox"/>
-               </content>
-            </Tab>
-            <Tab text="Botteleuses">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" fx:id="bottVBox"/>
-               </content>
-            </Tab>
+            <Tab text="Tracteurs" />
+            <Tab text="Botteleuses" />
          </tabs>
       </JFXTabPane>
    </center>

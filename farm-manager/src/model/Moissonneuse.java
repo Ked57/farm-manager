@@ -1,6 +1,7 @@
 package model;
 
 public class Moissonneuse{
+	private int id;
 	private String marque;
 	private String modele;
 	private float largCoupe;
@@ -12,9 +13,11 @@ public class Moissonneuse{
 	private float hauteur;
 	private float poids;
 	private String etat;
+	private boolean choosed;
 	
-	public Moissonneuse(String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
+	public Moissonneuse(int id,String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
 			float hauteur, float poids, int etat) {
+		this.id = id;
 		this.marque = marque;
 		this.modele = modele;
 		this.largCoupe = largCoupe;
@@ -28,6 +31,7 @@ public class Moissonneuse{
 		if(etat <= 0)
 			this.etat = "Non disponible";
 		else this.etat = "Disponible";
+		this.choosed = false;
 	}
 	
 	public String getMarque() {
@@ -103,5 +107,22 @@ public class Moissonneuse{
 		this.etat = etat;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean isChoosed() {
+		return choosed;
+	}
+
+	public void setChoosed(boolean choosed) {
+		this.choosed = choosed;
+	}
+
+	
 	
 }
