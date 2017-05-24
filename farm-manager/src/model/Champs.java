@@ -11,15 +11,17 @@ public class Champs {
 	private String adresse;
 	private int surface;
 	private String typeCulture;
+	private Point center;
 	private ObservableList<Point> points;
 	private Polygon poly;
 	
-	public Champs(int id, String proprietaire, String adresse, int surface, String typeCulture,ObservableList<Point> points){
+	public Champs(int id, String proprietaire, String adresse, int surface, String typeCulture, Point center,ObservableList<Point> points){
 		this.id = id;
 		this.proprietaire = proprietaire;
 		this.adresse = adresse;
 		this.surface = surface;
 		this.typeCulture = typeCulture;
+		this.center = center;
 		this.points = points;
 	}
 	
@@ -30,7 +32,7 @@ public class Champs {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
 	public String getProprietaire() {
 		return proprietaire;
 	}
@@ -69,6 +71,14 @@ public class Champs {
 
 	public void setPoints(ObservableList<Point> points) {
 		this.points = points;
+	}
+
+	public Point getCenter() {
+		return center;
+	}
+
+	public void setCenter(Point center) {
+		this.center = center;
 	}
 
 	public Polygon getPoly() {

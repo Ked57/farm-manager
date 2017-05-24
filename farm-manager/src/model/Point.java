@@ -10,6 +10,11 @@ public class Point {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
+	public Point(float latitude, float longitude){
+		id = 0;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public int getId() {
 		return id;
