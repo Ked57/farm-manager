@@ -71,6 +71,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 	private ObservableList<Client> clientList;
 	private ObservableList<Champs> champsList;
+	private ObservableList<InfoWindow> popups;
 	private Client clientChoosed;
 	private DbMgr db;
 
@@ -90,6 +91,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 	public void initAccueil(ObservableList<Client> clientList, DbMgr db) throws ClassNotFoundException, SQLException {
 		this.db = db;
+		popups = FXCollections.observableArrayList();
 		// Récupération de la liste des clients
 		this.clientList = clientList;
 		if (clientList.size() >= 0) {
@@ -117,6 +119,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 						setClientProperties();
 						try {
 							clearShapes();
+							clearPopUps();
 							initChamps();
 						} catch (ClassNotFoundException | SQLException e) {
 							e.printStackTrace();
@@ -227,6 +230,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				infoOptions.position(new LatLong(currChamps.getCenter().getLatitude(),currChamps.getCenter().getLongitude()));
 
 				InfoWindow window = new InfoWindow(infoOptions);
+				popups.add(window);
 				// Onclick polygon
 				map.addUIEventHandler(currChamps.getPoly(), UIEventType.click, (JSObject obj) -> {
 					setChampsProperties(currChamps);
@@ -246,6 +250,11 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				}
 
 			}
+		}
+	}
+	public void clearPopUps(){
+		for(int i = 0; i < popups.size(); ++i){
+			popups.get(i).close();//J'ai malheureusement pas trouvé mieux
 		}
 	}
 
