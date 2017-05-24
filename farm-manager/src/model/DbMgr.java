@@ -71,14 +71,17 @@ public class DbMgr {
 	public ObservableList<Champs> getChampsList() throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Id_Ch,Nom_Cli,Prenom_Cli,Adr_Ch,Surf_Ch,Nom_TypCult FROM Champ JOIN Client ON Champ.Id_Cli=Client.Id_Cli JOIN TypeCulture ON Champ.Id_TypCult=TypeCulture.Id_TypCult;";
+			String request = "SELECT Id_Ch,Nom_Cli,Prenom_Cli,Adr_Ch,Surf_Ch,Nom_TypCult FROM Champ "
+					+ "JOIN Client ON Champ.Id_Cli=Client.Id_Cli JOIN TypeCulture ON Champ.Id_TypCult=TypeCulture.Id_TypCult;";
 			rs = st.executeQuery(request);
 		}
+		System.out.println("fetchsize:"+rs.getFetchSize());
 		ObservableList<Champs> champsList = FXCollections.observableArrayList();
 		while (rs.next()) {
 			champsList.add(new Champs(rs.getInt(1), rs.getString(2) + " " + rs.getString(3), rs.getString(4),
 					rs.getInt(5), rs.getString(6), getPointsListForAChamps(rs.getInt(1))));
 		}
+		System.out.println("dbchampslist:"+champsList.size());
 		return champsList;
 	}
 

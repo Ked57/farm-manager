@@ -71,7 +71,7 @@ public class PlanningController {
 		String text = d.format(formatter);
 		LocalDate parsedDate = LocalDate.parse(text, formatter);
 		date.setValue(parsedDate);
-		updatePlanning(text);
+		updatePlanning(date.getValue().toString());
 		
 		
 		//Events
@@ -143,9 +143,6 @@ public class PlanningController {
 	}
 	public void updatePlanning(String day) throws ClassNotFoundException, SQLException{
 		recoltList = db.getRecolteForDay(day);
-		for(int i = 0; i < recoltList.size(); ++i){
-			System.out.println("Récolte le "+recoltList.get(i).getFourchette()+" pour Mr"+recoltList.get(i).getNomCli()+
-					" a l'adresse "+recoltList.get(i).getAdresse());
-		}
+		
 	}
 }

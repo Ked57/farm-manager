@@ -34,6 +34,7 @@ public class ChampsController {
 	public void initChamps(ObservableList<Champs> champsListe){
 		this.champsListe = champsListe;
 		champsTable.setItems(this.champsListe);
+		System.out.println("nb champs "+champsListe.size());
 		
 		proprietaireCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("proprietaire"));
 		adresseCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("adresse"));
