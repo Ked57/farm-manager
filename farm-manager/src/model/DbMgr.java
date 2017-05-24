@@ -145,8 +145,6 @@ public class DbMgr {
 				request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
 						+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq";
 			}
-
-			System.out.println(request);
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
@@ -156,6 +154,21 @@ public class DbMgr {
 					rs.getFloat(11), rs.getInt(12)));
 		}
 		return moissonneuseList;
+	}
+	public ObservableList<Integer> getMoissonneuseForDay(String date) throws ClassNotFoundException, SQLException {
+		checkConnected();
+		if (Connected) {
+			String request = "SELECT Machine.Id_Moi FROM RecolteMachine JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec "
+					+ "JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach "
+					+ "JOIN Moissonneuse ON Machine.Id_Moi=Moissonneuse.Id_Moi " + "WHERE Recolte.Date_Rec='" + date
+					+ "'";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Integer> ids = FXCollections.observableArrayList();
+		while (rs.next()) {
+			ids.add(rs.getInt(1));
+		}
+		return ids;
 	}
 
 	/* ====== TRACTEURS ====== */
@@ -188,20 +201,24 @@ public class DbMgr {
 		return botteleuseList;
 	}
 
-	public ObservableList<Integer> getMoissonneuseForDay(String date) throws ClassNotFoundException, SQLException {
+	
+	
+	/* ====== RECOLTE ====== */
+	public ObservableList<Recolte> getRecolteForDay(String day) throws ClassNotFoundException, SQLException{
 		checkConnected();
-		if (Connected) {
-			String request = "SELECT Machine.Id_Moi FROM RecolteMachine JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec "
-					+ "JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach "
-					+ "JOIN Moissonneuse ON Machine.Id_Moi=Moissonneuse.Id_Moi " + "WHERE Recolte.Date_Rec='" + date
-					+ "'";
+		if(Connected){
+			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
+					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans WHERE Date_Rec = '"+day+"'";
 			rs = st.executeQuery(request);
 		}
-		ObservableList<Integer> ids = FXCollections.observableArrayList();
-		while (rs.next()) {
-			ids.add(rs.getInt(1));
+		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
+		while(rs.next()) {
+			recoltList.add(new Recolte(rs.getInt(1),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getString(11),rs.getString(12)));
 		}
-		return ids;
+		return recoltList;
 	}
 
 	public boolean isConnected() {

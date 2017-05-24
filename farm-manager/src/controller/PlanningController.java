@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import model.Champs;
 import model.Client;
 import model.DbMgr;
+import model.Recolte;
 
 public class PlanningController {
 
@@ -41,6 +42,7 @@ public class PlanningController {
 	private SelecMachinesController selecMachinesController;
 	private Client currClient;
 	private ObservableList<Client> clientList;
+	private ObservableList<Recolte> recoltList;
 	
 
 	public void initialize() {
@@ -53,7 +55,7 @@ public class PlanningController {
 				ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
 				CH.setValue("Matin");
 				CH.setItems(listCr);
-		
+				
 	}
 	
 	public void init(DbMgr db,SelecMachinesController selecMachinesController) throws ClassNotFoundException, SQLException{
@@ -69,6 +71,7 @@ public class PlanningController {
 		String text = d.format(formatter);
 		LocalDate parsedDate = LocalDate.parse(text, formatter);
 		date.setValue(parsedDate);
+		updatePlanning(text);
 		
 		
 		//Events
@@ -89,6 +92,16 @@ public class PlanningController {
 				}
 			}
 		});
+		date.valueProperty().addListener(new ChangeListener<LocalDate>() {
+			@Override
+			public void changed(ObservableValue<? extends LocalDate> list, LocalDate lastValue, LocalDate newValue){
+				try {
+					updatePlanning(newValue.toString());
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});;
 	}
 
 	// remplissage de la choiceBox de clients
@@ -128,5 +141,11 @@ public class PlanningController {
         stage.show();
         selecMachinesController.initSelecMachines(db,date.getValue().toString());
 	}
-
+	public void updatePlanning(String day) throws ClassNotFoundException, SQLException{
+		recoltList = db.getRecolteForDay(day);
+		for(int i = 0; i < recoltList.size(); ++i){
+			System.out.println("Récolte le "+recoltList.get(i).getFourchette()+" pour Mr"+recoltList.get(i).getNomCli()+
+					" a l'adresse "+recoltList.get(i).getAdresse());
+		}
+	}
 }

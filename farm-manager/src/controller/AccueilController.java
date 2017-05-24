@@ -239,7 +239,9 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		if (initialized) {
 			for (int i = 0; i < champsList.size(); ++i) {
 				if (!champsList.get(i).getPoints().isEmpty()){
-					map.removeMapShape(champsList.get(i).getPoly());
+					Polygon poly = champsList.get(i).getPoly();
+					if(poly != null)
+						map.removeMapShape(poly);
 				}
 
 			}
