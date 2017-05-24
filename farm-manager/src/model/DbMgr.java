@@ -15,7 +15,9 @@ public class DbMgr {
 	private String passw;
 	private java.sql.Connection cn;
 	private java.sql.Statement st;
+	private java.sql.Statement stPoint;
 	private java.sql.ResultSet rs;
+	private java.sql.ResultSet rsPoint;
 	private boolean Connected;
 
 	public DbMgr(String host, String user, String passw, String port, String dbName)
@@ -38,6 +40,7 @@ public class DbMgr {
 			Class.forName("com.mysql.jdbc.Driver");
 			cn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + dbName, user, passw);
 			st = cn.createStatement();
+			stPoint = cn.createStatement();
 
 			Connected = true;
 		} else
@@ -99,16 +102,16 @@ public class DbMgr {
 		}
 		return champsList;
 	}
-
+	/* ====== POINTS ====== */
 	public ObservableList<Point> getPointsListForAChamps(int champsId) throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
 			String request = "SELECT Id_Point,Lat_Point,Long_Point FROM Point WHERE Id_Ch = " + champsId;
-			rs = st.executeQuery(request);
+			rsPoint = stPoint.executeQuery(request);
 		}
 		ObservableList<Point> pointsList = FXCollections.observableArrayList();
-		while (rs.next()) {
-			pointsList.add(new Point(rs.getInt(1), rs.getFloat(2), rs.getFloat(3)));
+		while (rsPoint.next()) {
+			pointsList.add(new Point(rsPoint.getInt(1), rsPoint.getFloat(2), rsPoint.getFloat(3)));
 		}
 		return pointsList;
 	}

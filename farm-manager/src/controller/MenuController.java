@@ -89,9 +89,7 @@ public class MenuController {
 		rootPane.setCenter(listeMachines);
 		machinesController.setMoissonneuses(db.getMoissonneuseList());
 		machinesController.setTracteurs(db.getTracteurList());
-		machinesController.setBotteleuses(db.getBotteleuseList());
-		
-		
+		machinesController.setBotteleuses(db.getBotteleuseList());		
 	}
 	@FXML
 	public void planningOnAction() throws SQLException, ClassNotFoundException{

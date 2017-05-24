@@ -166,7 +166,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		});
 
 		options = new MapOptions();
-		options.center(center).zoom(10).overviewMapControl(false).panControl(false).rotateControl(false)
+		options.center(center).zoom(11).overviewMapControl(false).panControl(false).rotateControl(false)
 				.scaleControl(false).streetViewControl(false).zoomControl(true).mapType(MapTypeIdEnum.TERRAIN);
 
 		map = mapComponent.createMap(options);
