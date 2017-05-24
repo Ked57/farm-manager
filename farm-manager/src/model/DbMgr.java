@@ -159,20 +159,20 @@ public class DbMgr {
 		}
 		return moissonneuseList;
 	}
-	public ObservableList<Integer> getMoissonneuseForDay(String date) throws ClassNotFoundException, SQLException {
+	public ObservableList<Moissonneuse> getMoissonneuseForDay(String date) throws ClassNotFoundException, SQLException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Machine.Id_Moi FROM RecolteMachine JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec "
-					+ "JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach "
-					+ "JOIN Moissonneuse ON Machine.Id_Moi=Moissonneuse.Id_Moi " + "WHERE Recolte.Date_Rec='" + date
-					+ "'";
+			String request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
+					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq;";
 			rs = st.executeQuery(request);
 		}
-		ObservableList<Integer> ids = FXCollections.observableArrayList();
+		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			ids.add(rs.getInt(1));
+			moissonneuseList.add(new Moissonneuse(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
+					rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getFloat(10),
+					rs.getFloat(11), rs.getInt(12)));
 		}
-		return ids;
+		return moissonneuseList;
 	}
 
 	/* ====== TRACTEURS ====== */

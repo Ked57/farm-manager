@@ -16,6 +16,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.Botteleuse;
+import model.Champs;
 import model.DbMgr;
 import model.Moissonneuse;
 import model.Tracteur;
@@ -27,31 +28,26 @@ public class SelecMachinesController {
 	@FXML private TableColumn<Moissonneuse,String> moissModeleColumn;
 	@FXML private TableColumn<Moissonneuse,Boolean> moissChoixColumn;
 
-	private DbMgr db;
-
 	private ObservableList<Moissonneuse> moissList;
 	
-	private ObservableList<Integer> moissDispList;
+	private ObservableList<Moissonneuse> moissDispList;
 
 	public SelecMachinesController() {
 
 	}
 
 	public void initialize(){
-		
-	}
-
-	public void initSelecMachines(DbMgr db, String today) throws ClassNotFoundException, SQLException {
-		this.db = db;
-		
-		moissDispList = db.getMoissonneuseForDay(today);
-		moissList = db.getMoissonneuseList(moissDispList);
 		moissModeleColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("modele"));
 		moissChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(moissChoixColumn));
-		moissChoixColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,Boolean>( "choosed" ) );
-		moissTable.setItems(moissList);
-		System.out.println(moissList.size());
+		moissChoixColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,Boolean>("choosed"));
+		moissTable.setEditable(true);
+	}
+
+	public void initSelecMachines(ObservableList<Moissonneuse> moissList) throws ClassNotFoundException, SQLException {		
+		moissDispList = moissList;
+		moissTable.setItems(moissDispList);
 		moissTable.getColumns().clear();
-		moissTable.getColumns().addAll(moissModeleColumn);
+		moissTable.getColumns().addAll(moissModeleColumn,moissChoixColumn);
+
 	}
 }

@@ -18,11 +18,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Champs;
 import model.Client;
 import model.DbMgr;
+import model.Moissonneuse;
 import model.Recolte;
 
 public class PlanningController {
@@ -56,6 +61,8 @@ public class PlanningController {
 				CH.setValue("Matin");
 				CH.setItems(listCr);
 				
+				
+				
 	}
 	
 	public void init(DbMgr db,SelecMachinesController selecMachinesController) throws ClassNotFoundException, SQLException{
@@ -72,6 +79,8 @@ public class PlanningController {
 		LocalDate parsedDate = LocalDate.parse(text, formatter);
 		date.setValue(parsedDate);
 		updatePlanning(date.getValue().toString());
+		
+		
 		
 		
 		//Events
@@ -101,7 +110,7 @@ public class PlanningController {
 					e.printStackTrace();
 				}
 			}
-		});;
+		});
 	}
 
 	// remplissage de la choiceBox de clients
@@ -133,13 +142,15 @@ public class PlanningController {
 	}
 	
 	public void selecMachinesOnAction() throws IOException, ClassNotFoundException, SQLException{
-		BorderPane dialog = FXMLLoader.load(getClass().getResource("/view/SelecMachines.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SelecMachines.fxml"));
+		BorderPane dialog = loader.load();
+		selecMachinesController = loader.getController();
 		Scene scene = new Scene(dialog,400,400);
     	Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Sélection des machines");
         stage.show();
-        selecMachinesController.initSelecMachines(db,date.getValue().toString());
+        selecMachinesController.initSelecMachines(db.getMoissonneuseForDay(date.getValue().toString()));
 	}
 	public void updatePlanning(String day) throws ClassNotFoundException, SQLException{
 		recoltList = db.getRecolteForDay(day);

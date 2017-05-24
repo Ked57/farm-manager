@@ -26,7 +26,7 @@
                         <TableView fx:id="moissTable" prefHeight="200.0" prefWidth="200.0">
                           <columns>
                             <TableColumn fx:id="moissModeleColumn" prefWidth="75.0" text="Modele" />
-                            <TableColumn fx:id="moissChoixColumn" prefWidth="75.0" text="Choix" />
+                              <TableColumn fx:id="moissChoixColumn" prefWidth="75.0" text="Choix" />
                           </columns>
                         </TableView>
                      </children>
