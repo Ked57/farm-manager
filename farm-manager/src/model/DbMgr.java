@@ -78,13 +78,11 @@ public class DbMgr {
 					+ "JOIN Client ON Champ.Id_Cli=Client.Id_Cli JOIN TypeCulture ON Champ.Id_TypCult=TypeCulture.Id_TypCult;";
 			rs = st.executeQuery(request);
 		}
-		System.out.println("fetchsize:"+rs.getFetchSize());
 		ObservableList<Champs> champsList = FXCollections.observableArrayList();
 		while (rs.next()) {
 			champsList.add(new Champs(rs.getInt(1), rs.getString(2) + " " + rs.getString(3), rs.getString(4),
 					rs.getInt(5), rs.getString(6), new Point(rs.getFloat(7),rs.getFloat(8)), getPointsListForAChamps(rs.getInt(1))));
 		}
-		System.out.println("dbchampslist:"+champsList.size());
 		return champsList;
 	}
 
