@@ -29,6 +29,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Champs;
 import model.Client;
+import model.DataMgr;
 import model.DbMgr;
 import model.Moissonneuse;
 import model.Recolte;
@@ -58,7 +59,7 @@ public class PlanningController {
 	@FXML
 	private TableColumn<Recolte, String> clientAMCol;
 
-	private DbMgr db;
+	private DataMgr data;
 	private SelecMachinesController selecMachinesController;
 	private Client currClient;
 	private ObservableList<Client> clientList;
@@ -81,13 +82,13 @@ public class PlanningController {
 		clientAMCol.setCellValueFactory(new PropertyValueFactory<Recolte, String>("nomCli"));
 	}
 
-	public void init(DbMgr db, SelecMachinesController selecMachinesController)
+	public void init(DataMgr data, SelecMachinesController selecMachinesController)
 			throws ClassNotFoundException, SQLException {
-		this.db = db;
+		this.data = data;
 		this.selecMachinesController = selecMachinesController;
-		this.clientList = db.getClientsList();
+		this.clientList = data.getClients();
 		setClients();
-		setChamps(db.getChampsList(currClient.getId()));
+		setChamps(data.getChamps(currClient.getId()));
 
 		// Initialisation de la date
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -106,11 +107,7 @@ public class PlanningController {
 					// Si le nom et le prenom concordent avec la nouvelle valeur
 					if ((clientList.get(i).getNom() + " " + clientList.get(i).getPrenom()).equals(newValue)) {
 						currClient = clientList.get(i);
-						try {
-							setChamps(db.getChampsList(currClient.getId()));
-						} catch (ClassNotFoundException | SQLException e) {
-							e.printStackTrace();
-						}
+						setChamps(data.getChamps(currClient.getId()));
 					}
 				}
 			}
@@ -164,12 +161,11 @@ public class PlanningController {
 		stage.setScene(scene);
 		stage.setTitle("Sélection des machines");
 		stage.show();
-		selecMachinesController.initSelecMachines(db.getMoissonneuseForDay(date.getValue().toString()));
+		selecMachinesController.initSelecMachines(data);
 	}
 
 	public void updatePlanning(String day) throws ClassNotFoundException, SQLException {
-		recoltList = db.getRecolteForDay(day);
-
+		recoltList = data.getRecoltes(day);
 		ObservableList<Recolte> matin = FXCollections.observableArrayList();
 		ObservableList<Recolte> am = FXCollections.observableArrayList(); // am
 																			// pour
@@ -188,12 +184,14 @@ public class PlanningController {
 		tableMatin.getColumns().addAll(adresseMatinCol, clientMatinCol);
 
 		tableMatin.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-		Recolte selectedItem = tableMatin.getSelectionModel().getSelectedItem();
-		try {
-			UpdateLeftPanel(selectedItem);
-		} catch (ClassNotFoundException | SQLException e1) {
-		// TODO Auto-generated catch block
-			e1.printStackTrace();
+			Recolte selectedItem = tableMatin.getSelectionModel().getSelectedItem();
+			if (selectedItem != null) {
+				try {
+					UpdateLeftPanel(selectedItem);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -202,19 +200,21 @@ public class PlanningController {
 		tableAM.getColumns().addAll(adresseAMCol, clientAMCol);
 		tableAM.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 			Recolte selectedItem = tableAM.getSelectionModel().getSelectedItem();
-			try {
-				UpdateLeftPanel(selectedItem);
-			} catch (ClassNotFoundException | SQLException e1) {
-			// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if (selectedItem != null) {
+				try {
+					UpdateLeftPanel(selectedItem);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-			});
+			}
+		});
 
 	}
 
 	public void UpdateLeftPanel(Recolte rec) throws ClassNotFoundException, SQLException {
 		clients.setValue(rec.getNomCli() + " " + rec.getPrenomCli());
-		setChamps(db.getChampsList(rec.getIdCli()));
+		setChamps(data.getChamps(rec.getIdCli()));
 		if (rec.getFourchette() <= 0)
 			CH.setValue("Matin");
 		else

@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import model.Botteleuse;
 import model.Champs;
+import model.DataMgr;
 import model.DbMgr;
 import model.Moissonneuse;
 import model.Tracteur;
@@ -31,6 +32,8 @@ public class SelecMachinesController {
 	private ObservableList<Moissonneuse> moissList;
 	
 	private ObservableList<Moissonneuse> moissDispList;
+	
+	private DataMgr data;
 
 	public SelecMachinesController() {
 
@@ -43,8 +46,8 @@ public class SelecMachinesController {
 		moissTable.setEditable(true);
 	}
 
-	public void initSelecMachines(ObservableList<Moissonneuse> moissList) throws ClassNotFoundException, SQLException {		
-		moissDispList = moissList;
+	public void initSelecMachines(DataMgr data) throws ClassNotFoundException, SQLException {		
+		moissDispList = data.getMoissonneuses();
 		moissTable.setItems(moissDispList);
 		moissTable.getColumns().clear();
 		moissTable.getColumns().addAll(moissModeleColumn,moissChoixColumn);

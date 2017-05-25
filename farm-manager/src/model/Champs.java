@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 
 public class Champs {
 	private int id;
+	private int idCli;
 	private String proprietaire;
 	private String adresse;
 	private int surface;
@@ -15,8 +16,9 @@ public class Champs {
 	private ObservableList<Point> points;
 	private Polygon poly;
 	
-	public Champs(int id, String proprietaire, String adresse, int surface, String typeCulture, Point center,ObservableList<Point> points){
+	public Champs(int id,int idCli, String proprietaire, String adresse, int surface, String typeCulture, Point center,ObservableList<Point> points){
 		this.id = id;
+		this.idCli = idCli;
 		this.proprietaire = proprietaire;
 		this.adresse = adresse;
 		this.surface = surface;
@@ -33,6 +35,14 @@ public class Champs {
 		this.id = id;
 	}
 	
+	public int getIdCli() {
+		return idCli;
+	}
+
+	public void setIdCli(int idCli) {
+		this.idCli = idCli;
+	}
+
 	public String getProprietaire() {
 		return proprietaire;
 	}

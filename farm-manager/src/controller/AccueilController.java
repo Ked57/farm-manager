@@ -40,6 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Champs;
 import model.Client;
+import model.DataMgr;
 import model.DbMgr;
 import netscape.javascript.JSObject;
 
@@ -73,7 +74,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private ObservableList<Champs> champsList;
 	private ObservableList<InfoWindow> popups;
 	private Client clientChoosed;
-	private DbMgr db;
+	private DataMgr data;
 
 	private boolean initialized;
 
@@ -89,11 +90,11 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		mapPane.setCenter(mapComponent);
 	}
 
-	public void initAccueil(ObservableList<Client> clientList, DbMgr db) throws ClassNotFoundException, SQLException {
-		this.db = db;
+	public void initAccueil(DataMgr data) throws ClassNotFoundException, SQLException {
+		this.data = data;
 		popups = FXCollections.observableArrayList();
 		// Récupération de la liste des clients
-		this.clientList = clientList;
+		this.clientList = data.getClients();
 		if (clientList.size() >= 0) {
 			ObservableList<String> clientStrings = FXCollections.observableArrayList();
 			for (int i = 0; i < clientList.size(); ++i) {
@@ -103,7 +104,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 			clientChoice.setItems(clientStrings);
 			clientChoice.setValue(clientStrings.get(0));
 			clientChoosed = clientList.get(0);
-			champsList = db.getChampsList(clientChoosed.getId());
+			champsList = data.getChamps(clientChoosed.getId());
 			setClientProperties();
 
 		}
@@ -205,7 +206,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 	private void initChamps() throws ClassNotFoundException, SQLException {
 		if (initialized) {
-			champsList = db.getChampsList(clientChoosed.getId());
+			champsList = data.getChamps(clientChoosed.getId());
 			for (int i = 0; i < champsList.size(); ++i) {
 
 				Champs currChamps = champsList.get(i);

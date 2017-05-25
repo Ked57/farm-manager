@@ -6,6 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Client;
+import model.DataMgr;
 
 public class ClientsController {
 	@FXML
@@ -19,7 +20,8 @@ public class ClientsController {
 	@FXML
 	private TableColumn<Client, String> adresseCol;
 
-	ObservableList<Client> clientList;
+	private ObservableList<Client> clientList;
+	private DataMgr data;
 
 	public ClientsController() {
 
@@ -33,8 +35,9 @@ public class ClientsController {
 		adresseCol.setCellValueFactory(new PropertyValueFactory<Client, String>("adresse"));
 	}
 
-	public void initClients(ObservableList<Client> clientList) {
-		this.clientList = clientList;
+	public void initClients(DataMgr data) {
+		this.data = data;
+		this.clientList = this.data.getClients();
 		if (clientList.size() >= 0) {
 			clientsTable.setItems(this.clientList);
 			clientsTable.getColumns().clear();

@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Champs;
 import model.Client;
+import model.DataMgr;
 
 public class ChampsController {
 	
@@ -23,6 +24,8 @@ public class ChampsController {
 	
 	private ObservableList<Champs> champsListe;
 	
+	private DataMgr data;
+	
 	public ChampsController() {
 		
 	}
@@ -31,8 +34,9 @@ public class ChampsController {
 		
 	}
 	
-	public void initChamps(ObservableList<Champs> champsListe){
-		this.champsListe = champsListe;
+	public void initChamps(DataMgr data){
+		this.data = data;
+		this.champsListe = data.getChamps();
 		champsTable.setItems(this.champsListe);
 		System.out.println("nb champs "+champsListe.size());
 		

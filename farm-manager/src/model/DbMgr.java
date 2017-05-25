@@ -74,13 +74,13 @@ public class DbMgr {
 	public ObservableList<Champs> getChampsList() throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Id_Ch,Nom_Cli,Prenom_Cli,Adr_Ch,Surf_Ch,Nom_TypCult,Lat_Ch,Long_Ch FROM Champ "
+			String request = "SELECT Id_Ch,Nom_Cli,Prenom_Cli,Adr_Ch,Surf_Ch,Nom_TypCult,Lat_Ch,Long_Ch,Champ.Id_Cli FROM Champ "
 					+ "JOIN Client ON Champ.Id_Cli=Client.Id_Cli JOIN TypeCulture ON Champ.Id_TypCult=TypeCulture.Id_TypCult;";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Champs> champsList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			champsList.add(new Champs(rs.getInt(1), rs.getString(2) + " " + rs.getString(3), rs.getString(4),
+			champsList.add(new Champs(rs.getInt(1),rs.getInt(9), rs.getString(2) + " " + rs.getString(3), rs.getString(4),
 					rs.getInt(5), rs.getString(6), new Point(rs.getFloat(7),rs.getFloat(8)), getPointsListForAChamps(rs.getInt(1))));
 		}
 		return champsList;
@@ -89,13 +89,13 @@ public class DbMgr {
 	public ObservableList<Champs> getChampsList(int clientId) throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Id_Ch,Nom_Cli,Prenom_Cli,Adr_Ch,Surf_Ch,Nom_TypCult,Lat_Ch,Long_Ch FROM Champ JOIN Client ON Champ.Id_Cli=Client.Id_Cli JOIN TypeCulture ON Champ.Id_TypCult=TypeCulture.Id_TypCult"
+			String request = "SELECT Id_Ch,Nom_Cli,Prenom_Cli,Adr_Ch,Surf_Ch,Nom_TypCult,Lat_Ch,Long_Ch,Champ.Id_Cli FROM Champ JOIN Client ON Champ.Id_Cli=Client.Id_Cli JOIN TypeCulture ON Champ.Id_TypCult=TypeCulture.Id_TypCult"
 					+ " WHERE Client.Id_Cli=" + clientId + ";";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Champs> champsList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			champsList.add(new Champs(rs.getInt(1), rs.getString(2) + " " + rs.getString(3), rs.getString(4),
+			champsList.add(new Champs(rs.getInt(1),rs.getInt(9), rs.getString(2) + " " + rs.getString(3), rs.getString(4),
 					rs.getInt(5), rs.getString(6), new Point(rs.getFloat(7),rs.getFloat(8)), getPointsListForAChamps(rs.getInt(1))));
 		}
 		return champsList;
@@ -212,14 +212,30 @@ public class DbMgr {
 		checkConnected();
 		if(Connected){
 			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
-					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
 					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
 					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans WHERE Date_Rec = '"+day+"'";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
 		while(rs.next()) {
-			recoltList.add(new Recolte(rs.getInt(1),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
+			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getString(11),rs.getString(12)));
+		}
+		return recoltList;
+	}
+	public ObservableList<Recolte> getRecoltes() throws ClassNotFoundException, SQLException{
+		checkConnected();
+		if(Connected){
+			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
+					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
+		while(rs.next()) {
+			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
 					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getString(11),rs.getString(12)));
 		}
 		return recoltList;

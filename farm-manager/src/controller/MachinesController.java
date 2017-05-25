@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Botteleuse;
 import model.Client;
+import model.DataMgr;
 import model.Moissonneuse;
 import model.Tracteur;
 
@@ -44,6 +45,8 @@ public class MachinesController {
 	private ObservableList<Tracteur> tracteursList;
 	private ObservableList<Botteleuse> botteleusesList;
 	
+	private DataMgr data;
+	
 	public MachinesController() {
 		
 	}
@@ -71,23 +74,26 @@ public class MachinesController {
 		typeBotCol.setCellValueFactory(new PropertyValueFactory<Botteleuse,String>("type"));
 		etatBotCol.setCellValueFactory(new PropertyValueFactory<Botteleuse,String>("etat"));
 	}
+	public void setData(DataMgr data){
+		this.data = data;
+	}
 	
-	public void setMoissonneuses(ObservableList<Moissonneuse> moissonneusesList){
-		this.moissonneusesList = moissonneusesList;
+	public void setMoissonneuses(){
+		this.moissonneusesList = data.getMoissonneuses();
 		moissoneusesTable.setItems(this.moissonneusesList);
 		moissoneusesTable.getColumns().clear();
 		moissoneusesTable.getColumns().addAll(marqueCol,modeleCol,largCoupeCol,consoHeureRouteCol,consoHeureFoncCol,capaResCol,tailleTremCol,largRouteCol,hauteurCol,poidsCol,etatCol);
 	}
 	
-	public void setTracteurs(ObservableList<Tracteur> tracteursList){
-		this.tracteursList = tracteursList;
+	public void setTracteurs(){
+		this.tracteursList = data.getTracteurs();
 		tracteursTable.setItems(this.tracteursList);
 		tracteursTable.getColumns().clear();
 		tracteursTable.getColumns().addAll(marqueTractCol,modeleTractCol,capaTractCol,etatTractCol);
 	}
 	
-	public void setBotteleuses(ObservableList<Botteleuse> botteleusesList){
-		this.botteleusesList = botteleusesList;
+	public void setBotteleuses(){
+		this.botteleusesList = data.getBotteleuses();
 		botteleusesTable.setItems(this.botteleusesList);
 		botteleusesTable.getColumns().clear();
 		botteleusesTable.getColumns().addAll(marqueBotCol,modeleBotCol,typeBotCol,etatBotCol);

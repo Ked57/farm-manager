@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import model.Client;
+import model.DataMgr;
 import model.DbMgr;
 
 public class MenuController {
@@ -31,7 +32,7 @@ public class MenuController {
 	private PlanningController planningController;
 	private SelecMachinesController selecMachinesController;
 	
-	private DbMgr db;
+	private DataMgr data;
 	
 	public MenuController() {
 	}
@@ -69,40 +70,40 @@ public class MenuController {
 	@FXML
 	public void accueilOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(accueil);
-		accueilController.initAccueil(db.getClientsList(),db);
+		accueilController.initAccueil(data);
 	}
 	@FXML
 	public void listeChampsOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(listeChamps);
 		
-		champsController.initChamps(db.getChampsList());
+		champsController.initChamps(data);
 	}
 	@FXML
 	public void listeClientsOnAction() throws SQLException, ClassNotFoundException{ 
 		rootPane.setCenter(listeClients);
 		
 		
-		clientsController.initClients(db.getClientsList());
+		clientsController.initClients(data);
 	}
 	@FXML
 	public void listeMachinesOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(listeMachines);
-		machinesController.setMoissonneuses(db.getMoissonneuseList());
-		machinesController.setTracteurs(db.getTracteurList());
-		machinesController.setBotteleuses(db.getBotteleuseList());		
+		machinesController.setData(data);
+		machinesController.setMoissonneuses();
+		machinesController.setTracteurs();
+		machinesController.setBotteleuses();		
 	}
 	@FXML
 	public void planningOnAction() throws SQLException, ClassNotFoundException{
 		rootPane.setCenter(planning);
-		planningController.init(db,selecMachinesController);
+		planningController.init(data,selecMachinesController);
 	}
 
-
-	public DbMgr getDb() {
-		return db;
+	public DataMgr getData() {
+		return data;
 	}
 
-	public void setDb(DbMgr db) {
-		this.db = db;
+	public void setData(DataMgr data) {
+		this.data = data;
 	}
 }
