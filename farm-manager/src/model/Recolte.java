@@ -2,7 +2,7 @@ package model;
 
 public class Recolte {
 	private int id;
-	private String fourchette; // Matin ou apres midi
+	private int fourchette; // Matin ou apres midi
 	private float tMax; //Taille maximale de(s) la/les machine(s) souhaitée(s) pour la récolte
 	private float quantite; //Quantité recoltée
 	private float cout; //Cout de la récolte
@@ -17,9 +17,7 @@ public class Recolte {
 			String prenomCli, int idCh, String adresse, String typeBottelage, String nomTransport) {
 		super();
 		this.id = id;
-		if(fourchette >= 1)
-			this.fourchette = "Après midi";
-		else this.fourchette = "Matin";
+		this.fourchette = fourchette;
 		this.tMax = tMax;
 		this.quantite = quantite;		
 		this.cout = cout;
@@ -37,10 +35,10 @@ public class Recolte {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getFourchette() {
+	public int getFourchette() {
 		return fourchette;
 	}
-	public void setFourchette(String fourchette) {
+	public void setFourchette(int fourchette) {
 		this.fourchette = fourchette;
 	}
 	public float getTMax() {
