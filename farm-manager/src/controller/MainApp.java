@@ -28,6 +28,7 @@ public class MainApp extends Application {
     	settings = new SettingsMgr("bin/model/settings.ini");
     	//Initialisation de la base de données
     	data = new DataMgr(new DbMgr(settings.getHost(),settings.getUser(),settings.getPassw(),settings.getPort(),settings.getDbName()));
+    	data.getDb().setDataMgr(data);
     	//On charge le rootLayout et on récupère le controller
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RootLayout.fxml"));
     	rootLayout = loader.load();

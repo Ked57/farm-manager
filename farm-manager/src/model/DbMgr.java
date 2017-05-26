@@ -19,6 +19,7 @@ public class DbMgr {
 	private java.sql.ResultSet rs;
 	private java.sql.ResultSet rsPoint;
 	private boolean Connected;
+	private DataMgr data;
 
 	public DbMgr(String host, String user, String passw, String port, String dbName)
 			throws ClassNotFoundException, SQLException {
@@ -48,6 +49,10 @@ public class DbMgr {
 
 		System.out
 				.println("host:" + host + " user:" + user + " passw:" + passw + " port:" + port + " dbName:" + dbName);
+	}
+	
+	public void setDataMgr(DataMgr data){
+		this.data = data;
 	}
 
 	public void checkConnected() throws ClassNotFoundException, SQLException {
@@ -194,13 +199,13 @@ public class DbMgr {
 	public ObservableList<Botteleuse> getBotteleuseList() throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
+			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot,Id_Bot FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
 					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq;";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			botteleuseList.add(new Botteleuse(rs.getString(1), rs.getString(2), rs.getInt(3)));
+			botteleuseList.add(new Botteleuse(rs.getInt(4),rs.getString(1), rs.getString(2), rs.getInt(3)));
 		}
 		return botteleuseList;
 	}
@@ -212,7 +217,7 @@ public class DbMgr {
 		checkConnected();
 		if(Connected){
 			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
-					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
 					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
 					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans WHERE Date_Rec = '"+day+"'";
 			rs = st.executeQuery(request);
@@ -220,7 +225,7 @@ public class DbMgr {
 		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
 		while(rs.next()) {
 			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
-					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getString(11),rs.getString(12)));
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12)));
 		}
 		return recoltList;
 	}
@@ -228,7 +233,7 @@ public class DbMgr {
 		checkConnected();
 		if(Connected){
 			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
-					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
 					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
 					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans";
 			rs = st.executeQuery(request);
@@ -236,12 +241,53 @@ public class DbMgr {
 		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
 		while(rs.next()) {
 			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
-					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getString(11),rs.getString(12)));
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12)));
 		}
 		return recoltList;
 	}
-
+	/* ====== BOTTELAGE ====== */
+	public ObservableList<Bottelage> getBottelages() throws ClassNotFoundException, SQLException{
+		checkConnected();
+		if(Connected){
+			String request = "SELECT Id_TypeBot,Nom_TypeBot FROM TypeBottelage;";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Bottelage> bottelageList = FXCollections.observableArrayList();
+		while(rs.next()) {
+			bottelageList.add(new Bottelage(rs.getInt(1),rs.getString(2)));
+		}
+		return bottelageList;
+	}
+	
 	public boolean isConnected() {
 		return Connected;
+	}
+	
+	public void update(String table, String field_id, int id, String field_data, int data){
+		String query = "UPDATE "+table+" SET "+field_data+"='"+data+"' WHERE "+field_id+"="+id;
+		System.out.println(query);
+		try {
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void update(String table, String field_id, int id, String field_data, float data){
+		String query = "UPDATE "+table+" SET "+field_data+"='"+data+"' WHERE "+field_id+"="+id;
+		System.out.println(query);
+		try {
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void update(String table, String field_id, int id, String field_data, String data){
+		String query = "UPDATE "+table+" SET "+field_data+"='"+data+"' WHERE "+field_id+"="+id;
+		System.out.println(query);
+		try {
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

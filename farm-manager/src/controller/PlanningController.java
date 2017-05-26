@@ -27,6 +27,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalDateStringConverter;
+import model.Bottelage;
 import model.Champs;
 import model.Client;
 import model.DataMgr;
@@ -47,6 +49,8 @@ public class PlanningController {
 	@FXML
 	private JFXDatePicker date;
 	@FXML
+	private JFXDatePicker dateChanger;
+	@FXML
 	private TableView<Recolte> tableMatin;
 	@FXML
 	private TableView<Recolte> tableAM;
@@ -59,10 +63,13 @@ public class PlanningController {
 	@FXML
 	private TableColumn<Recolte, String> clientAMCol;
 
+	private Recolte selectedItem;
+
 	private DataMgr data;
 	private SelecMachinesController selecMachinesController;
 	private Client currClient;
 	private ObservableList<Client> clientList;
+	private ObservableList<Champs> currChampsList;
 	private ObservableList<Recolte> recoltList;
 
 	public void initialize() {
@@ -76,9 +83,11 @@ public class PlanningController {
 		CH.setItems(listCr);
 
 		adresseMatinCol.setCellValueFactory(new PropertyValueFactory<Recolte, String>("adresse"));
+		adresseMatinCol.setPrefWidth(150);
 		clientMatinCol.setCellValueFactory(new PropertyValueFactory<Recolte, String>("nomCli"));
 
 		adresseAMCol.setCellValueFactory(new PropertyValueFactory<Recolte, String>("adresse"));
+		adresseAMCol.setPrefWidth(150);
 		clientAMCol.setCellValueFactory(new PropertyValueFactory<Recolte, String>("nomCli"));
 	}
 
@@ -86,9 +95,11 @@ public class PlanningController {
 			throws ClassNotFoundException, SQLException {
 		this.data = data;
 		this.selecMachinesController = selecMachinesController;
+		this.selectedItem = null;
 		this.clientList = data.getClients();
 		setClients();
 		setChamps(data.getChamps(currClient.getId()));
+	
 
 		// Initialisation de la date
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -97,6 +108,43 @@ public class PlanningController {
 		LocalDate parsedDate = LocalDate.parse(text, formatter);
 		date.setValue(parsedDate);
 		updatePlanning(date.getValue().toString());
+		recoltList = data.getRecoltes(date.getValue().toString());
+		if(recoltList.size() >= 0){
+			selectedItem = recoltList.get(0);
+			updateLeftPanel(selectedItem);
+			currChampsList = data.getChamps(selectedItem.getIdCli());
+			setChamps(currChampsList);
+		}
+
+		tableMatin.getColumns().clear();
+		tableMatin.getColumns().addAll(adresseMatinCol, clientMatinCol);
+
+		tableMatin.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+			if (!selectedItem.equals(tableMatin.getSelectionModel().getSelectedItem())) {
+				selectedItem = tableMatin.getSelectionModel().getSelectedItem();
+				try {
+					updateLeftPanel(selectedItem);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		tableAM.getColumns().clear();
+		tableAM.getColumns().addAll(adresseAMCol, clientAMCol);
+		tableAM.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+			
+			if (selectedItem != tableAM.getSelectionModel().getSelectedItem()) {
+				selectedItem = tableAM.getSelectionModel().getSelectedItem();
+				try {
+					updateLeftPanel(selectedItem);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		// Events
 		clients.valueProperty().addListener(new ChangeListener<String>() {
@@ -107,18 +155,111 @@ public class PlanningController {
 					// Si le nom et le prenom concordent avec la nouvelle valeur
 					if ((clientList.get(i).getNom() + " " + clientList.get(i).getPrenom()).equals(newValue)) {
 						currClient = clientList.get(i);
-						setChamps(data.getChamps(currClient.getId()));
+						currChampsList = data.getChamps(currClient.getId());
+						setChamps(currChampsList);
+						// Si le nom est différent de celui déjà enregistré pour
+						// la récolte
+						if (selectedItem != null && !selectedItem.getNomComplet().equals(newValue)) {
+							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_Cli", currClient.getId());
+							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_Ch",
+									currChampsList.get(0).getId());
+							System.out.println("updated clients");
+							champs.setValue(currChampsList.get(0).getAdresse());
+
+							try {
+								data.syncRecoltes();
+								recoltList = data.getRecoltes();
+							} catch (ClassNotFoundException | SQLException e) {
+								e.printStackTrace();
+							}
+							updatePlanning(selectedItem.getDate());
+						}
+						break;
 					}
 				}
+			}
+		});
+		champs.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
+				if (currChampsList != null && selectedItem != null) {
+					for (int i = 0; i < currChampsList.size(); ++i) {
+						if (currChampsList.get(i).getAdresse().equals(newValue)) {
+							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_Ch",
+									currChampsList.get(i).getId());
+							try {
+								data.syncRecoltes();
+								recoltList = data.getRecoltes();
+							} catch (ClassNotFoundException | SQLException e) {
+								e.printStackTrace();
+							}
+							updatePlanning(selectedItem.getDate());
+							break;
+						}
+					}
+				}
+
 			}
 		});
 		date.valueProperty().addListener(new ChangeListener<LocalDate>() {
 			@Override
 			public void changed(ObservableValue<? extends LocalDate> list, LocalDate lastValue, LocalDate newValue) {
-				try {
-					updatePlanning(newValue.toString());
-				} catch (ClassNotFoundException | SQLException e) {
-					e.printStackTrace();
+				updatePlanning(newValue.toString());
+			}
+		});
+		dateChanger.valueProperty().addListener(new ChangeListener<LocalDate>() {
+			@Override
+			public void changed(ObservableValue<? extends LocalDate> list, LocalDate lastValue, LocalDate newValue) {
+				if (selectedItem != null && !selectedItem.getDate().equals(newValue.toString())) {
+					selectedItem.setDate(newValue.toString());
+					data.update("Recolte", "Id_Rec", selectedItem.getId(), "Date_Rec", selectedItem.getDate());
+					try {
+						data.syncRecoltes();
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
+					date.setValue(LocalDate.parse(selectedItem.getDate()));
+					updatePlanning(selectedItem.getDate());
+				}
+			}
+		});
+		CH.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
+				int fourchette;
+				if (newValue.equals("Matin"))
+					fourchette = 0;
+				else
+					fourchette = 1;
+				if (selectedItem != null && selectedItem.getFourchette() != fourchette) {
+					data.update("Recolte", "Id_Rec", selectedItem.getId(), "Fourchette_Rec", fourchette);
+					try {
+						data.syncRecoltes();
+						recoltList = data.getRecoltes();
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
+					updatePlanning(selectedItem.getDate());
+				}
+			}
+		});
+		bottelage.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
+				if (selectedItem != null && selectedItem.getTypeBottelage() != newValue) {
+					ObservableList<Bottelage> bottelages = data.getBottelages();
+					for(int i = 0; i < bottelages.size(); ++i){
+						if(bottelages.get(i).getNom().equals(newValue)){
+							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_TypeBot", bottelages.get(i).getId());
+							try {
+								data.syncRecoltes();
+								recoltList = data.getRecoltes();
+							} catch (ClassNotFoundException | SQLException e) {
+								e.printStackTrace();
+							}
+							updatePlanning(selectedItem.getDate());
+						}
+					}
 				}
 			}
 		});
@@ -143,7 +284,9 @@ public class PlanningController {
 				adresseStrings.add(champsList.get(i).getAdresse());
 			}
 			champs.setItems(adresseStrings);
-			champs.setValue(champsList.get(0).getAdresse());
+			if (selectedItem != null) {
+				champs.setValue(selectedItem.getAdresse());
+			} else champs.setValue(champsList.get(0).getAdresse());
 		} else {
 			ObservableList<String> adresseStrings = FXCollections.observableArrayList();
 			adresseStrings.add("Aucun champs");
@@ -164,7 +307,7 @@ public class PlanningController {
 		selecMachinesController.initSelecMachines(data);
 	}
 
-	public void updatePlanning(String day) throws ClassNotFoundException, SQLException {
+	public void updatePlanning(String day) {
 		recoltList = data.getRecoltes(day);
 		ObservableList<Recolte> matin = FXCollections.observableArrayList();
 		ObservableList<Recolte> am = FXCollections.observableArrayList(); // am
@@ -180,45 +323,21 @@ public class PlanningController {
 		}
 
 		tableMatin.setItems(matin);
-		tableMatin.getColumns().clear();
-		tableMatin.getColumns().addAll(adresseMatinCol, clientMatinCol);
-
-		tableMatin.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-			Recolte selectedItem = tableMatin.getSelectionModel().getSelectedItem();
-			if (selectedItem != null) {
-				try {
-					UpdateLeftPanel(selectedItem);
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
 
 		tableAM.setItems(am);
-		tableAM.getColumns().clear();
-		tableAM.getColumns().addAll(adresseAMCol, clientAMCol);
-		tableAM.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-			Recolte selectedItem = tableAM.getSelectionModel().getSelectedItem();
-			if (selectedItem != null) {
-				try {
-					UpdateLeftPanel(selectedItem);
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
 
 	}
 
-	public void UpdateLeftPanel(Recolte rec) throws ClassNotFoundException, SQLException {
-		clients.setValue(rec.getNomCli() + " " + rec.getPrenomCli());
+	public void updateLeftPanel(Recolte rec) throws ClassNotFoundException, SQLException {
+		clients.setValue(rec.getNomComplet());
 		setChamps(data.getChamps(rec.getIdCli()));
 		if (rec.getFourchette() <= 0)
 			CH.setValue("Matin");
 		else
 			CH.setValue("Après-Midi");
 		bottelage.setValue(rec.getTypeBottelage());
+
+		LocalDate date = LocalDate.parse(rec.getDate());
+		dateChanger.setValue(date);
 	}
 }

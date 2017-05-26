@@ -38,7 +38,7 @@
                               <ChoiceBox fx:id="CH" minWidth="50.0" prefHeight="25.0" prefWidth="367.0" />
                               <Label text="Bottelage" />
                               <ChoiceBox fx:id="bottelage" minWidth="50.0" prefHeight="25.0" prefWidth="367.0" />
-                              <JFXDatePicker fx:id="date" prefHeight="28.0" prefWidth="163.0" />
+                              <JFXDatePicker fx:id="dateChanger" prefHeight="28.0" prefWidth="163.0" />
                               <JFXButton onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="158.0" text="Sélection des machines" />
                               <JFXButton prefHeight="25.0" prefWidth="164.0" text="Valider" />
                            </children>
@@ -61,11 +61,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Aujourd'hui" GridPane.columnIndex="1">
-                     <GridPane.margin>
-                        <Insets left="100.0" />
-                     </GridPane.margin>
-                  </Label>
                   <Label text="Matin" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="20.0" />
@@ -88,6 +83,7 @@
                         <TableColumn fx:id="clientAMCol" prefWidth="75.0" text="Client" />
                      </columns>
                   </TableView>
+                  <JFXDatePicker fx:id="date" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
         </items>

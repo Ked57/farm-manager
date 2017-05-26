@@ -54,7 +54,7 @@ public class MachinesController {
 	public void initialize(){
 		marqueCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("marque"));
 		modeleCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("modele"));
-		largCoupeCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("Largeur de coupe"));
+		largCoupeCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("largCoupe"));
 		consoHeureRouteCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("consoRoute"));
 		consoHeureFoncCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("consoFonct"));
 		capaResCol.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("capaRes"));

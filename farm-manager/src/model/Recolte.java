@@ -12,10 +12,11 @@ public class Recolte {
 	private String prenomCli;
 	private int idCh;
 	private String adresse;
+	private int id_typeBottelage;
 	private String typeBottelage;
 	private String nomTransport;
 	public Recolte(int id,String date, int fourchette, float tMax, float quantite, float cout, int idCli, String nomCli,
-			String prenomCli, int idCh, String adresse, String typeBottelage, String nomTransport) {
+			String prenomCli, int idCh, String adresse, int id_typeBottelage, String typeBottelage, String nomTransport) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -28,6 +29,7 @@ public class Recolte {
 		this.prenomCli = prenomCli;
 		this.idCh = idCh;
 		this.adresse = adresse;
+		this.id_typeBottelage = id_typeBottelage;
 		this.typeBottelage = typeBottelage;
 		this.nomTransport = nomTransport;
 	}
@@ -52,6 +54,9 @@ public class Recolte {
 	}
 	public int getFourchette() {
 		return fourchette;
+	}
+	public String getNomComplet(){
+		return nomCli+" "+prenomCli;
 	}
 	public void setFourchette(int fourchette) {
 		this.fourchette = fourchette;
@@ -110,5 +115,12 @@ public class Recolte {
 	public void setNomTransport(String nomTransport) {
 		this.nomTransport = nomTransport;
 	}
+	public int getId_typeBottelage() {
+		return id_typeBottelage;
+	}
+	public void setId_typeBottelage(int id_typeBottelage) {
+		this.id_typeBottelage = id_typeBottelage;
+	}
+	
 	
 }

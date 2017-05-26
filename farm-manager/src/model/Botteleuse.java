@@ -1,13 +1,14 @@
 package model;
 
 public class Botteleuse{
-	
+	private int id;
 	private String marque;
 	private String modele;
 	private String type; // pour plus tard
 	private String etat;
 	
-	public Botteleuse(String marque, String modele, int etat){
+	public Botteleuse(int id,String marque, String modele, int etat){
+		this.id = id;
 		this.marque = marque;
 		this.modele = modele;
 		this.type = type;
