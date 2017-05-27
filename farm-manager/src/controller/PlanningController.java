@@ -109,18 +109,18 @@ public class PlanningController {
 		date.setValue(parsedDate);
 		updatePlanning(date.getValue().toString());
 		recoltList = data.getRecoltes(date.getValue().toString());
-		if(recoltList.size() >= 0){
+		if(recoltList.size() > 0){
 			selectedItem = recoltList.get(0);
 			updateLeftPanel(selectedItem);
 			currChampsList = data.getChamps(selectedItem.getIdCli());
 			setChamps(currChampsList);
-		}
+		}else selectedItem = new Recolte(0,"", 0, 0.1f, 0.1f, 0.1f, 0, "",	"", 0, "", 0, "", "");
 
 		tableMatin.getColumns().clear();
 		tableMatin.getColumns().addAll(adresseMatinCol, clientMatinCol);
 
 		tableMatin.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-			if (!selectedItem.equals(tableMatin.getSelectionModel().getSelectedItem())) {
+			if (!tableMatin.getSelectionModel().isEmpty() && !selectedItem.equals(tableMatin.getSelectionModel().getSelectedItem())) {
 				selectedItem = tableMatin.getSelectionModel().getSelectedItem();
 				try {
 					updateLeftPanel(selectedItem);
@@ -135,7 +135,7 @@ public class PlanningController {
 		tableAM.getColumns().addAll(adresseAMCol, clientAMCol);
 		tableAM.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 			
-			if (selectedItem != tableAM.getSelectionModel().getSelectedItem()) {
+			if (!tableAM.getSelectionModel().isEmpty() && selectedItem != tableAM.getSelectionModel().getSelectedItem()) {
 				selectedItem = tableAM.getSelectionModel().getSelectedItem();
 				try {
 					updateLeftPanel(selectedItem);
