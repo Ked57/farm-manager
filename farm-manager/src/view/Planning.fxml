@@ -39,8 +39,8 @@
                               <Label text="Bottelage" />
                               <ChoiceBox fx:id="bottelage" minWidth="50.0" prefHeight="25.0" prefWidth="367.0" />
                               <JFXDatePicker fx:id="dateChanger" prefHeight="28.0" prefWidth="163.0" />
-                              <JFXButton onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="158.0" text="Sélection des machines" />
-                              <JFXButton prefHeight="25.0" prefWidth="164.0" text="Valider" />
+                              <JFXButton onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="164.0" text="Sélection des machines" />
+                              <JFXButton fx:id="commandeButton" onAction="#onCommandeButtonClick" prefHeight="25.0" prefWidth="164.0" text="Nouvelle commande" />
                            </children>
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

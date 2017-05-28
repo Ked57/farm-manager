@@ -340,4 +340,12 @@ public class PlanningController {
 		LocalDate date = LocalDate.parse(rec.getDate());
 		dateChanger.setValue(date);
 	}
+	
+	public void onCommandeButtonClick(){
+		int id;
+		if(recoltList.size() > 0)
+			id= recoltList.get(recoltList.size()-1).getId();
+		else id = 0;
+		//selectedItem = new Recolte(id,);
+	}
 }
