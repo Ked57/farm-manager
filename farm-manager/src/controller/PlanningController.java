@@ -341,11 +341,18 @@ public class PlanningController {
 		dateChanger.setValue(date);
 	}
 	
-	public void onCommandeButtonClick(){
-		int id;
-		if(recoltList.size() > 0)
-			id= recoltList.get(recoltList.size()-1).getId();
-		else id = 0;
-		//selectedItem = new Recolte(id,);
+	public void onCommandeButtonClick() throws ClassNotFoundException, SQLException{		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDate d = LocalDate.now();
+		String text = d.format(formatter);
+		LocalDate parsedDate = LocalDate.parse(text, formatter);
+		
+		Recolte rec = new Recolte(0,parsedDate.toString(),0,0.0f,0.0f,0.0f,1,clientList.get(1).getNom(),clientList.get(1).getPrenom(),
+				data.getChamps(1).get(1).getId(),data.getChamps(1).get(1).getAdresse(),1,"Rond","Client");
+		data.addRecolte(parsedDate.toString(),1,1,1,1);
+		data.syncRecoltes();
+		recoltList = data.getRecoltes();
+		updatePlanning(parsedDate.toString());
+		selectedItem = rec;
 	}
 }

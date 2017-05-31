@@ -154,4 +154,8 @@ public class DataMgr {
 	public void syncRecoltes() throws ClassNotFoundException, SQLException {
 		this.recoltes = db.getRecoltes();
 	}
+	
+	public void addRecolte(String date, int idCli,int idCh, int idTrans, int idBot){
+		db.insertRecolte(date, idCli,idCh, idTrans, idBot);
+	}
 }

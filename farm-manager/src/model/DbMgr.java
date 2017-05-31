@@ -290,4 +290,15 @@ public class DbMgr {
 			e.printStackTrace();
 		}
 	}
+	public void insertRecolte(String date, int idCli,int idCh, int idTrans, int idBot){
+		String query = "INSERT INTO Recolte(`Date_Rec`,`Id_Cli`,`Id_Ch`,`Id_Trans`,`Id_TypeBot`) VALUES"
+				+ " ('"+date+"',"+idCli+","+idCh+","+idTrans+","+idBot+")";
+		System.out.println(query);
+		try {
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
