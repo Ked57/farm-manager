@@ -355,4 +355,18 @@ public class PlanningController {
 		updatePlanning(parsedDate.toString());
 		selectedItem = rec;
 	}
+	
+	public void onSuppAction() throws ClassNotFoundException, SQLException{
+		if(selectedItem != null){
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			LocalDate d = LocalDate.now();
+			String text = d.format(formatter);
+			LocalDate parsedDate = LocalDate.parse(text, formatter);
+			
+			data.deleteRecolte(selectedItem.getId());
+			data.syncRecoltes();
+			recoltList = data.getRecoltes();
+			updatePlanning(parsedDate.toString());
+		}		
+	}
 }

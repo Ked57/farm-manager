@@ -158,4 +158,7 @@ public class DataMgr {
 	public void addRecolte(String date, int idCli,int idCh, int idTrans, int idBot){
 		db.insertRecolte(date, idCli,idCh, idTrans, idBot);
 	}
+	public void deleteRecolte(int id){
+		db.delete("Recolte","Id_Rec",id);
+	}
 }

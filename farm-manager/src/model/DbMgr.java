@@ -300,5 +300,13 @@ public class DbMgr {
 			e.printStackTrace();
 		}
 	}
-	
+	public void delete(String table, String idFieldName, int idField){
+		String query = "DELETE FROM "+table+" WHERE "+idFieldName+"="+idField;
+		System.out.println(query);
+		try {
+			st.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
