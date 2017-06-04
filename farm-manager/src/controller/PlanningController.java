@@ -71,6 +71,7 @@ public class PlanningController {
 	private ObservableList<Client> clientList;
 	private ObservableList<Champs> currChampsList;
 	private ObservableList<Recolte> recoltList;
+	private LocalDate parsedDate;
 
 	public void initialize() {
 		// remplissage de la choicebox bottelage
@@ -99,28 +100,29 @@ public class PlanningController {
 		this.clientList = data.getClients();
 		setClients();
 		setChamps(data.getChamps(currClient.getId()));
-	
 
 		// Initialisation de la date
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate d = LocalDate.now();
 		String text = d.format(formatter);
-		LocalDate parsedDate = LocalDate.parse(text, formatter);
+		parsedDate = LocalDate.parse(text, formatter);
 		date.setValue(parsedDate);
 		updatePlanning(date.getValue().toString());
 		recoltList = data.getRecoltes(date.getValue().toString());
-		if(recoltList.size() > 0){
+		if (recoltList.size() > 0) {
 			selectedItem = recoltList.get(0);
 			updateLeftPanel(selectedItem);
 			currChampsList = data.getChamps(selectedItem.getIdCli());
 			setChamps(currChampsList);
-		}else selectedItem = new Recolte(0,"", 0, 0.1f, 0.1f, 0.1f, 0, "",	"", 0, "", 0, "", "");
+		} else
+			selectedItem = new Recolte(0, "", 0, 0.1f, 0.1f, 0.1f, 0, "", "", 0, "", 0, "", "");
 
 		tableMatin.getColumns().clear();
 		tableMatin.getColumns().addAll(adresseMatinCol, clientMatinCol);
 
 		tableMatin.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-			if (!tableMatin.getSelectionModel().isEmpty() && !selectedItem.equals(tableMatin.getSelectionModel().getSelectedItem())) {
+			if (!tableMatin.getSelectionModel().isEmpty()
+					&& !selectedItem.equals(tableMatin.getSelectionModel().getSelectedItem())) {
 				selectedItem = tableMatin.getSelectionModel().getSelectedItem();
 				try {
 					updateLeftPanel(selectedItem);
@@ -134,8 +136,9 @@ public class PlanningController {
 		tableAM.getColumns().clear();
 		tableAM.getColumns().addAll(adresseAMCol, clientAMCol);
 		tableAM.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-			
-			if (!tableAM.getSelectionModel().isEmpty() && selectedItem != tableAM.getSelectionModel().getSelectedItem()) {
+
+			if (!tableAM.getSelectionModel().isEmpty()
+					&& selectedItem != tableAM.getSelectionModel().getSelectedItem()) {
 				selectedItem = tableAM.getSelectionModel().getSelectedItem();
 				try {
 					updateLeftPanel(selectedItem);
@@ -248,9 +251,10 @@ public class PlanningController {
 			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
 				if (selectedItem != null && selectedItem.getTypeBottelage() != newValue) {
 					ObservableList<Bottelage> bottelages = data.getBottelages();
-					for(int i = 0; i < bottelages.size(); ++i){
-						if(bottelages.get(i).getNom().equals(newValue)){
-							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_TypeBot", bottelages.get(i).getId());
+					for (int i = 0; i < bottelages.size(); ++i) {
+						if (bottelages.get(i).getNom().equals(newValue)) {
+							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_TypeBot",
+									bottelages.get(i).getId());
 							try {
 								data.syncRecoltes();
 								recoltList = data.getRecoltes();
@@ -286,7 +290,8 @@ public class PlanningController {
 			champs.setItems(adresseStrings);
 			if (selectedItem != null) {
 				champs.setValue(selectedItem.getAdresse());
-			} else champs.setValue(champsList.get(0).getAdresse());
+			} else
+				champs.setValue(champsList.get(0).getAdresse());
 		} else {
 			ObservableList<String> adresseStrings = FXCollections.observableArrayList();
 			adresseStrings.add("Aucun champs");
@@ -296,15 +301,17 @@ public class PlanningController {
 	}
 
 	public void selecMachinesOnAction() throws IOException, ClassNotFoundException, SQLException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SelecMachines.fxml"));
-		BorderPane dialog = loader.load();
-		selecMachinesController = loader.getController();
-		Scene scene = new Scene(dialog, 400, 400);
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.setTitle("Sélection des machines");
-		stage.show();
-		selecMachinesController.initSelecMachines(data);
+		if (selectedItem != null) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SelecMachines.fxml"));
+			BorderPane dialog = loader.load();
+			selecMachinesController = loader.getController();
+			Scene scene = new Scene(dialog, 400, 400);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.setTitle("Sélection des machines");
+			stage.show();
+			selecMachinesController.initSelecMachines(data, selectedItem.getDate(), selectedItem.getFourchette(),selectedItem.getId());
+		}
 	}
 
 	public void updatePlanning(String day) {
@@ -340,33 +347,34 @@ public class PlanningController {
 		LocalDate date = LocalDate.parse(rec.getDate());
 		dateChanger.setValue(date);
 	}
-	
-	public void onCommandeButtonClick() throws ClassNotFoundException, SQLException{		
+
+	public void onCommandeButtonClick() throws ClassNotFoundException, SQLException {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate d = LocalDate.now();
 		String text = d.format(formatter);
 		LocalDate parsedDate = LocalDate.parse(text, formatter);
-		
-		Recolte rec = new Recolte(0,parsedDate.toString(),0,0.0f,0.0f,0.0f,1,clientList.get(1).getNom(),clientList.get(1).getPrenom(),
-				data.getChamps(1).get(1).getId(),data.getChamps(1).get(1).getAdresse(),1,"Rond","Client");
-		data.addRecolte(parsedDate.toString(),1,1,1,1);
+
+		Recolte rec = new Recolte(0, parsedDate.toString(), 0, 0.0f, 0.0f, 0.0f, 1, clientList.get(1).getNom(),
+				clientList.get(1).getPrenom(), data.getChamps(1).get(1).getId(), data.getChamps(1).get(1).getAdresse(),
+				1, "Rond", "Client");
+		data.addRecolte(parsedDate.toString(), 1, 1, 1, 1);
 		data.syncRecoltes();
 		recoltList = data.getRecoltes();
 		updatePlanning(parsedDate.toString());
 		selectedItem = rec;
 	}
-	
-	public void onSuppAction() throws ClassNotFoundException, SQLException{
-		if(selectedItem != null){
+
+	public void onSuppAction() throws ClassNotFoundException, SQLException {
+		if (selectedItem != null) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			LocalDate d = LocalDate.now();
 			String text = d.format(formatter);
 			LocalDate parsedDate = LocalDate.parse(text, formatter);
-			
+
 			data.deleteRecolte(selectedItem.getId());
 			data.syncRecoltes();
 			recoltList = data.getRecoltes();
 			updatePlanning(parsedDate.toString());
-		}		
+		}
 	}
 }

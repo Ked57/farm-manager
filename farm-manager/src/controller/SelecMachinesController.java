@@ -43,11 +43,22 @@ public class SelecMachinesController {
 		moissModeleColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("modele"));
 		moissChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(moissChoixColumn));
 		moissChoixColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,Boolean>("choosed"));
-		moissTable.setEditable(true);
+		moissTable.setEditable(true);		
 	}
 
-	public void initSelecMachines(DataMgr data) throws ClassNotFoundException, SQLException {		
-		moissDispList = data.getMoissonneuses();
+	public void initSelecMachines(DataMgr data, String date, int fourchette,int idRec) throws ClassNotFoundException, SQLException {
+		this.data = data;
+		moissDispList = data.getMoissonneuses(date,fourchette,idRec);
+		ObservableList<Moissonneuse> choices = data.getMoissonneuses(idRec);
+		for(int i = 0; i < moissDispList.size(); ++i){
+			for(int j = 0; j < choices.size(); ++j){
+				if(moissDispList.get(i).getId() == choices.get(j).getId()){
+					moissDispList.get(i).setChoosed(true);
+					System.out.println(moissDispList.get(i).isChoosed()+"");
+				}
+					
+			}
+		}
 		moissTable.setItems(moissDispList);
 		moissTable.getColumns().clear();
 		moissTable.getColumns().addAll(moissModeleColumn,moissChoixColumn);

@@ -73,15 +73,13 @@ public class DataMgr {
 		return moissonneuses;
 	}
 
-	public ObservableList<Moissonneuse> getMoissonneuses(String day) {
-		ObservableList<Moissonneuse> moissonneuses = FXCollections.observableArrayList();
-		for (int i = 0; i < this.recoltes.size(); ++i) {
-			if (this.recoltes.get(i).getDate() == day)
-				moissonneuses.add(this.moissonneuses.get(i));
-		}
-		return moissonneuses;
+	public ObservableList<Moissonneuse> getMoissonneuses(String day, int fourchette,int idRec) throws ClassNotFoundException, SQLException {
+		return db.getMoissonneuseForDay(day,fourchette,idRec);
 	}
-
+	public ObservableList<Moissonneuse> getMoissonneuses(int idRec) throws ClassNotFoundException, SQLException {
+		return db.getMoissonneuseForRec(idRec);
+	}
+	
 	public void setMoissonneuses(ObservableList<Moissonneuse> moissonneuses) {
 		this.moissonneuses = moissonneuses;
 	}
