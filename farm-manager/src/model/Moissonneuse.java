@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class Moissonneuse{
+	private int idMach;
 	private int id;
 	private String marque;
 	private String modele;
@@ -19,8 +20,9 @@ public class Moissonneuse{
 	private boolean choosed;
 	private BooleanProperty choosedProperty;
 	
-	public Moissonneuse(int id,String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
+	public Moissonneuse(int idMach,int id,String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
 			float hauteur, float poids, int etat) {
+		this.idMach = idMach;
 		this.id = id;
 		this.marque = marque;
 		this.modele = modele;
@@ -39,6 +41,14 @@ public class Moissonneuse{
 		this.choosedProperty = new SimpleBooleanProperty();
 	}
 	
+	public int getIdMach() {
+		return idMach;
+	}
+
+	public void setIdMach(int idMach) {
+		this.idMach = idMach;
+	}
+
 	public String getMarque() {
 		return marque;
 	}

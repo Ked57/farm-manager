@@ -168,38 +168,14 @@ public class DataMgr {
 		db.delete("Recolte","Id_Rec",id);
 	}
 	public void updateMoissForRecolte(Moissonneuse moiss,int idRec,boolean state) throws ClassNotFoundException, SQLException{
-		if(!state)
-			db.delete("RecolteMachine", "Id_Mach", moiss.getId());
-		else{
-			ArrayList<Machine> moi = db.getMoissonneusesIdBindedToRec(idRec);
-			boolean taken = false;
-			for(Machine m : moi){
-				if(m.getIdMoi()==moiss.getId()){
-					System.out.println("id is taken");
-					taken = true;
-				}
-			}
-			if(!taken){
-				db.insertMachineForRecolte(idRec,moiss.getId());
-			}
-		}
+		db.delete("RecolteMachine", "Id_Mach",moiss.getIdMach());
+		if(state)
+			db.insertMachineForRecolte(idRec,moiss.getIdMach());
 	}
 	
 	public void updateTractForRecolte(Tracteur tract,int idRec,boolean state) throws ClassNotFoundException, SQLException{
-		if(!state)
-			db.delete("RecolteMachine", "Id_Mach", tract.getId());
-		else{
-			ArrayList<Machine> moi = db.getTracteursIdBindedToRec(idRec);
-			boolean taken = false;
-			for(Machine m : moi){
-				if(m.getIdMoi()==tract.getId()){
-					System.out.println("id is taken");
-					taken = true;
-				}
-			}
-			if(!taken){
-				db.insertMachineForRecolte(idRec,tract.getId());
-			}
-		}
+		db.delete("RecolteMachine", "Id_Mach", tract.getIdMach());
+		if(state)
+			db.insertMachineForRecolte(idRec,tract.getIdMach());
 	}
 }

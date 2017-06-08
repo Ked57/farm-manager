@@ -93,7 +93,7 @@ public class SelecMachinesController {
 		System.out.println(tractDispList.size());
 		for(int i = 0; i < tractDispList.size(); ++i){
 			for(int j = 0; j < choicestract.size(); ++j){
-				if(tractDispList.get(i).getId() == choicestract.get(j).getId()){
+				if(tractDispList.get(i).getId() != 0 && choicestract.get(j).getId() != 0 && tractDispList.get(i).getId() == choicestract.get(j).getId()){
 					tractDispList.get(i).setChoosed(true);
 				}
 			}
@@ -116,7 +116,5 @@ public class SelecMachinesController {
         tractTable.getColumns().clear();
         tractTable.getColumns().addAll(tractModeleColumn,tractChoixColumn);
 		
-		
-
 	}
 }

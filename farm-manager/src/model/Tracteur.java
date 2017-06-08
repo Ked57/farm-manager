@@ -1,9 +1,10 @@
 package model;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Tracteur{
-	
+	private int idMach;
 	private int id;
 	private String marque;
 	private String modele;
@@ -12,7 +13,9 @@ public class Tracteur{
 	private Boolean choosed;
 	private BooleanProperty choosedProperty;
 	
-	public Tracteur(int id,String marque, String modele, float capacite, int etat){
+	public Tracteur(int idMach,int id,String marque, String modele, float capacite, int etat){
+		this.idMach = idMach;
+		this.id = id;
 		this.marque = marque;
 		this.modele = modele;
 		this.capacite = capacite;
@@ -20,8 +23,19 @@ public class Tracteur{
 			this.etat = "Non disponible";
 		else this.etat = "Disponible";
 		this.choosed = false;
+		this.choosedProperty = new SimpleBooleanProperty();
 	}
 	
+
+	public int getIdMach() {
+		return idMach;
+	}
+
+
+	public void setIdMach(int idMach) {
+		this.idMach = idMach;
+	}
+
 
 	public int getId() {
 		return id;

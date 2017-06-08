@@ -124,13 +124,14 @@ public class DbMgr {
 	public ObservableList<Moissonneuse> getMoissonneuseList() throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
-					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq;";
+			String request = "SELECT Moissonneuse.Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,"
+					+ "Etat_Moi,Machine.Id_Mach FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi "
+					+ "JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Moissonneuse.Id_Moi=Machine.Id_Moi;";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			moissonneuseList.add(new Moissonneuse(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
+			moissonneuseList.add(new Moissonneuse(rs.getInt(13),rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
 					rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getFloat(10),
 					rs.getFloat(11), rs.getInt(12)));
 		}
@@ -143,8 +144,9 @@ public class DbMgr {
 		if (Connected) {
 			String request = "";
 			if (ids.size() > 0) {
-				request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
-						+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq WHERE Id_Moi NOT IN (";
+				request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi,Machine.Id_Mach"
+						+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq "
+						+ "JOIN Machine ON Moissonneuse.Id_Moi=Machine.Id_Moi WHERE Id_Moi NOT IN (";
 				for (int i = 0; i < ids.size(); ++i) {
 					if (i < ids.size() - 1)
 						request += (ids.get(i) + ",");
@@ -152,14 +154,14 @@ public class DbMgr {
 						request += ids.get(i) + ")";
 				}
 			}else{
-				request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
+				request = "SELECT Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi,Machine.Id_Mach"
 						+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq";
 			}
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			moissonneuseList.add(new Moissonneuse(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
+			moissonneuseList.add(new Moissonneuse(rs.getInt(13),rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
 					rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getFloat(10),
 					rs.getFloat(11), rs.getInt(12)));
 		}
@@ -168,8 +170,9 @@ public class DbMgr {
 	public ObservableList<Moissonneuse> getMoissonneuseForDay(String date,int fourchette,int idRec) throws ClassNotFoundException, SQLException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Moissonneuse.Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
-					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq WHERE Moissonneuse.Id_Moi NOT IN"
+			String request = "SELECT Moissonneuse.Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi,Machine.Id_Mach"
+					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Moissonneuse.Id_Moi=Machine.Id_Moi"
+					+ " WHERE Moissonneuse.Id_Moi NOT IN"
 					+ " (SELECT Moissonneuse.Id_Moi FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq"
 					+ " JOIN Machine ON Moissonneuse.Id_Moi=Machine.Id_Moi JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
 					+ " WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+");";
@@ -178,7 +181,7 @@ public class DbMgr {
 		}
 		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			moissonneuseList.add(new Moissonneuse(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
+			moissonneuseList.add(new Moissonneuse(rs.getInt(13),rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
 					rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getFloat(10),
 					rs.getFloat(11), rs.getInt(12)));
 		}
@@ -187,7 +190,7 @@ public class DbMgr {
 	public ObservableList<Moissonneuse> getMoissonneuseForRec(int idRec) throws ClassNotFoundException, SQLException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Moissonneuse.Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
+			String request = "SELECT Moissonneuse.Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi,Machine.Id_Mach"
 					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq "
 					+ "JOIN Machine ON Moissonneuse.Id_Moi=Machine.Id_Moi JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec "
 					+ "WHERE Recolte.Id_Rec="+idRec+";";
@@ -195,7 +198,7 @@ public class DbMgr {
 		}
 		ObservableList<Moissonneuse> moissonneuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			moissonneuseList.add(new Moissonneuse(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
+			moissonneuseList.add(new Moissonneuse(rs.getInt(13),rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4),
 					rs.getFloat(5), rs.getFloat(6), rs.getInt(7), rs.getInt(8), rs.getInt(9), rs.getFloat(10),
 					rs.getFloat(11), rs.getInt(12)));
 		}
@@ -205,7 +208,7 @@ public class DbMgr {
 	public ArrayList<Machine> getMoissonneusesIdBindedToRec(int idRec) throws SQLException, ClassNotFoundException{
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Machine.Id_Mach,Machine.Id_Moi FROM `RecolteMachine` JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach WHERE RecolteMachine.Id_Rec="+idRec;
+			String request = "SELECT Machine.Id_Mach,Machine.Id_Moi FROM `RecolteMachine` JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach WHERE RecolteMachine.Id_Rec="+idRec+"AND Id_Moi IS NOT NULL";
 			rs = st.executeQuery(request);
 			ArrayList<Machine> ids = new ArrayList<Machine>();
 			while (rs.next()) {
@@ -219,20 +222,21 @@ public class DbMgr {
 	public ObservableList<Tracteur> getTracteurList() throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract FROM Tracteur JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract JOIN"
-					+ " Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq;";
+			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract,Id_Mach "
+					+ "FROM Tracteur JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq "
+					+ "JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract;";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Tracteur> tracteurList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			tracteurList.add(new Tracteur(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)));
+			tracteurList.add(new Tracteur(rs.getInt(6),rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)));
 		}
 		return tracteurList;
 	}
 	public ObservableList<Tracteur> getTracteursForRec(int idRec) throws ClassNotFoundException, SQLException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract FROM Tracteur "
+			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract,Machine.Id_Mach FROM Tracteur "
 					+ "JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract "
 					+ "JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract "
 					+ "JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec "
@@ -241,7 +245,7 @@ public class DbMgr {
 		}
 		ObservableList<Tracteur> tracteurList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			tracteurList.add(new Tracteur(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)));
+			tracteurList.add(new Tracteur(rs.getInt(6),rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)));
 		}
 		return tracteurList;
 	}
@@ -249,20 +253,20 @@ public class DbMgr {
 	public ObservableList<Tracteur> getTracteursForDay(String date,int fourchette,int idRec) throws ClassNotFoundException, SQLException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract FROM Tracteur "
+			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract,Id_Mach FROM Tracteur "
 					+ "JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq "
 					+ "JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract"
 					+ " WHERE Tracteur.Id_Tract NOT IN "
 					+ "(SELECT Tracteur.Id_Tract FROM Tracteur JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract "
 					+ "JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract "
 					+ "JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
-					+ " WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+";";
+					+ " WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+");";
 			rs = st.executeQuery(request);
 			System.out.println(request);
 		}
 		ObservableList<Tracteur> tracteurList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			tracteurList.add(new Tracteur(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)));
+			tracteurList.add(new Tracteur(rs.getInt(6),rs.getInt(1),rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)));
 		}
 		return tracteurList;
 	}
@@ -270,7 +274,7 @@ public class DbMgr {
 	public ArrayList<Machine> getTracteursIdBindedToRec(int idRec) throws SQLException, ClassNotFoundException{
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Machine.Id_Mach,Machine.Id_Tract FROM `RecolteMachine` JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach WHERE RecolteMachine.Id_Rec="+idRec;
+			String request = "SELECT Machine.Id_Mach,Machine.Id_Tract FROM `RecolteMachine` JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach WHERE RecolteMachine.Id_Rec="+idRec+" AND Id_Tract IS NOT NULL";
 			rs = st.executeQuery(request);
 			ArrayList<Machine> ids = new ArrayList<Machine>();
 			while (rs.next()) {
