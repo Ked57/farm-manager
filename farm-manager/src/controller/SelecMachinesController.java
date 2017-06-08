@@ -28,10 +28,17 @@ public class SelecMachinesController {
 	
 	@FXML private TableColumn<Moissonneuse,String> moissModeleColumn;
 	@FXML private TableColumn<Moissonneuse,Boolean> moissChoixColumn;
+	
+	@FXML private TableView<Tracteur> tractTable;
+	
+	@FXML private TableColumn<Tracteur,String> tractModeleColumn;
+	@FXML private TableColumn<Tracteur,Boolean> tractChoixColumn;
 
 	private ObservableList<Moissonneuse> moissList;
 	
 	private ObservableList<Moissonneuse> moissDispList;
+	
+	private ObservableList<Tracteur> tractDispList;
 	
 	private DataMgr data;
 
@@ -43,7 +50,12 @@ public class SelecMachinesController {
 		moissModeleColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,String>("modele"));
 		moissChoixColumn.setCellValueFactory(new PropertyValueFactory<Moissonneuse,Boolean>("choosed"));
 		moissChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(moissChoixColumn));
-		moissTable.setEditable(true);		
+		moissTable.setEditable(true);	
+		
+		tractModeleColumn.setCellValueFactory(new PropertyValueFactory<Tracteur,String>("modele"));
+		tractChoixColumn.setCellValueFactory(new PropertyValueFactory<Tracteur,Boolean>("choosed"));
+		tractChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(tractChoixColumn));
+		tractTable.setEditable(true);
 	}
 
 	public void initSelecMachines(DataMgr data, String date, int fourchette,int idRec) throws ClassNotFoundException, SQLException {
@@ -74,6 +86,35 @@ public class SelecMachinesController {
 		moissTable.setItems(moissDispList);
 		moissTable.getColumns().clear();
 		moissTable.getColumns().addAll(moissModeleColumn,moissChoixColumn);
+		
+		
+		tractDispList = data.getTracteurs(date,fourchette,idRec);
+		ObservableList<Tracteur> choicestract = data.getTracteurs(idRec);
+		System.out.println(tractDispList.size());
+		for(int i = 0; i < tractDispList.size(); ++i){
+			for(int j = 0; j < choicestract.size(); ++j){
+				if(tractDispList.get(i).getId() == choicestract.get(j).getId()){
+					tractDispList.get(i).setChoosed(true);
+				}
+			}
+		}
+
+        // listeners pour les boolean properties
+        for (Tracteur tract : tractDispList) {
+        	tract.choosedProperty().addListener((obs, previousState, newState) ->{
+                System.out.printf("Changement d'état du choix, previous: "+previousState+", new: "+newState+"\n");
+                tract.setChoosed(newState);
+                try {
+					data.updateTractForRecolte(tract, idRec,tract.isChoosed());
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            });
+        }
+        tractTable.setItems(tractDispList);
+        tractTable.getColumns().clear();
+        tractTable.getColumns().addAll(tractModeleColumn,tractChoixColumn);
 		
 		
 

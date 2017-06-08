@@ -2,9 +2,6 @@ package model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WritableBooleanValue;
 
 public class Moissonneuse{
 	private int id;

@@ -33,8 +33,44 @@
                   </GridPane>
                </content>
             </Tab>
-            <Tab text="Tracteurs" />
-            <Tab text="Botteleuses" />
+            <Tab text="Tracteurs">
+               <content>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TableView fx:id="tractTable" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn fx:id="tractModeleColumn" prefWidth="75.0" text="Modele" />
+                              <TableColumn fx:id="tractChoixColumn" prefWidth="75.0" text="Choix" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </GridPane>
+               </content></Tab>
+            <Tab text="Botteleuses">
+               <content>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TableView fx:id="bottTable" prefHeight="200.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn fx:id="bottModeleColumn" prefWidth="75.0" text="Modele" />
+                              <TableColumn fx:id="bottChoixColumn" prefWidth="75.0" text="Choix" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </GridPane>
+               </content></Tab>
          </tabs>
       </JFXTabPane>
    </center>

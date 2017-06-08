@@ -88,6 +88,13 @@ public class DataMgr {
 	public ObservableList<Tracteur> getTracteurs() {
 		return tracteurs;
 	}
+	
+	public ObservableList<Tracteur> getTracteurs(int idRec) throws ClassNotFoundException, SQLException {
+		return db.getTracteursForRec(idRec);
+	}
+	public ObservableList<Tracteur> getTracteurs(String day, int fourchette,int idRec) throws ClassNotFoundException, SQLException {
+		return db.getTracteursForDay(day,fourchette,idRec);
+	}
 
 	public void setTracteurs(ObservableList<Tracteur> tracteurs) {
 		this.tracteurs = tracteurs;
@@ -174,6 +181,24 @@ public class DataMgr {
 			}
 			if(!taken){
 				db.insertMachineForRecolte(idRec,moiss.getId());
+			}
+		}
+	}
+	
+	public void updateTractForRecolte(Tracteur tract,int idRec,boolean state) throws ClassNotFoundException, SQLException{
+		if(!state)
+			db.delete("RecolteMachine", "Id_Mach", tract.getId());
+		else{
+			ArrayList<Machine> moi = db.getTracteursIdBindedToRec(idRec);
+			boolean taken = false;
+			for(Machine m : moi){
+				if(m.getIdMoi()==tract.getId()){
+					System.out.println("id is taken");
+					taken = true;
+				}
+			}
+			if(!taken){
+				db.insertMachineForRecolte(idRec,tract.getId());
 			}
 		}
 	}
