@@ -168,15 +168,11 @@ public class DbMgr {
 	public ObservableList<Moissonneuse> getMoissonneuseForDay(String date,int fourchette,int idRec) throws ClassNotFoundException, SQLException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract FROM Tracteur "
-					+ "JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract "
-					+ "JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq "
-					+ "JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract "
-					+ "WHERE Tracteur.Id_Tract NOT IN "
-					+ "(SELECT Tracteur.Id_Tract FROM Tracteur JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract"
-					+ " JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract "
-					+ "JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec "
-					+ "WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+");";
+			String request = "SELECT Moissonneuse.Id_Moi,Nom_Marq,Nom_ModMoi,LarCou_Moi,ConsRoute_ModMoi,ConsFonc_ModMoi,CapaRes_ModMoi,TaTrem_ModMoi,LargRou_ModMoi,Haut_ModMoi,Poids_ModMoi,Etat_Moi"
+					+ " FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq WHERE Moissonneuse.Id_Moi NOT IN"
+					+ " (SELECT Moissonneuse.Id_Moi FROM Moissonneuse JOIN ModeleMoissonneuse ON Moissonneuse.Id_ModMoi=ModeleMoissonneuse.Id_ModMoi JOIN Marque ON ModeleMoissonneuse.Id_Marq=Marque.Id_Marq"
+					+ " JOIN Machine ON Moissonneuse.Id_Moi=Machine.Id_Moi JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
+					+ " WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+");";
 			rs = st.executeQuery(request);
 			System.out.println(request);
 		}
@@ -254,7 +250,10 @@ public class DbMgr {
 		checkConnected();
 		if (Connected) {
 			String request = "SELECT Tracteur.Id_Tract,Nom_Marq,Nom_ModTract,Cap_Tract,Etat_Tract FROM Tracteur "
-					+ "JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract "
+					+ "JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq "
+					+ "JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract"
+					+ " WHERE Tracteur.Id_Tract NOT IN "
+					+ "(SELECT Tracteur.Id_Tract FROM Tracteur JOIN ModeleTracteur ON Tracteur.Id_ModTract=ModeleTracteur.Id_ModTract "
 					+ "JOIN Marque ON ModeleTracteur.Id_Marq=Marque.Id_Marq JOIN Machine ON Tracteur.Id_Tract=Machine.Id_Tract "
 					+ "JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
 					+ " WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+";";
