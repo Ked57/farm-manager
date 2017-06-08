@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -158,5 +159,22 @@ public class DataMgr {
 	}
 	public void deleteRecolte(int id){
 		db.delete("Recolte","Id_Rec",id);
+	}
+	public void updateMoissForRecolte(Moissonneuse moiss,int idRec,boolean state) throws ClassNotFoundException, SQLException{
+		if(!state)
+			db.delete("RecolteMachine", "Id_Mach", moiss.getId());
+		else{
+			ArrayList<Machine> moi = db.getMoissonneusesIdBindedToRec(idRec);
+			boolean taken = false;
+			for(Machine m : moi){
+				if(m.getIdMoi()==moiss.getId()){
+					System.out.println("id is taken");
+					taken = true;
+				}
+			}
+			if(!taken){
+				db.insertMachineForRecolte(idRec,moiss.getId());
+			}
+		}
 	}
 }

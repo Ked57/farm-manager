@@ -311,6 +311,7 @@ public class PlanningController {
 			stage.setTitle("Sélection des machines");
 			stage.show();
 			selecMachinesController.initSelecMachines(data, selectedItem.getDate(), selectedItem.getFourchette(),selectedItem.getId());
+			System.out.println("selecting machines");
 		}
 	}
 

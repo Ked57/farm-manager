@@ -1,5 +1,11 @@
 package model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WritableBooleanValue;
+
 public class Moissonneuse{
 	private int id;
 	private String marque;
@@ -14,6 +20,7 @@ public class Moissonneuse{
 	private float poids;
 	private String etat;
 	private boolean choosed;
+	private BooleanProperty choosedProperty;
 	
 	public Moissonneuse(int id,String marque, String modele,float largCoupe, float consoRoute, float consoFonct, int capaRes, int tailleTrem, int largRoute,
 			float hauteur, float poids, int etat) {
@@ -32,6 +39,7 @@ public class Moissonneuse{
 			this.etat = "Non disponible";
 		else this.etat = "Disponible";
 		this.choosed = false;
+		this.choosedProperty = new SimpleBooleanProperty();
 	}
 	
 	public String getMarque() {
@@ -121,8 +129,11 @@ public class Moissonneuse{
 
 	public void setChoosed(boolean choosed) {
 		this.choosed = choosed;
+		this.choosedProperty.set(choosed);
 	}
-
+	public BooleanProperty choosedProperty(){
+		return this.choosedProperty;
+	}
 	
 	
 }

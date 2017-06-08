@@ -2,6 +2,7 @@ package model;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -199,6 +200,19 @@ public class DbMgr {
 		}
 		return moissonneuseList;
 	}
+	
+	public ArrayList<Machine> getMoissonneusesIdBindedToRec(int idRec) throws SQLException, ClassNotFoundException{
+		checkConnected();
+		if (Connected) {
+			String request = "SELECT Machine.Id_Moi,Machine.Id_Mach FROM `RecolteMachine` JOIN Machine ON RecolteMachine.Id_Mach=Machine.Id_Mach WHERE RecolteMachine.Id_Rec="+idRec;
+			rs = st.executeQuery(request);
+			ArrayList<Machine> ids = new ArrayList<Machine>();
+			while (rs.next()) {
+				ids.add(new Machine(rs.getInt(1),rs.getInt(2),0,0));
+			}
+			return ids;
+		}else return null;
+	}
 
 	/* ====== TRACTEURS ====== */
 	public ObservableList<Tracteur> getTracteurList() throws SQLException, ClassNotFoundException {
@@ -278,7 +292,17 @@ public class DbMgr {
 		}
 		return bottelageList;
 	}
-	
+	/* ====== MACHINE ====== */
+	public void insertMachineForRecolte(int idRec,int idMach){
+		String query = "INSERT INTO RecolteMachine (Id_Rec,Id_Mach) VALUES ("+idRec+","+idMach+")";
+		System.out.println(query);
+		try {
+			st.executeUpdate(query);
+			System.out.println(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public boolean isConnected() {
 		return Connected;
 	}
