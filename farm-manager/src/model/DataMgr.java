@@ -178,4 +178,12 @@ public class DataMgr {
 		if(state)
 			db.insertMachineForRecolte(idRec,tract.getIdMach());
 	}
+	
+	/* ====== MAJ INFO RECOLTE Accueil ====== */
+	
+	public void majinforecolte(String table, String colonne, int trac, String id_cli, int cli){
+		String query = "UPDATE "+table+" SET "+colonne+"='"+trac+"' WHERE "+id_cli+"="+cli;
+		System.out.println(query);
+		
+	}
 }

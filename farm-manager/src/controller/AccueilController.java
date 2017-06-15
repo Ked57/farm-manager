@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
+import com.jfoenix.controls.JFXTextField;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.event.UIEventType;
@@ -32,7 +33,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -63,6 +66,17 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private Label nbTracteurs;
 	@FXML
 	private Label nbTonnes;
+	
+	//Partie info récolte
+	@FXML
+	private Button valider;
+	@FXML
+	private JFXTextField nbHeuressaisi;
+	@FXML
+	private JFXTextField nbtracteurssaisi;
+	@FXML
+	private JFXTextField nbtonnessaisi;
+	
 
 	private MapOptions options;
 	private LatLong center;
@@ -256,6 +270,21 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	public void clearPopUps(){
 		for(int i = 0; i < popups.size(); ++i){
 			popups.get(i).close();//J'ai malheureusement pas trouvÃ© mieux
+		}
+	}
+	
+	public void majRecolte(ActionEvent Event) {
+
+		int heure = Integer.parseInt(nbHeuressaisi.getText());
+		int trac = Integer.parseInt(nbtracteurssaisi.getText());
+		int tonne = Integer.parseInt(nbtonnessaisi.getText());
+		//ne marche pas encore
+		for (Client cli : clientList) {
+			if (cli.getNom() == proprietaire.getText()) {
+				System.out.println("tentative");
+				data.majinforecolte("Recolte", "TMax_Rec", trac, "Id_Cl", cli.getId());
+			}
+
 		}
 	}
 

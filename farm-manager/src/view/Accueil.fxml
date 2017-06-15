@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -74,12 +75,17 @@
                         <Label fx:id="nbHeures" prefHeight="17.0" prefWidth="346.0" GridPane.columnIndex="1" />
                         <Label fx:id="nbTracteurs" prefHeight="17.0" prefWidth="343.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label fx:id="nbTonnes" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <JFXTextField fx:id="nbHeuressaisi" GridPane.columnIndex="1" />
+                        <JFXTextField fx:id="nbtracteurssaisi" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="nbtonnessaisi" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                   <JFXButton layoutX="14.0" layoutY="41.0" text="Récoltes Journalières">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font></JFXButton>
+                  <JFXButton fx:id="valider" layoutX="364.0" layoutY="524.0" onAction="#majRecolte" text="Valider" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="80.0" />
+                  <Label fx:id="erreur" layoutX="152.0" layoutY="533.0" text="Label" textFill="#dd1212" />
                </children>
             </AnchorPane>
          </items>

@@ -334,6 +334,13 @@ public class DbMgr {
 		}
 		return recoltList;
 	}
+	
+
+	
+	
+	
+	
+	
 	/* ====== BOTTELAGE ====== */
 	public ObservableList<Bottelage> getBottelages() throws ClassNotFoundException, SQLException{
 		checkConnected();
