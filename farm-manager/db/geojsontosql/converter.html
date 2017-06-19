@@ -1,0 +1,25 @@
+<html>
+    <body>
+        GeoJson:<input id="poly" type="text" name="poly"><br>
+        Id:<input id="id" type="text" name="id"><br>
+        <button id="go" onclick="convert()" type="button">go</button>
+
+        <div id="result"></div>
+    </body>
+    <script>
+        function convert() {
+            var json = document.getElementById('poly').value;
+            var id = document.getElementById('id').value;
+            var jsonData = JSON.parse(json);
+            var res = "INSERT INTO Point VALUES ";
+            for (var i = 0; i < jsonData.polygon.length; i++) {
+                var counter = jsonData.polygon[i];
+                res += "("+(i+1)+","+counter[0]+","+counter[1]+","+id+")";
+                if(i < jsonData.polygon.length-1)
+                    res += ","
+            }
+            res += ";"
+            document.getElementById("result").innerHTML = res;
+        }
+    </script>
+</html>
