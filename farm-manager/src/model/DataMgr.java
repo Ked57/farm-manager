@@ -65,6 +65,14 @@ public class DataMgr {
 	public ObservableList<Botteleuse> getBotteleuses() {
 		return botteleuses;
 	}
+	
+	public ObservableList<Botteleuse> getBotteleuses(int idRec) throws ClassNotFoundException, SQLException {
+		return db.getBotteleusesForRec(idRec);
+	}
+	
+	public ObservableList<Botteleuse> getBotteleuses(String day, int fourchette,int idRec) throws ClassNotFoundException, SQLException {
+		return db.getBotteleusesForDay(day,fourchette,idRec);
+	}
 
 	public void setBotteleuses(ObservableList<Botteleuse> botteleuses) {
 		this.botteleuses = botteleuses;
@@ -177,6 +185,12 @@ public class DataMgr {
 		db.delete("RecolteMachine", "Id_Mach", tract.getIdMach());
 		if(state)
 			db.insertMachineForRecolte(idRec,tract.getIdMach());
+	}
+	
+	public void updateBottForRecolte(Botteleuse bott,int idRec,boolean state) throws ClassNotFoundException, SQLException{
+		db.delete("RecolteMachine", "Id_Mach", bott.getIdMach());
+		if(state)
+			db.insertMachineForRecolte(idRec,bott.getIdMach());
 	}
 	
 	/* ====== MAJ INFO RECOLTE Accueil ====== */

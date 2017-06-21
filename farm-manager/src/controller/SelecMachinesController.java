@@ -33,12 +33,17 @@ public class SelecMachinesController {
 	
 	@FXML private TableColumn<Tracteur,String> tractModeleColumn;
 	@FXML private TableColumn<Tracteur,Boolean> tractChoixColumn;
-
-	private ObservableList<Moissonneuse> moissList;
 	
+	@FXML private TableView<Botteleuse> bottTable;
+	
+	@FXML private TableColumn<Botteleuse,String> bottModeleColumn;
+	@FXML private TableColumn<Botteleuse,Boolean> bottChoixColumn;
+
 	private ObservableList<Moissonneuse> moissDispList;
 	
 	private ObservableList<Tracteur> tractDispList;
+	
+	private ObservableList<Botteleuse> bottDispList;
 	
 	private DataMgr data;
 
@@ -56,6 +61,11 @@ public class SelecMachinesController {
 		tractChoixColumn.setCellValueFactory(new PropertyValueFactory<Tracteur,Boolean>("choosed"));
 		tractChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(tractChoixColumn));
 		tractTable.setEditable(true);
+		
+		bottModeleColumn.setCellValueFactory(new PropertyValueFactory<Botteleuse,String>("modele"));
+		bottChoixColumn.setCellValueFactory(new PropertyValueFactory<Botteleuse,Boolean>("choosed"));
+		bottChoixColumn.setCellFactory(CheckBoxTableCell.forTableColumn(bottChoixColumn));
+		bottTable.setEditable(true);
 	}
 
 	public void initSelecMachines(DataMgr data, String date, int fourchette,int idRec) throws ClassNotFoundException, SQLException {
@@ -115,6 +125,34 @@ public class SelecMachinesController {
         tractTable.setItems(tractDispList);
         tractTable.getColumns().clear();
         tractTable.getColumns().addAll(tractModeleColumn,tractChoixColumn);
+        
+        bottDispList = data.getBotteleuses(date,fourchette,idRec);
+		ObservableList<Botteleuse> choicesbott = data.getBotteleuses(idRec);
+		System.out.println(bottDispList.size());
+		for(int i = 0; i < bottDispList.size(); ++i){
+			for(int j = 0; j < choicesbott.size(); ++j){
+				if(bottDispList.get(i).getId() != 0 && choicesbott.get(j).getId() != 0 && bottDispList.get(i).getId() == choicesbott.get(j).getId()){
+					bottDispList.get(i).setChoosed(true);
+				}
+			}
+		}
+
+        // listeners pour les boolean properties
+        for (Botteleuse bott : bottDispList) {
+        	bott.choosedProperty().addListener((obs, previousState, newState) ->{
+                System.out.printf("Changement d'état du choix, previous: "+previousState+", new: "+newState+"\n");
+                bott.setChoosed(newState);
+                try {
+					data.updateBottForRecolte(bott, idRec,bott.isChoosed());
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            });
+        }
+        bottTable.setItems(bottDispList);
+        bottTable.getColumns().clear();
+        bottTable.getColumns().addAll(bottModeleColumn,bottChoixColumn);
 		
 	}
 }

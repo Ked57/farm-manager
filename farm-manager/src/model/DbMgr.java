@@ -288,17 +288,52 @@ public class DbMgr {
 	public ObservableList<Botteleuse> getBotteleuseList() throws SQLException, ClassNotFoundException {
 		checkConnected();
 		if (Connected) {
-			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot,Id_Bot FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
-					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq;";
+			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot,Botteleuse.Id_Bot,Id_Mach FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
+					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Machine.Id_Bot=Botteleuse.Id_Bot;";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
 		while (rs.next()) {
-			botteleuseList.add(new Botteleuse(rs.getInt(4),rs.getString(1), rs.getString(2), rs.getInt(3)));
+			botteleuseList.add(new Botteleuse(rs.getInt(5),rs.getInt(4),rs.getString(1), rs.getString(2), rs.getInt(3)));
 		}
 		return botteleuseList;
 	}
-
+	
+	public ObservableList<Botteleuse> getBotteleusesForRec(int idRec) throws ClassNotFoundException, SQLException {
+		checkConnected();
+		if (Connected) {
+			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot,Botteleuse.Id_Bot,Machine.Id_Mach FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
+					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Botteleuse.Id_Bot=Machine.Id_Bot JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach"
+					+ " JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
+					+ " WHERE Recolte.Id_Rec="+idRec+";";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
+		while (rs.next()) {
+			botteleuseList.add(new Botteleuse(rs.getInt(5),rs.getInt(4),rs.getString(1), rs.getString(2), rs.getInt(3)));
+		}
+		return botteleuseList;
+	}
+	
+	public ObservableList<Botteleuse> getBotteleusesForDay(String date,int fourchette,int idRec) throws ClassNotFoundException, SQLException {
+		checkConnected();
+		if (Connected) {
+			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot,Botteleuse.Id_Bot,Machine.Id_Mach FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
+					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Botteleuse.Id_Bot=Machine.Id_Bot"
+					+ " WHERE Botteleuse.Id_Bot NOT IN "
+					+ "(SELECT Botteleuse.Id_Bot FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
+					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Botteleuse.Id_Bot=Machine.Id_Bot"
+					+ " JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
+					+ " WHERE Recolte.Date_Rec = '"+date+"' AND Recolte.Fourchette_Rec="+fourchette+" AND Recolte.Id_Rec != "+idRec+");";
+			rs = st.executeQuery(request);
+			System.out.println(request);
+		}
+		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
+		while (rs.next()) {
+			botteleuseList.add(new Botteleuse(rs.getInt(5),rs.getInt(4),rs.getString(1), rs.getString(2), rs.getInt(3)));
+		}
+		return botteleuseList;
+	}
 	
 	
 	/* ====== RECOLTE ====== */
