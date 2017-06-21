@@ -149,7 +149,6 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				if (currRecolte != null) {
 					for (Recolte rec : recoltesList) {
 						if (rec.getDate().equals(newValue)) {
-							System.out.println(rec.getQuantite());
 							currRecolte = rec;
 							nbtonnessaisi.setText(rec.getQuantite() + "");
 						}
@@ -277,7 +276,11 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 					}
 					ObservableList<String> recoltesStrings = FXCollections.observableArrayList();
 					for (Recolte recs : recoltesList) {
-						recoltesStrings.add(recs.getDate());
+						String fourchette;
+						if(recs.getFourchette() > 0)
+							fourchette = "Après Midi";
+						else fourchette = "Matin";
+						recoltesStrings.add(recs.getDate()+" "+fourchette);
 					}
 
 					if (recoltesList.size() <= 0) {
