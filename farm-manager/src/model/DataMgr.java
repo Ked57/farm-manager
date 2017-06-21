@@ -122,6 +122,9 @@ public class DataMgr {
 		}
 		return recoltes;
 	}
+	public ObservableList<Recolte> getRecoltes(int idCh) throws ClassNotFoundException, SQLException{
+		return db.getRecolteForChamps(idCh);
+	}
 	
 	public ObservableList<Transport> getTransports() {
 		return transports;

@@ -45,6 +45,7 @@ import model.Champs;
 import model.Client;
 import model.DataMgr;
 import model.DbMgr;
+import model.Recolte;
 import netscape.javascript.JSObject;
 
 public class AccueilController implements MapComponentInitializedListener, ElevationServiceCallback,
@@ -66,17 +67,14 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private Label nbTracteurs;
 	@FXML
 	private Label nbTonnes;
-	
-	//Partie info r�colte
+
+	// Partie info r�colte
 	@FXML
 	private Button valider;
 	@FXML
-	private JFXTextField nbHeuressaisi;
-	@FXML
-	private JFXTextField nbtracteurssaisi;
-	@FXML
 	private JFXTextField nbtonnessaisi;
-	
+	@FXML
+	private ChoiceBox<String> recoltes;
 
 	private MapOptions options;
 	private LatLong center;
@@ -87,10 +85,12 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private ObservableList<Client> clientList;
 	private ObservableList<Champs> champsList;
 	private ObservableList<InfoWindow> popups;
+	private ObservableList<Recolte> recoltesList;
 	private Client clientChoosed;
 	private DataMgr data;
 
 	private boolean initialized;
+	private Recolte currRecolte;
 
 	public void initialize() {
 		initialized = false;
@@ -120,8 +120,8 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 			clientChoosed = clientList.get(0);
 			champsList = data.getChamps(clientChoosed.getId());
 			setClientProperties();
-
 		}
+		
 		// Events
 		clientChoice.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -143,6 +143,21 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				}
 			}
 		});
+		recoltes.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
+				if (currRecolte != null) {
+					for (Recolte rec : recoltesList) {
+						if (rec.getDate().equals(newValue)) {
+							System.out.println(rec.getQuantite());
+							currRecolte = rec;
+							nbtonnessaisi.setText(rec.getQuantite() + "");
+						}
+					}
+				}
+			}
+		});
+		
 	}
 
 	@Override
@@ -192,7 +207,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		map.setHeading(123.2);
 
 		initialized = true;
-		
+
 		try {
 			initChamps();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -239,10 +254,13 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 				// Cr�ation d'une popup
 				InfoWindowOptions infoOptions = new InfoWindowOptions();
-				infoOptions.content("Propriétaire: " + currChamps.getProprietaire() + "<br />" + "Adresse: "
-						+ currChamps.getAdresse() + "<br />" + "Surface: " + currChamps.getSurface() + " m²<br />"
-						+ "Type de culture: " + currChamps.getTypeCulture()).position(center);
-				infoOptions.position(new LatLong(currChamps.getCenter().getLatitude(),currChamps.getCenter().getLongitude()));
+				infoOptions
+						.content("Propriétaire: " + currChamps.getProprietaire() + "<br />" + "Adresse: "
+								+ currChamps.getAdresse() + "<br />" + "Surface: " + currChamps.getSurface()
+								+ " m²<br />" + "Type de culture: " + currChamps.getTypeCulture())
+						.position(center);
+				infoOptions.position(
+						new LatLong(currChamps.getCenter().getLatitude(), currChamps.getCenter().getLongitude()));
 
 				InfoWindow window = new InfoWindow(infoOptions);
 				popups.add(window);
@@ -250,42 +268,57 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				map.addUIEventHandler(currChamps.getPoly(), UIEventType.click, (JSObject obj) -> {
 					setChampsProperties(currChamps);
 					window.open(map);
+					
+					try {
+						recoltesList = data.getRecoltes(currChamps.getId());
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					ObservableList<String> recoltesStrings = FXCollections.observableArrayList();
+					for (Recolte recs : recoltesList) {
+						recoltesStrings.add(recs.getDate());
+					}
+
+					if (recoltesList.size() <= 0) {
+						recoltesStrings = FXCollections.observableArrayList();
+						recoltesStrings.add("Aucune récolte");
+					}
+					recoltes.setItems(recoltesStrings);
+					recoltes.setValue(recoltesStrings.get(0));
+					if(!recoltesList.get(0).equals("Aucune récolte")){
+						currRecolte = recoltesList.get(0);
+						nbtonnessaisi.setText(currRecolte.getQuantite() + "");
+					}else nbtonnessaisi.setText("0.0");
 				});
 			}
 		}
+		
 	}
 
 	public void clearShapes() {
 		if (initialized) {
 			for (int i = 0; i < champsList.size(); ++i) {
-				if (!champsList.get(i).getPoints().isEmpty()){
+				if (!champsList.get(i).getPoints().isEmpty()) {
 					Polygon poly = champsList.get(i).getPoly();
-					if(poly != null)
+					if (poly != null)
 						map.removeMapShape(poly);
 				}
 
 			}
 		}
 	}
-	public void clearPopUps(){
-		for(int i = 0; i < popups.size(); ++i){
-			popups.get(i).close();//J'ai malheureusement pas trouvé mieux
+
+	public void clearPopUps() {
+		for (int i = 0; i < popups.size(); ++i) {
+			popups.get(i).close();// J'ai malheureusement pas trouvé mieux
 		}
 	}
-	
-	public void majRecolte(ActionEvent Event) {
 
-		int heure = Integer.parseInt(nbHeuressaisi.getText());
-		int trac = Integer.parseInt(nbtracteurssaisi.getText());
-		int tonne = Integer.parseInt(nbtonnessaisi.getText());
-		//ne marche pas encore
-		for (Client cli : clientList) {
-			if (cli.getNom() == proprietaire.getText()) {
-				System.out.println("tentative");
-				data.majinforecolte("Recolte", "TMax_Rec", trac, "Id_Cl", cli.getId());
-			}
-
-		}
+	public void majRecolte(ActionEvent Event) throws ClassNotFoundException, SQLException {
+		String tonne = nbtonnessaisi.getText();
+		data.update("Recolte", "Id_Rec", currRecolte.getId(), "Quant_Rec", tonne);
+		data.syncRecoltes();
 	}
 
 }

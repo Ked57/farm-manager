@@ -368,7 +368,22 @@ public class DbMgr {
 		}
 		return recoltList;
 	}
-	
+	public ObservableList<Recolte> getRecolteForChamps(int idChamps) throws ClassNotFoundException, SQLException{
+		checkConnected();
+		if(Connected){
+			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot,Recolte.Id_Trans FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
+					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans WHERE Recolte.Id_Ch = '"+idChamps+"'";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
+		while(rs.next()) {
+			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12),rs.getInt(15)));
+		}
+		return recoltList;
+	}
 
 	
 	
