@@ -304,8 +304,7 @@ public class DbMgr {
 		if (Connected) {
 			String request = "SELECT Nom_Marq,Nom_ModBot,Etat_Bot,Botteleuse.Id_Bot,Machine.Id_Mach FROM Botteleuse JOIN ModeleBotteleuse ON Botteleuse.Id_ModBot=ModeleBotteleuse.Id_ModBot"
 					+ " JOIN Marque ON ModeleBotteleuse.Id_Marq=Marque.Id_Marq JOIN Machine ON Botteleuse.Id_Bot=Machine.Id_Bot JOIN RecolteMachine ON Machine.Id_Mach=RecolteMachine.Id_Mach"
-					+ " JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec"
-					+ " WHERE Recolte.Id_Rec="+idRec+";";
+					+ " JOIN Recolte ON RecolteMachine.Id_Rec=Recolte.Id_Rec";
 			rs = st.executeQuery(request);
 		}
 		ObservableList<Botteleuse> botteleuseList = FXCollections.observableArrayList();
@@ -341,7 +340,7 @@ public class DbMgr {
 		checkConnected();
 		if(Connected){
 			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
-					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot,Recolte.Id_Trans FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
 					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
 					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans WHERE Date_Rec = '"+day+"'";
 			rs = st.executeQuery(request);
@@ -349,7 +348,7 @@ public class DbMgr {
 		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
 		while(rs.next()) {
 			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
-					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12)));
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12),rs.getInt(15)));
 		}
 		return recoltList;
 	}
@@ -357,7 +356,7 @@ public class DbMgr {
 		checkConnected();
 		if(Connected){
 			String request = "SELECT Id_Rec,Fourchette_Rec,TMax_Rec,Quant_Rec,Cout_Rec,Recolte.Id_Cli,Nom_Cli,Prenom_Cli,"
-					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
+					+ "Recolte.Id_Ch,Adr_Ch,Nom_TypeBot,Nom_Trans,Date_Rec,Recolte.Id_TypeBot,Recolte.Id_Trans FROM Recolte JOIN Champ ON Recolte.Id_Ch=Champ.Id_Ch "
 					+ "JOIN Client ON Client.Id_Cli=Champ.Id_Cli JOIN TypeBottelage ON Recolte.Id_TypeBot=TypeBottelage.Id_TypeBot "
 					+ "JOIN Transport ON Recolte.Id_Trans=Transport.Id_Trans";
 			rs = st.executeQuery(request);
@@ -365,7 +364,7 @@ public class DbMgr {
 		ObservableList<Recolte> recoltList = FXCollections.observableArrayList();
 		while(rs.next()) {
 			recoltList.add(new Recolte(rs.getInt(1),rs.getDate(13).toString(),rs.getInt(2),rs.getFloat(3),rs.getFloat(4),rs.getFloat(5),rs.getInt(6),rs.getString(7),
-					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12)));
+					rs.getString(8),rs.getInt(9),rs.getString(10),rs.getInt(14),rs.getString(11),rs.getString(12),rs.getInt(15)));
 		}
 		return recoltList;
 	}
@@ -388,6 +387,19 @@ public class DbMgr {
 			bottelageList.add(new Bottelage(rs.getInt(1),rs.getString(2)));
 		}
 		return bottelageList;
+	}
+	/* ====== TRANSPORTS ====== */
+	public ObservableList<Transport> getTransports() throws ClassNotFoundException, SQLException{
+		checkConnected();
+		if(Connected){
+			String request = "SELECT Id_Trans,Nom_Trans FROM Transport;";
+			rs = st.executeQuery(request);
+		}
+		ObservableList<Transport> transportList = FXCollections.observableArrayList();
+		while(rs.next()) {
+			transportList.add(new Transport(rs.getInt(1),rs.getString(2)));
+		}
+		return transportList;
 	}
 	/* ====== MACHINE ====== */
 	public void insertMachineForRecolte(int idRec,int idMach){

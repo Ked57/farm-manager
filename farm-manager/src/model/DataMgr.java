@@ -16,6 +16,7 @@ public class DataMgr {
 	private ObservableList<Tracteur> tracteurs;
 	private ObservableList<Recolte> recoltes;
 	private ObservableList<Bottelage> bottelages;
+	private ObservableList<Transport> transports;
 
 	public DataMgr(DbMgr db) throws ClassNotFoundException, SQLException {
 		super();
@@ -27,6 +28,7 @@ public class DataMgr {
 		this.tracteurs = db.getTracteurList();
 		this.recoltes = db.getRecoltes();
 		this.bottelages = db.getBottelages();
+		this.transports = db.getTransports();
 	}
 
 	public DbMgr getDb() {
@@ -119,6 +121,14 @@ public class DataMgr {
 				recoltes.add(this.recoltes.get(i));
 		}
 		return recoltes;
+	}
+	
+	public ObservableList<Transport> getTransports() {
+		return transports;
+	}
+
+	public void setTransports(ObservableList<Transport> transports) {
+		this.transports = transports;
 	}
 
 	public void setRecoltes(ObservableList<Recolte> recoltes) {

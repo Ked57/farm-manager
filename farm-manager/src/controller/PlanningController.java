@@ -35,6 +35,7 @@ import model.DataMgr;
 import model.DbMgr;
 import model.Moissonneuse;
 import model.Recolte;
+import model.Transport;
 
 public class PlanningController {
 
@@ -46,6 +47,8 @@ public class PlanningController {
 	private ChoiceBox<String> champs;
 	@FXML
 	private ChoiceBox<String> CH;
+	@FXML
+	private ChoiceBox<String> transport;
 	@FXML
 	private JFXDatePicker date;
 	@FXML
@@ -73,11 +76,7 @@ public class PlanningController {
 	private ObservableList<Recolte> recoltList;
 	private LocalDate parsedDate;
 
-	public void initialize() {
-		// remplissage de la choicebox bottelage
-		ObservableList<String> listBott = FXCollections.observableArrayList("Rond", "Carré");
-		bottelage.setValue("Rond");
-		bottelage.setItems(listBott);
+	public void initialize() {		
 
 		ObservableList<String> listCr = FXCollections.observableArrayList("Matin", "Après-Midi");
 		CH.setValue("Matin");
@@ -100,6 +99,23 @@ public class PlanningController {
 		this.clientList = data.getClients();
 		setClients();
 		setChamps(data.getChamps(currClient.getId()));
+		
+		//Les ChoiceBox de bottelages et de transports sont créées à partir de la base de données
+		ObservableList<Bottelage> tempBott = data.getBottelages();
+		ObservableList<String> listBott = FXCollections.observableArrayList();
+		for(Bottelage bott : tempBott){
+			listBott.add(bott.getNom());
+		}
+		bottelage.setValue(listBott.get(0));
+		bottelage.setItems(listBott);
+		
+		ObservableList<Transport> tempTransp = data.getTransports();
+		ObservableList<String> listTransp = FXCollections.observableArrayList();
+		for(Transport transp : tempTransp){
+			listTransp.add(transp.getNom());
+		}
+		transport.setValue(listTransp.get(0));
+		transport.setItems(listTransp);
 
 		// Initialisation de la date
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -115,7 +131,7 @@ public class PlanningController {
 			currChampsList = data.getChamps(selectedItem.getIdCli());
 			setChamps(currChampsList);
 		} else
-			selectedItem = new Recolte(0, "", 0, 0.1f, 0.1f, 0.1f, 0, "", "", 0, "", 0, "", "");
+			selectedItem = new Recolte(0, "", 0, 0.1f, 0.1f, 0.1f, 0, "", "", 0, "", 0, "", "",1);
 
 		tableMatin.getColumns().clear();
 		tableMatin.getColumns().addAll(adresseMatinCol, clientMatinCol);
@@ -267,8 +283,28 @@ public class PlanningController {
 				}
 			}
 		});
+		transport.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
+				if (selectedItem != null && selectedItem.getNomTransport() != newValue) {
+					ObservableList<Transport> transports = data.getTransports();
+					for(int i = 0; i < transports.size(); ++i){
+						if (transports.get(i).getNom().equals(newValue)) {
+							data.update("Recolte", "Id_Rec", selectedItem.getId(), "Id_Trans", transports.get(i).getId());
+							try {
+								data.syncRecoltes();
+							} catch (ClassNotFoundException | SQLException e) {
+								e.printStackTrace();
+							}
+							recoltList = data.getRecoltes();
+							updatePlanning(selectedItem.getDate());
+						}
+					}
+				}
+			}
+		});
 	}
-
+	
 	// remplissage de la choiceBox de clients
 	public void setClients() {
 
@@ -346,6 +382,8 @@ public class PlanningController {
 
 		LocalDate date = LocalDate.parse(rec.getDate());
 		dateChanger.setValue(date);
+		transport.setValue(rec.getNomTransport());
+		System.out.println(rec.getNomTransport());
 	}
 
 	public void onCommandeButtonClick() throws ClassNotFoundException, SQLException {
@@ -356,7 +394,7 @@ public class PlanningController {
 
 		Recolte rec = new Recolte(0, parsedDate.toString(), 0, 0.0f, 0.0f, 0.0f, 1, clientList.get(1).getNom(),
 				clientList.get(1).getPrenom(), data.getChamps(1).get(1).getId(), data.getChamps(1).get(1).getAdresse(),
-				1, "Rond", "Client");
+				1, "Rond", "Client",1);
 		data.addRecolte(parsedDate.toString(), 1, 1, 1, 1);
 		data.syncRecoltes();
 		recoltList = data.getRecoltes();
