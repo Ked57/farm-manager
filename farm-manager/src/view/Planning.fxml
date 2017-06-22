@@ -79,12 +79,18 @@
                       <TableColumn fx:id="adresseMatinCol" prefWidth="75.0" text="Adresse" />
                       <TableColumn fx:id="clientMatinCol" prefWidth="75.0" text="Client" />
                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                   <TableView fx:id="tableAM" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <columns>
                         <TableColumn fx:id="adresseAMCol" prefWidth="75.0" text="Adresse" />
                         <TableColumn fx:id="clientAMCol" prefWidth="75.0" text="Client" />
                      </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                   <JFXDatePicker fx:id="date" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                </children>
