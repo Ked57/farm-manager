@@ -8,11 +8,12 @@
    <top>
       <HBox prefHeight="28.0" prefWidth="858.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton onAction="#accueilOnAction" text="Accueil" />
-            <JFXButton onAction="#planningOnAction" text="Planning" />
-            <JFXButton onAction="#listeMachinesOnAction" text="Machines" />
-            <JFXButton onAction="#listeClientsOnAction" text="Clients" />
-            <JFXButton onAction="#listeChampsOnAction" text="Champs" />
+            <JFXButton onAction="#accueilOnAction" style="-fx-border-color: #CECECE;" text="Accueil" />
+            <JFXButton onAction="#planningOnAction" style="-fx-border-color: #CECECE;" text="Planning" />
+            <JFXButton onAction="#listeMachinesOnAction" style="-fx-border-color: #CECECE;" text="Machines" />
+            <JFXButton onAction="#listeClientsOnAction" style="-fx-border-color: #CECECE;" text="Clients" />
+            <JFXButton onAction="#listeChampsOnAction" style="-fx-border-color: #CECECE;" text="Champs" />
+            <JFXButton onAction="#listeChampsOnAction" style="-fx-border-color: #CECECE;" text="Options" />
          </children>
       </HBox>
    </top>

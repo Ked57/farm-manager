@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -30,6 +31,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Label text="Propriétaire:">
@@ -53,6 +55,15 @@
                            </font>
                         </Label>
                         <Label fx:id="ravito" prefHeight="17.0" prefWidth="251.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <JFXButton fx:id="btnDist" onAction="#onDistClick" style="-fx-background-color: #CECECE;" text="Distance entre champs" GridPane.rowIndex="4">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                           <padding>
+                              <Insets bottom="-1.0" top="-1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Label fx:id="dist" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <GridPane layoutX="7.0" layoutY="234.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="200.0">
@@ -81,7 +92,7 @@
                         <ChoiceBox fx:id="recoltes" prefHeight="25.0" prefWidth="350.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
-                  <JFXButton fx:id="valider" layoutX="364.0" layoutY="524.0" onAction="#majRecolte" text="Valider" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="80.0" />
+                  <JFXButton fx:id="valider" layoutX="364.0" layoutY="524.0" onAction="#majRecolte" style="-fx-background-color: #CECECE;" text="Valider" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="80.0" />
                </children>
             </AnchorPane>
          </items>

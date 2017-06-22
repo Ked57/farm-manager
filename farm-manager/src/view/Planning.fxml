@@ -41,9 +41,9 @@
                               <Label text="Transport" />
                               <ChoiceBox fx:id="transport" prefHeight="25.0" prefWidth="364.0" />
                               <JFXDatePicker fx:id="dateChanger" prefHeight="28.0" prefWidth="163.0" />
-                              <JFXButton onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="164.0" text="Sélection des machines" />
-                              <JFXButton fx:id="commandeButton" onAction="#onCommandeButtonClick" prefHeight="25.0" prefWidth="164.0" text="Nouvelle commande" />
-                              <JFXButton fx:id="supp" onAction="#onSuppAction" prefHeight="25.0" prefWidth="167.0" text="Supprimer commande" />
+                              <JFXButton onAction="#selecMachinesOnAction" prefHeight="25.0" prefWidth="164.0" style="-fx-background-color: #CECECE;" text="Sélection des machines" />
+                              <JFXButton fx:id="commandeButton" onAction="#onCommandeButtonClick" prefHeight="25.0" prefWidth="164.0" style="-fx-background-color: #CECECE;" text="Nouvelle commande" />
+                              <JFXButton fx:id="supp" onAction="#onSuppAction" prefHeight="25.0" prefWidth="167.0" style="-fx-background-color: #CECECE;" text="Supprimer commande" />
                            </children>
                            <GridPane.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

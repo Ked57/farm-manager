@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
@@ -27,6 +28,8 @@ import com.lynden.gmapsfx.shapes.Circle;
 import com.lynden.gmapsfx.shapes.CircleOptions;
 import com.lynden.gmapsfx.shapes.Polygon;
 import com.lynden.gmapsfx.shapes.PolygonOptions;
+import com.lynden.gmapsfx.shapes.Polyline;
+import com.lynden.gmapsfx.shapes.PolylineOptions;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -38,6 +41,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -71,6 +75,10 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private Label nbTonnes;
 	@FXML
 	private Label ravito;
+	@FXML
+	private JFXButton btnDist;
+	@FXML
+	private Label dist;
 
 	// Partie info r�colte
 	@FXML
@@ -85,6 +93,8 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private GoogleMapView mapComponent;
 	private GoogleMap map;
 	private DirectionsPane directions;
+	
+	private Polyline line;
 
 	private ObservableList<Client> clientList;
 	private ObservableList<Champs> champsList;
@@ -94,6 +104,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private DataMgr data;
 
 	private boolean initialized;
+	private boolean distCheck;
 	private Point pointInMem;
 	private Recolte currRecolte;
 
@@ -112,6 +123,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	public void initAccueil(DataMgr data) throws ClassNotFoundException, SQLException {
 		this.data = data;
 		popups = FXCollections.observableArrayList();
+		distCheck = false;
 		// Récupération de la liste des clients
 		this.clientList = data.getClients();
 		if (clientList.size() >= 0) {
@@ -282,15 +294,21 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				map.addUIEventHandler(currChamps.getPoly(), UIEventType.click, (JSObject obj) -> {
 					setChampsProperties(currChamps);
 					window.open(map);
-					if(pointInMem == null)
+					if(pointInMem == null && distCheck){
 						pointInMem = currChamps.getCenter();
-					else{
+					}
+					else if(distCheck){
 						LatLong p1 = new LatLong(pointInMem.getLatitude(), pointInMem.getLongitude());
-						LatLong p2 = new LatLong(currChamps.getCenter().getLatitude(), currChamps.getCenter().getLatitude());
+						LatLong p2 = new LatLong(currChamps.getCenter().getLatitude(), currChamps.getCenter().getLongitude());
 						double dist = p1.distanceFrom(p2);
-						System.out.println("Distance : " + dist);
-						System.err.println("Point 1 : " + p1);
-						System.err.println("Point 2 : " + p2);
+						LatLong[] points = new LatLong[2];
+						points[0] = p1;
+						points[1] = p2;
+						MVCArray mvc = new MVCArray(points);
+						line = new Polyline(new PolylineOptions().path(mvc).strokeColor("blue")
+								.strokeWeight(2).editable(false));
+						map.addMapShape(line);
+						this.dist.setText((dist/1000)+" km");
 						pointInMem = null;
 					}
 					try {
@@ -351,7 +369,8 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 
 	public void majRecolte(ActionEvent Event) throws ClassNotFoundException, SQLException {
 		String tonne = nbtonnessaisi.getText();
-		data.update("Recolte", "Id_Rec", currRecolte.getId(), "Quant_Rec", tonne);
+		if(currRecolte != null)
+			data.update("Recolte", "Id_Rec", currRecolte.getId(), "Quant_Rec", tonne);
 		data.syncRecoltes();
 	}
 	
@@ -364,7 +383,22 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		}
 		++i;
 		result = (result/i)/i;
-		System.out.println(result);
 		return result;
+	}
+	
+	@FXML
+	public void onDistClick(){
+		if(distCheck){
+			if(line != null)
+				map.removeMapShape(line);
+			distCheck = false;
+			dist.setText("");
+			btnDist.setStyle("-fx-background-color: #CECECE");
+			
+		}
+		else {
+			distCheck = true;
+			btnDist.setStyle("-fx-background-color: #00FF00");
+		}
 	}
 }

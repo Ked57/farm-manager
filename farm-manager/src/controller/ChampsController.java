@@ -38,7 +38,6 @@ public class ChampsController {
 		this.data = data;
 		this.champsListe = data.getChamps();
 		champsTable.setItems(this.champsListe);
-		System.out.println("nb champs "+champsListe.size());
 		
 		proprietaireCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("proprietaire"));
 		adresseCol.setCellValueFactory(new PropertyValueFactory<Champs,String>("adresse"));
