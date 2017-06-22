@@ -25,7 +25,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage Stage) throws IOException, ClassNotFoundException, SQLException {
     	//Initialisation du fichier de configuration
-    	settings = new SettingsMgr("bin/model/settings.ini");
+    	settings = new SettingsMgr("settings.ini");
     	//Initialisation de la base de données
     	data = new DataMgr(new DbMgr(settings.getHost(),settings.getUser(),settings.getPassw(),settings.getPort(),settings.getDbName()));
     	data.getDb().setDataMgr(data);
@@ -33,7 +33,7 @@ public class MainApp extends Application {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RootLayout.fxml"));
     	rootLayout = loader.load();
     	MenuController menu = loader.getController();
-		menu.setData(data);
+		menu.init(data,settings);
 		menu.accueilOnAction();
  
     	Scene scene = new Scene(rootLayout,800,600);

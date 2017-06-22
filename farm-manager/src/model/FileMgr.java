@@ -86,4 +86,26 @@ public class FileMgr {
 			e.printStackTrace();
 		}
 	}
+	
+	public void saveSettings(File file){
+		try {
+			out = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		String content = "host = "+settings.getHost()+"\nuser = "+settings.getUser()+"\npassw = "+settings.getPassw()
+						+"\nport = "+settings.getPort()+"\ndbName = "+settings.getDbName();
+		byte[] contentInBytes = content.getBytes();
+		try {
+			out.write(contentInBytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setSettings(SettingsMgr settings) {
+		this.settings = settings;
+	}
+	
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OptionsController">
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Adresse" />
+            <Label text="Utilisateur" GridPane.rowIndex="1" />
+            <Label text="Mot de passe" GridPane.rowIndex="2" />
+            <Label text="Port" GridPane.rowIndex="3" />
+            <Label text="Nom de la base de données" GridPane.rowIndex="4" />
+            <JFXButton fx:id="valider" onAction="#onValiderClick" style="-fx-background-color: #CECECE;" text="Valider" GridPane.rowIndex="5" />
+            <JFXTextField fx:id="hostText" GridPane.columnIndex="1" />
+            <JFXTextField fx:id="userText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXTextField fx:id="passwText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <JFXTextField fx:id="portText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <JFXTextField fx:id="dbText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

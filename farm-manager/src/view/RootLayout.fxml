@@ -13,7 +13,7 @@
             <JFXButton onAction="#listeMachinesOnAction" style="-fx-border-color: #CECECE;" text="Machines" />
             <JFXButton onAction="#listeClientsOnAction" style="-fx-border-color: #CECECE;" text="Clients" />
             <JFXButton onAction="#listeChampsOnAction" style="-fx-border-color: #CECECE;" text="Champs" />
-            <JFXButton onAction="#listeChampsOnAction" style="-fx-border-color: #CECECE;" text="Options" />
+            <JFXButton onAction="#optionsOnAction" style="-fx-border-color: #CECECE;" text="Options" />
          </children>
       </HBox>
    </top>
