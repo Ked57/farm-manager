@@ -147,8 +147,12 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 			@Override
 			public void changed(ObservableValue<? extends String> list, String lastValue, String newValue) {
 				if (currRecolte != null) {
+					String fourchette;
 					for (Recolte rec : recoltesList) {
-						if (rec.getDate().equals(newValue)) {
+						if(rec.getFourchette() >= 1)
+							fourchette = "Après Midi";
+						else fourchette = "Matin";
+						if ((rec.getDate()+" "+fourchette).equals(newValue)) {
 							currRecolte = rec;
 							nbtonnessaisi.setText(rec.getQuantite() + "");
 						}
