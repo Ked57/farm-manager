@@ -45,6 +45,7 @@ import model.Champs;
 import model.Client;
 import model.DataMgr;
 import model.DbMgr;
+import model.Point;
 import model.Recolte;
 import netscape.javascript.JSObject;
 
@@ -90,6 +91,7 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private DataMgr data;
 
 	private boolean initialized;
+	private Point pointInMem;
 	private Recolte currRecolte;
 
 	public void initialize() {
@@ -271,7 +273,17 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 				map.addUIEventHandler(currChamps.getPoly(), UIEventType.click, (JSObject obj) -> {
 					setChampsProperties(currChamps);
 					window.open(map);
-					
+					if(pointInMem == null)
+						pointInMem = currChamps.getCenter();
+					else{
+						LatLong p1 = new LatLong(pointInMem.getLatitude(), pointInMem.getLongitude());
+						LatLong p2 = new LatLong(currChamps.getCenter().getLatitude(), currChamps.getCenter().getLatitude());
+						double dist = p1.distanceFrom(p2);
+						System.out.println("Distance : " + dist);
+						System.err.println("Point 1 : " + p1);
+						System.err.println("Point 2 : " + p2);
+						pointInMem = null;
+					}
 					try {
 						recoltesList = data.getRecoltes(currChamps.getId());
 					} catch (ClassNotFoundException | SQLException e) {
