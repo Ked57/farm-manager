@@ -21,7 +21,6 @@ public class SettingsMgr {
 	public void save(){
 		file.setSettings(this);
 		file.saveSettings(new File(filename));
-		System.out.println("settings saved");
 	}
 
 	public String getHost() {

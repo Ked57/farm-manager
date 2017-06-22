@@ -102,7 +102,6 @@ public class FileMgr {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("done");
 	}
 
 	public void setSettings(SettingsMgr settings) {

@@ -25,7 +25,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage Stage) throws IOException, ClassNotFoundException, SQLException {
     	//Initialisation du fichier de configuration
-    	settings = new SettingsMgr("bin/model/settings.ini");
+    	settings = new SettingsMgr("settings.ini");
     	//Initialisation de la base de données
     	data = new DataMgr(new DbMgr(settings.getHost(),settings.getUser(),settings.getPassw(),settings.getPort(),settings.getDbName()));
     	data.getDb().setDataMgr(data);
