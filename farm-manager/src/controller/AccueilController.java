@@ -45,6 +45,7 @@ import model.Champs;
 import model.Client;
 import model.DataMgr;
 import model.DbMgr;
+import model.Moissonneuse;
 import model.Recolte;
 import netscape.javascript.JSObject;
 
@@ -67,6 +68,8 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 	private Label nbTracteurs;
 	@FXML
 	private Label nbTonnes;
+	@FXML
+	private Label ravito;
 
 	// Partie info r�colte
 	@FXML
@@ -155,6 +158,12 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 						if ((rec.getDate()+" "+fourchette).equals(newValue)) {
 							currRecolte = rec;
 							nbtonnessaisi.setText(rec.getQuantite() + "");
+							try {
+								ravito.setText("toutes les "+calcConso(rec.getId())+" heures");
+							} catch (ClassNotFoundException | SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					}
 				}
@@ -297,6 +306,12 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 						currRecolte = recoltesList.get(0);
 						nbtonnessaisi.setText(currRecolte.getQuantite() + "");
 					}else nbtonnessaisi.setText("0.0");
+					try {
+						ravito.setText("toutes les "+calcConso(currRecolte.getId())+" heures");
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				});
 			}
 		}
@@ -327,5 +342,17 @@ public class AccueilController implements MapComponentInitializedListener, Eleva
 		data.update("Recolte", "Id_Rec", currRecolte.getId(), "Quant_Rec", tonne);
 		data.syncRecoltes();
 	}
-
+	
+	public float calcConso(int id) throws ClassNotFoundException, SQLException{
+		ObservableList<Moissonneuse> moissonneuses = data.getMoissonneuses(id);
+		int i;
+		float result = 0;
+		for(i =0; i < moissonneuses.size(); ++i){
+			result += moissonneuses.get(i).getCapaRes()/moissonneuses.get(i).getConsoFonct();
+		}
+		++i;
+		result = (result/i)/i;
+		System.out.println(result);
+		return result;
+	}
 }
