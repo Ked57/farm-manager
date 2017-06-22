@@ -45,11 +45,8 @@ import model.Champs;
 import model.Client;
 import model.DataMgr;
 import model.DbMgr;
-<<<<<<< HEAD
 import model.Moissonneuse;
-=======
 import model.Point;
->>>>>>> cfc2ecf406ec8b7a9724b4911cffdfac1db165b0
 import model.Recolte;
 import netscape.javascript.JSObject;
 
