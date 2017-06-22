@@ -33,7 +33,7 @@ public class MainApp extends Application {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RootLayout.fxml"));
     	rootLayout = loader.load();
     	MenuController menu = loader.getController();
-		menu.setData(data);
+		menu.init(data,settings);
 		menu.accueilOnAction();
  
     	Scene scene = new Scene(rootLayout,800,600);

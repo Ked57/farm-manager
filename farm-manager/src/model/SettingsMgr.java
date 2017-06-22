@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+
 public class SettingsMgr {
 	
 	private String host;
@@ -9,9 +11,17 @@ public class SettingsMgr {
 	private String passw;
 	private boolean init;
 	private FileMgr file;
+	private String filename;
 	
 	public SettingsMgr(String filename) {
+		this.filename = filename;
 		file = new FileMgr(filename,this);
+	}
+	
+	public void save(){
+		file.setSettings(this);
+		file.saveSettings(new File(filename));
+		System.out.println("settings saved");
 	}
 
 	public String getHost() {

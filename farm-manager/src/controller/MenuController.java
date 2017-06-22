@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import model.Client;
 import model.DataMgr;
 import model.DbMgr;
+import model.SettingsMgr;
 
 public class MenuController {
 	//BorderPane
@@ -21,6 +22,7 @@ public class MenuController {
 	private BorderPane planning;
 	private BorderPane selecMachines;
 	private BorderPane accueil;
+	private BorderPane options;
 	@FXML
 	private BorderPane rootPane;
 	
@@ -31,8 +33,10 @@ public class MenuController {
 	private MachinesController machinesController;
 	private PlanningController planningController;
 	private SelecMachinesController selecMachinesController;
+	private OptionsController optionsController;
 	
 	private DataMgr data;
+	private SettingsMgr settings;
 	
 	public MenuController() {
 	}
@@ -63,6 +67,10 @@ public class MenuController {
     	loader = new FXMLLoader(getClass().getResource("/view/SelecMachines.fxml"));
     	selecMachines = loader.load();
     	selecMachinesController = loader.getController();
+    	
+    	loader = new FXMLLoader(getClass().getResource("/view/Options.fxml"));
+    	options = loader.load();
+    	optionsController = loader.getController();
 		
     	
 		rootPane.setCenter(accueil);
@@ -98,12 +106,15 @@ public class MenuController {
 		rootPane.setCenter(planning);
 		planningController.init(data,selecMachinesController);
 	}
-
-	public DataMgr getData() {
-		return data;
+	@FXML
+	public void optionsOnAction(){
+		rootPane.setCenter(options);
+		optionsController.init(settings);
 	}
 
-	public void setData(DataMgr data) {
+	public void init(DataMgr data, SettingsMgr settings){
 		this.data = data;
+		this.settings = settings;
 	}
+	
 }
